@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "857583807220",
+    "firebase_url": "https://onlyfilms-1f4a4.firebaseio.com",
+    "project_id": "onlyfilms-1f4a4",
+    "storage_bucket": "onlyfilms-1f4a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857583807220:android:3bae787db4a0f2f401cca1",
+        "android_client_info": {
+          "package_name": "com.example.onlyfilms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "857583807220-i5r8jl2ce51oaauj6cg5dbutrjkstigi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw-JO0p8eUYkil6WrjI4QsR0rBQh8UkWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "857583807220-i5r8jl2ce51oaauj6cg5dbutrjkstigi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
