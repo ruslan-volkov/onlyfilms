@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "857583807220-7ulkadtn294dpfkmqlln4h5qt2osl6ec.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.onlyfilms",
+            "certificate_hash": "d583a36766730198b75d1f23936c06d893e073c8"
+          }
+        },
+        {
           "client_id": "857583807220-i5r8jl2ce51oaauj6cg5dbutrjkstigi.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -30,6 +38,13 @@
             {
               "client_id": "857583807220-i5r8jl2ce51oaauj6cg5dbutrjkstigi.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "857583807220-0j8bug5ahr6eselqjqnlgaj2hlur6uca.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.onlyfilms"
+              }
             }
           ]
         }
