@@ -39,19 +39,21 @@ class FirstScreenState extends State<FirstScreen> {
           )
         ],
         onTap: (int index) {
-          setState(() => _currentIndex = index);
-          switch (index) {
-            case 0:
-              _navigatorKey.currentState.pushNamed(accountRoute);
-              break;
-            case 1:
-              _navigatorKey.currentState.pushNamed(homeRoute);
-              break;
-            case 2:
-              _navigatorKey.currentState.pushNamed(calendarRoute);
-              break;
-            default:
+          if (index != _currentIndex) {
+            switch (index) {
+              case 0:
+                _navigatorKey.currentState.pushNamed(accountRoute);
+                break;
+              case 1:
+                _navigatorKey.currentState.pushNamed(homeRoute);
+                break;
+              case 2:
+                _navigatorKey.currentState.pushNamed(calendarRoute);
+                break;
+              default:
+            }
           }
+          setState(() => _currentIndex = index);
         },
         showSelectedLabels: false,
         showUnselectedLabels: false,
