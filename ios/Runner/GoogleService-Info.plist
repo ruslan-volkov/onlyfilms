@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>857583807220-0j8bug5ahr6eselqjqnlgaj2hlur6uca.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.857583807220-0j8bug5ahr6eselqjqnlgaj2hlur6uca</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>857583807220-1lqej85ap38b6g3sg42nc9f4su0qtl5t.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA9QywrYcQx3h_YSZnk5NXVPQFT91nj5lU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>857583807220</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.onlyfilms</string>
+	<key>PROJECT_ID</key>
+	<string>onlyfilms-1f4a4</string>
+	<key>STORAGE_BUCKET</key>
+	<string>onlyfilms-1f4a4.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:857583807220:ios:7526a3b44f1fc25101cca1</string>
+	<key>DATABASE_URL</key>
+	<string>https://onlyfilms-1f4a4.firebaseio.com</string>
+</dict>
+</plist>
