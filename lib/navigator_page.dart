@@ -3,23 +3,23 @@ import 'package:onlyfilms/widgets/routes.dart';
 
 import 'constants/constants.dart';
 
-class FirstScreen extends StatefulWidget {
+class NavigatorPage extends StatefulWidget {
   @override
   State createState() {
-    return new FirstScreenState();
+    return new NavigatorPageState();
   }
 }
 
-class FirstScreenState extends State<FirstScreen> {
+class NavigatorPageState extends State<NavigatorPage> {
   final _navigatorKey = GlobalKey<NavigatorState>();
-  int _currentIndex = 0;
+  int _currentIndex = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Navigator(
         key: _navigatorKey,
-        initialRoute: '/',
+        initialRoute: homeRoute,
         onGenerateRoute: (settings) => Routes.generateRoute(settings),
       ),
       bottomNavigationBar: BottomNavigationBar(

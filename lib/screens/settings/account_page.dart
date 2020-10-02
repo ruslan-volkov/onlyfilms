@@ -1,30 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:onlyfilms/constants/constants.dart';
-import 'package:onlyfilms/main.dart';
-import 'package:onlyfilms/onlyfilms_page.dart';
 
-import '../../navigator_page.dart';
-import 'sign_in.dart';
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        color: Colors.blue[50],
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              FlutterLogo(size: 150),
+              // FlutterLogo(size: 150),
               SizedBox(height: 50),
-              _signInButton(),
+              _signOutButton(context),
             ],
           ),
         ),
@@ -32,11 +25,11 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _signInButton() {
+  Widget _signOutButton(context) {
     return OutlineButton(
       splashColor: Colors.grey,
-      onPressed: () {
-        signInWithGoogle();
+      onPressed: () async {
+        await _auth.signOut();
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
@@ -47,11 +40,11 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
+            new Icon(Icons.keyboard_backspace_outlined, color: Colors.grey),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                'Sign in with Google',
+                'Sign out',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.grey,

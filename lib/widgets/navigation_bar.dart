@@ -28,12 +28,6 @@ class NavigationBarState extends State<NavigationBar> {
           label: "",
         )
       ],
-      // onTap: (int index) {
-      //     setState(() => _currentIndex = index);
-      //     Navigator.push(context, new BottomNavigationRoute()).then((x) {
-      //       setState(() => _currentIndex = _history.last);
-      //     });
-      //   },
       showSelectedLabels: false,
       showUnselectedLabels: false,
     );

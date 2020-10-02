@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:onlyfilms/screens/calendar/calendar.dart';
-import 'package:onlyfilms/screens/home/home.dart';
-import 'package:onlyfilms/screens/settings/account.dart';
+import 'package:onlyfilms/screens/auth/login_page.dart';
+import 'package:onlyfilms/screens/calendar/calendar_page.dart';
+import 'package:onlyfilms/screens/home/home_page.dart';
+import 'package:onlyfilms/screens/settings/account_page.dart';
 
 import '../constants/constants.dart';
 
@@ -11,13 +12,16 @@ class Routes {
     WidgetBuilder builder;
     switch (settings.name) {
       case homeRoute:
-        builder = (BuildContext context) => Home();
+        builder = (BuildContext context) => HomePage();
         break;
       case accountRoute:
-        builder = (BuildContext context) => Account();
+        builder = (BuildContext context) => AccountPage();
         break;
       case calendarRoute:
-        builder = (BuildContext context) => Calendar();
+        builder = (BuildContext context) => CalendarPage();
+        break;
+      case loginRoute:
+        builder = (BuildContext context) => LoginPage();
         break;
       default:
         throw Exception('Invalid route: ${settings.name}');
