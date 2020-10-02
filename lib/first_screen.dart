@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onlyfilms/widgets/routes.dart';
 
-import 'widgets/constants.dart';
+import 'constants/constants.dart';
 
 class FirstScreen extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class FirstScreenState extends State<FirstScreen> {
       body: Navigator(
         key: _navigatorKey,
         initialRoute: '/',
-        onGenerateRoute: (settings) => CustomRouter.generateRoute(settings),
+        onGenerateRoute: (settings) => Routes.generateRoute(settings),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

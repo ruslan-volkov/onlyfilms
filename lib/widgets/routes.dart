@@ -4,9 +4,9 @@ import 'package:onlyfilms/screens/calendar/calendar.dart';
 import 'package:onlyfilms/screens/home/home.dart';
 import 'package:onlyfilms/screens/settings/account.dart';
 
-import 'constants.dart';
+import '../constants/constants.dart';
 
-class CustomRouter {
+class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     WidgetBuilder builder;
     switch (settings.name) {
