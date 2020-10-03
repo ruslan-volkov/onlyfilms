@@ -8,7 +8,7 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.blue[50],
+        color: Color(0xFF383B57),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -43,10 +43,10 @@ class AccountPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                'Sign out',
+                "Sign out",
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.grey,
+                  color: Color(0xFFFFFEAD),
                 ),
               ),
             )

@@ -31,7 +31,7 @@ class SignInButton extends StatelessWidget {
                   text,
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.grey,
+                    color: Color(0xFFFFFEAD),
                   ),
                 ),
               )

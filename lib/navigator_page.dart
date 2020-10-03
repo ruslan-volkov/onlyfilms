@@ -23,18 +23,23 @@ class NavigatorPageState extends State<NavigatorPage> {
         onGenerateRoute: (settings) => Routes.generateRoute(settings),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF2D3047),
+        unselectedItemColor: Color(0xFF1B998B),
+        selectedItemColor: Color(0xFFFFFD82),
+        // fixedColor: Colors.lightBlue[800],
         currentIndex: _currentIndex,
+        iconSize: 30,
         items: [
           BottomNavigationBarItem(
-            icon: new Icon(Icons.perm_identity_outlined),
+            icon: new Icon(Icons.perm_identity_sharp),
             label: "Account",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.movie_outlined),
+            icon: new Icon(Icons.movie_sharp),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.event_outlined),
+            icon: Icon(Icons.event_sharp),
             label: "Calendar",
           )
         ],
