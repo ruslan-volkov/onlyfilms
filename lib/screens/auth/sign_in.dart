@@ -1,43 +1,57 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:onlyfilms/widgets/alert_dialog.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final GoogleSignIn googleSignIn = GoogleSignIn();
+class SignIn {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
-Future<String> signInWithGoogle() async {
-  await Firebase.initializeApp();
+  Future<void> signIn(BuildContext context, AuthCredential credential) async {
+    // await Firebase.initializeApp();
 
-  final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-  final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
+    try {
+      final UserCredential authResult =
+          await _auth.signInWithCredential(credential);
+      final User user = authResult.user;
 
-  final AuthCredential credential = GoogleAuthProvider.credential(
-    accessToken: googleSignInAuthentication.accessToken,
-    idToken: googleSignInAuthentication.idToken,
-  );
+      if (user != null) {
+        assert(!user.isAnonymous);
+        assert(await user.getIdToken() != null);
 
-  final UserCredential authResult =
-      await _auth.signInWithCredential(credential);
-  final User user = authResult.user;
+        final User currentUser = _auth.currentUser;
+        assert(user.uid == currentUser.uid);
 
-  if (user != null) {
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
+        print('signInWithGoogle succeeded: $user');
 
-    final User currentUser = _auth.currentUser;
-    assert(user.uid == currentUser.uid);
+        return '$user';
+      }
+    } catch (error) {
+      var errorCode = error.code;
+      // The email of the user's account used.
+      var email = error.email;
+      var errorMessage = error.message;
+      if (errorCode == "auth/account-exists-with-different-credential") {
+        errorMessage =
+            "An account already exists with the same email address :" +
+                email +
+                ".";
+      }
+      if (errorCode == "auth/user-disabled") {
+        errorMessage = "This account is disabled.";
+      }
+      if (errorCode == "auth/invalid-credential") {
+        errorMessage = "The credential is malformed or has expired.";
+      }
+      openOkDialog(context, "Login failed", errorMessage, () => {});
+      await signOut();
+    }
 
-    print('signInWithGoogle succeeded: $user');
-
-    return '$user';
+    return null;
   }
 
-  return null;
-}
-
-Future<void> signOutGoogle() async {
-  await googleSignIn.signOut();
-
-  print("User Signed Out");
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
 }

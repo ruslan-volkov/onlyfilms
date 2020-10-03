@@ -53,9 +53,23 @@
 				<!-- TODO Replace this value: -->
 				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
 				<string>com.googleusercontent.apps.857583807220-0j8bug5ahr6eselqjqnlgaj2hlur6uca</string>
+				<string>fb366347121226442</string>
 			</array>
 		</dict>
 	</array>
 	<!-- End of the Google Sign-in Section -->
+	<!-- Facebook Sign-in -->
+	<key>FacebookAppID</key>
+	<string>366347121226442</string>
+	<key>FacebookDisplayName</key>
+	<string>OnlyFilms</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+	<string>fbapi</string>
+	<string>fb-messenger-share-api</string>
+	<string>fbauth2</string>
+	<string>fbshareextension</string>
+	</array>
+	<!-- End of the Facebook Sign-in Section -->
 </dict>
 </plist>

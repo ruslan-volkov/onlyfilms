@@ -1,35 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-
-class AccountPage extends StatelessWidget {
+class SignInButton extends StatelessWidget {
+  SignInButton(this.context, this.onPressed, this.text, this.logo);
+  final BuildContext context;
+  final Function onPressed;
+  final String text;
+  final Image logo;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.blue[50],
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // FlutterLogo(size: 150),
-              SizedBox(height: 50),
-              _signOutButton(context),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _signOutButton(context) {
     return OutlineButton(
       splashColor: Colors.grey,
-      onPressed: () async {
-        await _auth.signOut();
-      },
+      onPressed: () => onPressed(context),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
       borderSide: BorderSide(color: Colors.grey),
@@ -39,11 +21,11 @@ class AccountPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Icon(Icons.keyboard_backspace_outlined, color: Colors.grey),
+            logo,
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                'Sign out',
+                text,
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.grey,

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:onlyfilms/constants/constants.dart';
-import 'package:onlyfilms/main.dart';
-import 'package:onlyfilms/onlyfilms_page.dart';
+import 'package:onlyfilms/screens/auth/sign_in_button.dart';
+import 'package:onlyfilms/screens/auth/sign_in_facebook.dart';
 
-import '../../navigator_page.dart';
-import 'sign_in.dart';
+import 'sign_in_google.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -24,7 +22,20 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               FlutterLogo(size: 150),
               SizedBox(height: 50),
-              _signInButton(),
+              SignInButton(
+                  context,
+                  GoogleSignin().signInWithGoogle,
+                  'Sign in with Google',
+                  Image(
+                      image: AssetImage("assets/google_logo.png"),
+                      height: 35.0)),
+              SignInButton(
+                  context,
+                  FacebookSignin().signInWithFacebook,
+                  'Sign in with Facebook',
+                  Image(
+                      image: AssetImage("assets/facebook_logo.png"),
+                      height: 35.0)),
             ],
           ),
         ),
@@ -32,35 +43,35 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _signInButton() {
-    return OutlineButton(
-      splashColor: Colors.grey,
-      onPressed: () {
-        signInWithGoogle();
-      },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.grey),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                'Sign in with Google',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.grey,
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _signInButton() {
+  //   return OutlineButton(
+  //     splashColor: Colors.grey,
+  //     onPressed: () {
+  //       signInWithGoogle();
+  //     },
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+  //     highlightElevation: 0,
+  //     borderSide: BorderSide(color: Colors.grey),
+  //     child: Padding(
+  //       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+  //       child: Row(
+  //         mainAxisSize: MainAxisSize.min,
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: <Widget>[
+  //           Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
+  //           Padding(
+  //             padding: const EdgeInsets.only(left: 10),
+  //             child: Text(
+  //               'Sign in with Google',
+  //               style: TextStyle(
+  //                 fontSize: 20,
+  //                 color: Colors.grey,
+  //               ),
+  //             ),
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

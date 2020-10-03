@@ -27,15 +27,15 @@ class NavigatorPageState extends State<NavigatorPage> {
         items: [
           BottomNavigationBarItem(
             icon: new Icon(Icons.perm_identity_outlined),
-            label: "",
+            title: new Text("Account"),
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.movie_outlined),
-            label: "",
+            title: new Text("Home"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.event_outlined),
-            label: "",
+            title: new Text("Calendar"),
           )
         ],
         onTap: (int index) {
