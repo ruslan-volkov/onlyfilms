@@ -5,7 +5,7 @@ import 'package:onlyfilms/screens/calendar/calendar_page.dart';
 import 'package:onlyfilms/screens/home/home_page.dart';
 import 'package:onlyfilms/screens/settings/account_page.dart';
 
-import '../constants/constants.dart';
+import '../utilities/constants.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {

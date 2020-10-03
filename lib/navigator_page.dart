@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onlyfilms/widgets/routes.dart';
 
-import 'constants/constants.dart';
+import 'utilities/constants.dart';
 
 class NavigatorPage extends StatefulWidget {
   @override
@@ -27,15 +27,15 @@ class NavigatorPageState extends State<NavigatorPage> {
         items: [
           BottomNavigationBarItem(
             icon: new Icon(Icons.perm_identity_outlined),
-            title: new Text("Account"),
+            label: "Account",
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.movie_outlined),
-            title: new Text("Home"),
+            label: "Home",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.event_outlined),
-            title: new Text("Calendar"),
+            label: "Calendar",
           )
         ],
         onTap: (int index) {
