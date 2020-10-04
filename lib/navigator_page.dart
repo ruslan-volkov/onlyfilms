@@ -23,7 +23,7 @@ class NavigatorPageState extends State<NavigatorPage> {
         onGenerateRoute: (settings) => Routes.generateRoute(settings),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF2D3047),
+        type: BottomNavigationBarType.shifting,
         unselectedItemColor: Color(0xFF1B998B),
         selectedItemColor: Color(0xFFFFFD82),
         // fixedColor: Colors.lightBlue[800],
@@ -33,14 +33,22 @@ class NavigatorPageState extends State<NavigatorPage> {
           BottomNavigationBarItem(
             icon: new Icon(Icons.perm_identity_sharp),
             label: "Account",
+            backgroundColor: Color(0xFF2D3047),
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.movie_sharp),
             label: "Home",
+            backgroundColor: Color(0xFF2D3047),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.search_sharp),
+            label: "Search",
+            backgroundColor: Color(0xFF2D3047),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.event_sharp),
             label: "Calendar",
+            backgroundColor: Color(0xFF2D3047),
           )
         ],
         onTap: (int index) {
@@ -53,6 +61,9 @@ class NavigatorPageState extends State<NavigatorPage> {
                 _navigatorKey.currentState.pushNamed(homeRoute);
                 break;
               case 2:
+                _navigatorKey.currentState.pushNamed(searchRoute);
+                break;
+              case 3:
                 _navigatorKey.currentState.pushNamed(calendarRoute);
                 break;
               default:

@@ -18,11 +18,11 @@ class _LoginPageState extends State<LoginPage> {
           child: Row(
             children: <Widget>[
               Expanded(
-                flex: 1, // takes 30% of available width
+                flex: 1,
                 child: Container(),
               ),
               Expanded(
-                flex: 8, // takes 70% of available width
+                flex: 8,
                 child: Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Expanded(
-                flex: 1, // takes 30% of available width
+                flex: 1,
                 child: Container(),
               ),
             ],
