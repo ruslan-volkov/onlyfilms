@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:onlyfilms/widgets/routes.dart';
-
-import 'utilities/constants.dart';
+import 'package:onlyfilms/screens/calendar/calendar_page.dart';
+import 'package:onlyfilms/screens/home/home_page.dart';
+import 'package:onlyfilms/screens/search/search_page.dart';
+import 'package:onlyfilms/screens/settings/account_page.dart';
 
 class NavigatorPage extends StatefulWidget {
   @override
@@ -11,16 +12,19 @@ class NavigatorPage extends StatefulWidget {
 }
 
 class NavigatorPageState extends State<NavigatorPage> {
-  final _navigatorKey = GlobalKey<NavigatorState>();
-  int _currentIndex = 1;
+  int _currentIndex = 2;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Navigator(
-        key: _navigatorKey,
-        initialRoute: homeRoute,
-        onGenerateRoute: (settings) => Routes.generateRoute(settings),
+      body: IndexedStack(
+        children: <Widget>[
+          AccountPage(),
+          HomePage(),
+          SearchPage(),
+          CalendarPage(),
+        ],
+        index: _currentIndex,
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
@@ -52,23 +56,6 @@ class NavigatorPageState extends State<NavigatorPage> {
           )
         ],
         onTap: (int index) {
-          if (index != _currentIndex) {
-            switch (index) {
-              case 0:
-                _navigatorKey.currentState.pushNamed(accountRoute);
-                break;
-              case 1:
-                _navigatorKey.currentState.pushNamed(homeRoute);
-                break;
-              case 2:
-                _navigatorKey.currentState.pushNamed(searchRoute);
-                break;
-              case 3:
-                _navigatorKey.currentState.pushNamed(calendarRoute);
-                break;
-              default:
-            }
-          }
           setState(() => _currentIndex = index);
         },
         showSelectedLabels: false,

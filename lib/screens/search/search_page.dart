@@ -118,9 +118,9 @@ class SearchPageState extends State<SearchPage> {
                                       children: <Widget>[
                                         Card(
                                           elevation: 18.0,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
+                                          // shape: RoundedRectangleBorder(
+                                          //     borderRadius: BorderRadius.all(
+                                          //         Radius.circular(10.0))),
                                           child: snapshot
                                                   .data[index].image.isNotEmpty
                                               ? Image.network(
