@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onlyfilms/screens/auth/sign_in_anonymous.dart';
 import 'package:onlyfilms/screens/auth/sign_in_button.dart';
 import 'package:onlyfilms/screens/auth/sign_in_facebook.dart';
 
@@ -34,19 +35,25 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           SignInButton(
-                              context,
-                              GoogleSignin().signInWithGoogle,
-                              'Sign in with Google',
-                              Image(
+                            context: context,
+                            onPressed: AnonymousSignin().signInAnonymously,
+                            text: "Sign in anonymously",
+                          ),
+                          SizedBox(height: 20),
+                          SignInButton(
+                              context: context,
+                              onPressed: GoogleSignin().signInWithGoogle,
+                              text: "Sign in with Google",
+                              logo: Image(
                                   image: AssetImage(
                                       "assets/google_logo_small.png"),
                                   height: 35.0)),
-                          SizedBox(height: 30),
+                          SizedBox(height: 20),
                           SignInButton(
-                              context,
-                              FacebookSignin().signInWithFacebook,
-                              'Sign in with Facebook',
-                              Image(
+                              context: context,
+                              onPressed: FacebookSignin().signInWithFacebook,
+                              text: "Sign in with Facebook",
+                              logo: Image(
                                   image: AssetImage(
                                       "assets/facebook_logo_small.png"),
                                   height: 35.0)),

@@ -2,9 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:onlyfilms/screens/auth/sign_in.dart';
-import 'package:onlyfilms/widgets/alert_dialog.dart';
-
-// final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class FacebookSignin extends SignIn {
   Future<void> signInWithFacebook(BuildContext context) async {

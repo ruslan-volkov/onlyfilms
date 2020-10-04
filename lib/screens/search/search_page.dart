@@ -13,7 +13,8 @@ class SearchPage extends StatefulWidget {
 
 class SearchPageState extends State<SearchPage> {
   List<Model> items;
-  var controller = ScrollController();
+  var scrollController = ScrollController();
+  var textFieldController = TextEditingController();
   StreamController<List<Model>> _modelStream;
   var page = 1;
   var previousQuery = "";
@@ -35,9 +36,9 @@ class SearchPageState extends State<SearchPage> {
     super.initState();
     items = new List<Model>();
     _modelStream = StreamController<List<Model>>();
-    controller.addListener(() {
-      if (controller.position.atEdge) {
-        if (controller.position.pixels == 0) {
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels == 0) {
           // you are at top position
         } else {
           // you are at bottom position
@@ -52,7 +53,7 @@ class SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final posterRatio = 0.7;
-    final posterHeight = 200.0;
+    final posterHeight = 220.0;
     final posterWidth = posterRatio * posterHeight;
 
     return Container(
@@ -63,13 +64,14 @@ class SearchPageState extends State<SearchPage> {
             margin: EdgeInsets.only(
               top: 32.0,
             ),
-            // width: size.width * 0.90,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     flex: 1,
                     child: TextField(
+                      controller: textFieldController,
                       onChanged: (value) => {loadData(value)},
                       style: TextStyle(color: Colors.white, fontSize: 16),
                       decoration: InputDecoration(
@@ -78,14 +80,18 @@ class SearchPageState extends State<SearchPage> {
                         hintStyle:
                             TextStyle(color: Colors.white70, fontSize: 16),
                         hintText: 'Enter a search term',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.teal,
-                          ),
-                        ),
+                        // border: OutlineInputBorder(
+                        //   borderSide: BorderSide(
+                        //     color: Colors.teal,
+                        //   ),
+                        // ),
                         prefixIcon: const Icon(
                           Icons.search_sharp,
                           color: Colors.white,
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () => textFieldController.clear(),
+                          icon: Icon(Icons.clear),
                         ),
                       ),
                     ),
@@ -93,27 +99,31 @@ class SearchPageState extends State<SearchPage> {
                   Expanded(
                       flex: 8,
                       child: Container(
+                        margin: EdgeInsets.zero,
+                        padding: EdgeInsets.zero,
                         child: StreamBuilder<List<Model>>(
                           stream: _modelStream.stream,
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {
                               return GridView.builder(
-                                  controller: controller,
+                                  controller: scrollController,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                     childAspectRatio: posterRatio,
                                     crossAxisCount: 2,
-                                    crossAxisSpacing: 5.0,
-                                    mainAxisSpacing: 5.0,
+                                    // crossAxisSpacing: 5.0,
+                                    // mainAxisSpacing: 5.0,
                                   ),
-                                  padding: EdgeInsets.all(8),
+                                  padding: EdgeInsets.zero,
                                   itemCount: snapshot.data.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return Column(
+                                      // mainAxisAlignment:
+                                      //     MainAxisAlignment.spaceEvenly,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                          CrossAxisAlignment.stretch,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         Card(
@@ -140,6 +150,7 @@ class SearchPageState extends State<SearchPage> {
                                         ),
                                         Text(
                                           snapshot.data[index].title,
+                                          textAlign: TextAlign.center,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                               color: Colors.white,
@@ -159,9 +170,9 @@ class SearchPageState extends State<SearchPage> {
   }
 
   void _scrollToTop() {
-    if (controller.hasClients) {
-      controller.animateTo(
-        controller.position.minScrollExtent,
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        scrollController.position.minScrollExtent,
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );

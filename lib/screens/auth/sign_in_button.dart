@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignInButton extends StatelessWidget {
-  SignInButton(this.context, this.onPressed, this.text, this.logo);
+  SignInButton(
+      {@required this.context,
+      @required this.onPressed,
+      @required this.text,
+      this.logo});
   final BuildContext context;
   final Function onPressed;
   final String text;
@@ -24,7 +28,7 @@ class SignInButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              logo,
+              logo != null ? logo : SizedBox(height: 35),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
