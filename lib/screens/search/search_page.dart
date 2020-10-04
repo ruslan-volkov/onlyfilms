@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/services/fetch.dart';
-import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -85,7 +84,11 @@ class SearchPageState extends State<SearchPage> {
                               color: Colors.white,
                             ),
                             suffixIcon: IconButton(
-                              onPressed: () => textFieldController.clear(),
+                              onPressed: () => {
+                                textFieldController.clear(),
+                                items.clear(),
+                                _modelStream.add(items)
+                              },
                               icon: Icon(Icons.clear),
                             ),
                           ),
@@ -123,28 +126,57 @@ class SearchPageState extends State<SearchPage> {
                                                 elevation: 18.0,
                                                 child: snapshot.data[index]
                                                         .image.isNotEmpty
-                                                    ? OptimizedCacheImage(
-                                                        imageUrl: snapshot
+                                                    ? Image.network(
+                                                        snapshot
                                                             .data[index].image,
-                                                        imageBuilder: (context,
-                                                                imageProvider) =>
-                                                            Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            image: DecorationImage(
-                                                                image:
-                                                                    imageProvider,
-                                                                fit: BoxFit
-                                                                    .cover),
-                                                          ),
-                                                        ),
-                                                        placeholder: (context,
-                                                                url) =>
-                                                            RefreshProgressIndicator(),
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Icon(Icons.error),
+                                                        fit: BoxFit.fill,
+                                                        loadingBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                Widget child,
+                                                                ImageChunkEvent
+                                                                    loadingProgress) {
+                                                          if (loadingProgress ==
+                                                              null)
+                                                            return child;
+                                                          return Center(
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                              value: loadingProgress
+                                                                          .expectedTotalBytes !=
+                                                                      null
+                                                                  ? loadingProgress
+                                                                          .cumulativeBytesLoaded /
+                                                                      loadingProgress
+                                                                          .expectedTotalBytes
+                                                                  : null,
+                                                            ),
+                                                          );
+                                                        },
                                                       )
+
+                                                    // OptimizedCacheImage(
+                                                    //     imageUrl: snapshot
+                                                    //         .data[index].image,
+                                                    //     imageBuilder: (context,
+                                                    //             imageProvider) =>
+                                                    //         Container(
+                                                    //       decoration:
+                                                    //           BoxDecoration(
+                                                    //         image: DecorationImage(
+                                                    //             image:
+                                                    //                 imageProvider,
+                                                    //             fit: BoxFit
+                                                    //                 .cover),
+                                                    //       ),
+                                                    //     ),
+                                                    //     placeholder: (context,
+                                                    //             url) =>
+                                                    //         RefreshProgressIndicator(),
+                                                    //     errorWidget: (context,
+                                                    //             url, error) =>
+                                                    //         Icon(Icons.error),
+                                                    //   )
                                                     // Image.network(
                                                     //     snapshot
                                                     //         .data[index].image,
