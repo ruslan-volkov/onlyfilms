@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/services/fetch.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class SearchPageState extends State<SearchPage> {
 
   Future<void> loadData(String query) async {
     final data = await fetchAll(query, page);
-    if (previousQuery != query) {
+    if (previousQuery != query || query.isEmpty) {
       items.clear();
       _scrollToTop();
       page = 1;
@@ -52,121 +53,133 @@ class SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final posterRatio = 0.7;
-    final posterHeight = 220.0;
-    final posterWidth = posterRatio * posterHeight;
+    final posterRatio = 0.6;
 
-    return Container(
-        color: Color(0xFF383B57),
+    return SafeArea(
         child: Container(
-            padding: EdgeInsets.only(
-                left: size.width * 0.05, right: size.width * 0.05),
-            margin: EdgeInsets.only(
-              top: 32.0,
-            ),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: TextField(
-                      controller: textFieldController,
-                      onChanged: (value) => {loadData(value)},
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xFF585C89),
-                        hintStyle:
-                            TextStyle(color: Colors.white70, fontSize: 16),
-                        hintText: 'Enter a search term',
-                        // border: OutlineInputBorder(
-                        //   borderSide: BorderSide(
-                        //     color: Colors.teal,
-                        //   ),
-                        // ),
-                        prefixIcon: const Icon(
-                          Icons.search_sharp,
-                          color: Colors.white,
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () => textFieldController.clear(),
-                          icon: Icon(Icons.clear),
+            color: Color(0xFF383B57),
+            child: Container(
+                padding: EdgeInsets.only(
+                    left: size.width * 0.05, right: size.width * 0.05),
+                margin: EdgeInsets.only(
+                  top: 5.0,
+                ),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: TextField(
+                          controller: textFieldController,
+                          onChanged: (value) => {loadData(value)},
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Color(0xFF585C89),
+                            hintStyle:
+                                TextStyle(color: Colors.white70, fontSize: 16),
+                            hintText: "Search",
+                            prefixIcon: const Icon(
+                              Icons.search_sharp,
+                              color: Colors.white,
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: () => textFieldController.clear(),
+                              icon: Icon(Icons.clear),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  Expanded(
-                      flex: 8,
-                      child: Container(
-                        margin: EdgeInsets.zero,
-                        padding: EdgeInsets.zero,
-                        child: StreamBuilder<List<Model>>(
-                          stream: _modelStream.stream,
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.hasData) {
-                              return GridView.builder(
-                                  controller: scrollController,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    childAspectRatio: posterRatio,
-                                    crossAxisCount: 2,
-                                    // crossAxisSpacing: 5.0,
-                                    // mainAxisSpacing: 5.0,
-                                  ),
-                                  padding: EdgeInsets.zero,
-                                  itemCount: snapshot.data.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Column(
-                                      // mainAxisAlignment:
-                                      //     MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Card(
-                                          elevation: 18.0,
-                                          // shape: RoundedRectangleBorder(
-                                          //     borderRadius: BorderRadius.all(
-                                          //         Radius.circular(10.0))),
-                                          child: snapshot
-                                                  .data[index].image.isNotEmpty
-                                              ? Image.network(
-                                                  snapshot.data[index].image,
-                                                  fit: BoxFit.cover,
-                                                  height: posterHeight,
-                                                  width: posterWidth,
-                                                )
-                                              : Image.asset(
-                                                  "assets/image_not_found.png",
-                                                  fit: BoxFit.cover,
-                                                  height: posterHeight,
-                                                  width: posterWidth,
-                                                ),
-                                          clipBehavior: Clip.antiAlias,
-                                          margin: EdgeInsets.all(8.0),
-                                        ),
-                                        Text(
-                                          snapshot.data[index].title,
-                                          textAlign: TextAlign.center,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    );
-                                  });
-                            } else {
-                              return Center(child: Container());
-                            }
-                          },
-                        ),
-                      ))
-                ])));
+                      Expanded(
+                          flex: 8,
+                          child: Container(
+                            margin: EdgeInsets.zero,
+                            padding: EdgeInsets.zero,
+                            child: StreamBuilder<List<Model>>(
+                              stream: _modelStream.stream,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.hasData) {
+                                  return GridView.builder(
+                                      controller: scrollController,
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        childAspectRatio: posterRatio,
+                                        crossAxisCount: 2,
+                                      ),
+                                      padding: EdgeInsets.zero,
+                                      itemCount: snapshot.data.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Expanded(
+                                              flex: 10,
+                                              child: Card(
+                                                elevation: 18.0,
+                                                child: snapshot.data[index]
+                                                        .image.isNotEmpty
+                                                    ? OptimizedCacheImage(
+                                                        imageUrl: snapshot
+                                                            .data[index].image,
+                                                        imageBuilder: (context,
+                                                                imageProvider) =>
+                                                            Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            image: DecorationImage(
+                                                                image:
+                                                                    imageProvider,
+                                                                fit: BoxFit
+                                                                    .cover),
+                                                          ),
+                                                        ),
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            RefreshProgressIndicator(),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(Icons.error),
+                                                      )
+                                                    // Image.network(
+                                                    //     snapshot
+                                                    //         .data[index].image,
+                                                    //     fit: BoxFit.cover,
+                                                    //   )
+                                                    : Image.asset(
+                                                        "assets/image_not_found.png",
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                clipBehavior: Clip.antiAlias,
+                                              ),
+                                            ),
+                                            Expanded(
+                                                flex: 1,
+                                                child: Text(
+                                                  snapshot.data[index].title,
+                                                  textAlign: TextAlign.center,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 14.0,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ))
+                                          ],
+                                        );
+                                      });
+                                } else {
+                                  return Center(child: Container());
+                                }
+                              },
+                            ),
+                          ))
+                    ]))));
   }
 
   void _scrollToTop() {
