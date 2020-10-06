@@ -35,3 +35,17 @@ Future<List<Model>> fetchAll(String query, int page) async {
     return result;
   }
 }
+
+// Future<List<Genre>> getGenres() async {
+//   List<Genre> result = new List<Genre>();
+//   final response =
+//       await http.get(url + "genre/movie/list?" + apiKey + "&" + langUS);
+//   if (response.statusCode == 200) {
+//     for (final e in json.decode(response.body)["genres"]) {
+//       result.add(Genre.fromJson(e));
+//     }
+//     return result;
+//   } else {
+//     throw Exception('Failed to load');
+//   }
+// }
