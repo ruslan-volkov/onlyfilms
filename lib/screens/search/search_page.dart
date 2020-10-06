@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/services/fetch.dart';
 
-import 'filters.dart';
-
 class SearchPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -243,7 +241,6 @@ class SearchPageState extends State<SearchPage> {
                     ]))));
   }
 
-  @override
   Widget filters() {
     return Theme(
       data: ThemeData.dark(),
