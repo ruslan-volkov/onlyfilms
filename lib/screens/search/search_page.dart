@@ -6,14 +6,12 @@ import 'package:onlyfilms/services/fetch.dart';
 
 class SearchPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return SearchPageState();
-  }
+  State<StatefulWidget> createState() => SearchPageState();
 }
 
 class SearchPageState extends State<SearchPage> {
-  final types = ["Movie", "Tv Series", "Person"];
-  var _selected = [];
+  final types = [MediaType.movie, MediaType.tv, MediaType.person];
+  MediaType selected = MediaType.multi;
   List<Model> items;
   var scrollController = ScrollController();
   var textFieldController = TextEditingController();
@@ -21,12 +19,10 @@ class SearchPageState extends State<SearchPage> {
   var page = 1;
   var previousQuery = "";
 
-  Future<void> loadData(String query) async {
-    final data = await fetchAll(query, page);
-    if (previousQuery != query || query.isEmpty) {
-      items.clear();
-      _scrollToTop();
-      page = 1;
+  Future<void> loadData(String query, bool refresh) async {
+    final data = await fetchAll(type: selected, query: query, page: page);
+    if (query.isEmpty || refresh) {
+      _clearAndScrollToTop();
     }
     previousQuery = query;
     items.addAll(data);
@@ -45,7 +41,7 @@ class SearchPageState extends State<SearchPage> {
         } else {
           // you are at bottom position
           page++;
-          loadData(previousQuery);
+          loadData(previousQuery, false);
         }
       }
     });
@@ -78,7 +74,12 @@ class SearchPageState extends State<SearchPage> {
                                   flex: 8,
                                   child: TextField(
                                     controller: textFieldController,
-                                    onChanged: (value) => {loadData(value)},
+                                    onChanged: (value) => {
+                                      if (previousQuery != value)
+                                        {loadData(value, true)}
+                                      else
+                                        {loadData(value, false)},
+                                    },
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16),
                                     decoration: InputDecoration(
@@ -94,31 +95,13 @@ class SearchPageState extends State<SearchPage> {
                                       suffixIcon: IconButton(
                                         onPressed: () => {
                                           textFieldController.clear(),
-                                          items.clear(),
-                                          _modelStream.add(items)
+                                          _clearAndScrollToTop(),
                                         },
                                         icon: Icon(Icons.clear),
                                       ),
                                     ),
                                   ),
                                 ),
-                                // Expanded(
-                                //     flex: 1,
-                                //     child: Material(
-                                //       type: MaterialType.transparency,
-                                //       color: Color(0xFF383B57),
-                                //       child: IconButton(
-                                //         highlightColor: Color(0xFF383B57),
-                                //         disabledColor: Colors.black26,
-                                //         color: Colors.white,
-                                //         icon: Icon(Icons.filter_alt_sharp),
-                                //         onPressed: () {
-                                //           showBottomSheet(
-                                //               context: context,
-                                //               builder: (context) => Filters());
-                                //         },
-                                //       ),
-                                //     ))
                               ])),
                       Expanded(flex: 1, child: filters()),
                       Expanded(
@@ -152,7 +135,10 @@ class SearchPageState extends State<SearchPage> {
                                               child: Card(
                                                 elevation: 18.0,
                                                 child: snapshot.data[index]
-                                                        .image.isNotEmpty
+                                                                .image !=
+                                                            null &&
+                                                        snapshot.data[index]
+                                                            .image.isNotEmpty
                                                     ? Image.network(
                                                         snapshot
                                                             .data[index].image,
@@ -181,34 +167,6 @@ class SearchPageState extends State<SearchPage> {
                                                           );
                                                         },
                                                       )
-
-                                                    // OptimizedCacheImage(
-                                                    //     imageUrl: snapshot
-                                                    //         .data[index].image,
-                                                    //     imageBuilder: (context,
-                                                    //             imageProvider) =>
-                                                    //         Container(
-                                                    //       decoration:
-                                                    //           BoxDecoration(
-                                                    //         image: DecorationImage(
-                                                    //             image:
-                                                    //                 imageProvider,
-                                                    //             fit: BoxFit
-                                                    //                 .cover),
-                                                    //       ),
-                                                    //     ),
-                                                    //     placeholder: (context,
-                                                    //             url) =>
-                                                    //         RefreshProgressIndicator(),
-                                                    //     errorWidget: (context,
-                                                    //             url, error) =>
-                                                    //         Icon(Icons.error),
-                                                    //   )
-                                                    // Image.network(
-                                                    //     snapshot
-                                                    //         .data[index].image,
-                                                    //     fit: BoxFit.cover,
-                                                    //   )
                                                     : Image.asset(
                                                         "assets/image_not_found.png",
                                                         fit: BoxFit.cover,
@@ -244,8 +202,6 @@ class SearchPageState extends State<SearchPage> {
   Widget filters() {
     return Theme(
       data: ThemeData.dark(),
-      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      // crossAxisAlignment: CrossAxisAlignment.center,
       child: ListView(
         primary: true,
         shrinkWrap: true,
@@ -255,26 +211,26 @@ class SearchPageState extends State<SearchPage> {
             alignment: WrapAlignment.center,
             spacing: 20.0,
             runSpacing: 0.0,
-            children: List<Widget>.generate(
-                types.length, // place the length of the array here
-                (int index) {
+            children: List<Widget>.generate(types.length, (int index) {
               return FilterChip(
-                selected: _selected.contains(types[index]),
-                onSelected: (test) => {
+                selected: selected == types[index],
+                onSelected: (_value) => {
                   setState(() {
-                    !_selected.contains(types[index])
-                        ? _selected.add(types[index])
-                        : _selected.remove(types[index]);
+                    if (!(selected == types[index])) {
+                      selected = types[index];
+                    } else {
+                      selected = MediaType.multi;
+                    }
+                    loadData(previousQuery, true);
                   })
                 },
-                label: Text(types[index]),
+                label: Text(types[index].name),
                 labelStyle: TextStyle(color: Colors.white),
                 backgroundColor: Color(0xFF2A6A71),
                 selectedColor: Color(0xFF1B998B),
                 elevation: 10,
                 pressElevation: 5,
               );
-              // return Chip(label: Text(types[index]));
             }).toList(),
           ),
         ],
@@ -290,5 +246,14 @@ class SearchPageState extends State<SearchPage> {
         curve: Curves.ease,
       );
     }
+  }
+
+  void _clearAndScrollToTop() {
+    items.clear();
+    _modelStream.add(items);
+
+    _scrollToTop();
+    page = 1;
+    previousQuery = "";
   }
 }

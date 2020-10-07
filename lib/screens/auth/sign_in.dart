@@ -8,8 +8,6 @@ class SignIn {
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   Future<void> signIn(BuildContext context, AuthCredential credential) async {
-    // await Firebase.initializeApp();
-
     try {
       final UserCredential authResult =
           await _auth.signInWithCredential(credential);

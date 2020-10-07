@@ -53,6 +53,8 @@ PODS:
     - FBSDKCoreKit/Swift
     - FBSDKLoginKit/Swift
     - Flutter
+  - flutter_statusbarcolor (0.0.1):
+    - Flutter
   - google_sign_in (0.0.1):
     - Flutter
     - GoogleSignIn (~> 5.0)
@@ -97,6 +99,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
+  - flutter_statusbarcolor (from `.symlinks/plugins/flutter_statusbarcolor/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
 
 SPEC REPOS:
@@ -127,6 +130,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_facebook_auth:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
+  flutter_statusbarcolor:
+    :path: ".symlinks/plugins/flutter_statusbarcolor/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
 
@@ -144,6 +149,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_facebook_auth: a63fc41100a6494584bef37a677e0f70670d9674
+  flutter_statusbarcolor: 8afb1071ed8c58be929f1e32b36c629771fd2259
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
   GoogleDataTransport: b7f406340a291370045a270c599e53c6fa6ec20f
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
