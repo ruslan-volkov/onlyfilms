@@ -36,6 +36,10 @@ class Model {
       return Model.fromJsonBase(json);
     }
   }
+
+  static String getImageUrl(String path) {
+    return path != null ? '$imagePathTemplate$path' : "";
+  }
 }
 
 enum MediaType { multi, person, movie, tv }
