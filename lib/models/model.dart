@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:onlyfilms/models/movie.dart';
 import 'package:onlyfilms/models/person.dart';
 import 'package:onlyfilms/models/tv.dart';
+import 'package:onlyfilms/utilities/localization.dart';
 
 final imagePathTemplate = "https://image.tmdb.org/t/p/w500/";
 final movieType = "movie";
@@ -39,21 +41,6 @@ class Model {
 enum MediaType { multi, person, movie, tv }
 
 extension QueryTypeExtension on MediaType {
-  String get name {
-    switch (this) {
-      case MediaType.multi:
-        return "Multi";
-      case MediaType.person:
-        return "People";
-      case MediaType.movie:
-        return "Movie";
-      case MediaType.tv:
-        return "Tv Series";
-      default:
-        return null;
-    }
-  }
-
   String get url {
     switch (this) {
       case MediaType.multi:
@@ -82,4 +69,19 @@ MediaType getMediaTypeFromText(String mediaType) {
   }
 
   return null;
+}
+
+String getMediaTypeName(MediaType type, BuildContext context) {
+  switch (type) {
+    case MediaType.multi:
+      return AppLocalizations.of(context).translate("Multi");
+    case MediaType.person:
+      return AppLocalizations.of(context).translate("People");
+    case MediaType.movie:
+      return AppLocalizations.of(context).translate("Movies");
+    case MediaType.tv:
+      return AppLocalizations.of(context).translate("Tv Series");
+    default:
+      return null;
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:onlyfilms/utilities/localization.dart';
 import 'package:onlyfilms/widgets/alert_dialog.dart';
 
 class SignIn {
@@ -30,18 +31,24 @@ class SignIn {
       var email = error.email;
       var errorMessage = error.message;
       if (errorCode == "auth/account-exists-with-different-credential") {
-        errorMessage =
-            "An account already exists with the same email address :" +
-                email +
-                ".";
+        errorMessage = AppLocalizations.of(context)
+                .translate("AccountAlreadyExistsSameEmail") +
+            email +
+            ".";
       }
       if (errorCode == "auth/user-disabled") {
-        errorMessage = "This account is disabled.";
+        errorMessage =
+            AppLocalizations.of(context).translate("AccountDisabled");
       }
       if (errorCode == "auth/invalid-credential") {
-        errorMessage = "The credential is malformed or has expired.";
+        errorMessage =
+            AppLocalizations.of(context).translate("InvalidCredentials");
       }
-      openOkDialog(context, "Login failed", errorMessage, () => {});
+      openOkDialog(
+          context,
+          AppLocalizations.of(context).translate("LoginFailed"),
+          errorMessage,
+          () => {});
       await signOut();
     }
 

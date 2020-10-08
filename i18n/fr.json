@@ -1,0 +1,21 @@
+{
+    "Title": "OnlyFilms",
+    "Account": "Profil",
+    "Home": "Menu principal",
+    "Search": "Rechercher",
+    "Calendar": "Calendrier",
+    "SignInAnonymously": "Sans compte :D",
+    "SignInGoogle": "Se connecter via Google",
+    "SignInFacebook": "Se connecter via Facebook",
+    "LoginFailed": "La connexion a échouée",
+    "AccountAlreadyExistsSameEmail": "Un compte existe déjà pour cette adresse mail :",
+    "AccountDisabled": "Ce compte est désactivé.",
+    "InvalidCredentials": "La session est incorrecte ou a expirée.",
+    "SignOut": "Se déconnecter",
+    "FailedLoad": "Erreur lors du chargement",
+    "ErrorAppend": "Une erreur est survenue :",
+    "Multi": "Multi",
+    "People": "Personnalité",
+    "Movies": "Films",
+    "Tv Series": "Séries"  
+}

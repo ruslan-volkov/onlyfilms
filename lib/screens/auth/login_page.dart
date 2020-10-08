@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onlyfilms/screens/auth/sign_in_anonymous.dart';
 import 'package:onlyfilms/screens/auth/sign_in_button.dart';
 import 'package:onlyfilms/screens/auth/sign_in_facebook.dart';
+import 'package:onlyfilms/utilities/localization.dart';
 
 import 'sign_in_google.dart';
 
@@ -37,13 +38,15 @@ class _LoginPageState extends State<LoginPage> {
                           SignInButton(
                             context: context,
                             onPressed: AnonymousSignin().signInAnonymously,
-                            text: "Sign in anonymously",
+                            text: AppLocalizations.of(context)
+                                .translate("SignInAnonymously"),
                           ),
                           SizedBox(height: 20),
                           SignInButton(
                               context: context,
                               onPressed: GoogleSignin().signInWithGoogle,
-                              text: "Sign in with Google",
+                              text: AppLocalizations.of(context)
+                                  .translate("SignInGoogle"),
                               logo: Image(
                                   image: AssetImage(
                                       "assets/google_logo_small.png"),
@@ -52,7 +55,8 @@ class _LoginPageState extends State<LoginPage> {
                           SignInButton(
                               context: context,
                               onPressed: FacebookSignin().signInWithFacebook,
-                              text: "Sign in with Facebook",
+                              text: AppLocalizations.of(context)
+                                  .translate("SignInFacebook"),
                               logo: Image(
                                   image: AssetImage(
                                       "assets/facebook_logo_small.png"),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/services/fetch.dart';
+import 'package:onlyfilms/utilities/localization.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -88,7 +89,8 @@ class SearchPageState extends State<SearchPage> {
                                           Theme.of(context).primaryColorDark,
                                       hintStyle: TextStyle(
                                           color: Colors.white70, fontSize: 16),
-                                      hintText: "Search",
+                                      hintText: AppLocalizations.of(context)
+                                          .translate("Search"),
                                       prefixIcon: const Icon(
                                         Icons.search_sharp,
                                         color: Colors.white,
@@ -229,7 +231,7 @@ class SearchPageState extends State<SearchPage> {
                     loadData(previousQuery, true);
                   })
                 },
-                label: Text(types[index].name),
+                label: Text(getMediaTypeName(types[index], context)),
                 labelStyle: TextStyle(color: Colors.white),
                 backgroundColor: Theme.of(context).primaryColor,
                 selectedColor: Theme.of(context).primaryColorLight,

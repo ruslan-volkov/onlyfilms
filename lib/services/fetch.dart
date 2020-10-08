@@ -33,7 +33,7 @@ Future<List<Model>> fetchAll(
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load');
+      throw Exception("Failed to load");
     }
   } else {
     return result;

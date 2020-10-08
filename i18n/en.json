@@ -1,0 +1,21 @@
+{
+    "Title": "OnlyFilms",
+    "Account": "Account",
+    "Home": "Home",
+    "Search": "Search",
+    "Calendar": "Calendar",
+    "SignInAnonymously": "No account :D",
+    "SignInGoogle": "Sign in with Google",
+    "SignInFacebook": "Sign in with Facebook",
+    "LoginFailed": "Login failed",
+    "AccountAlreadyExistsSameEmail": "An account already exists with the same email address :",
+    "AccountDisabled": "This account is disabled.",
+    "InvalidCredentials": "The credential is malformed or has expired.",
+    "SignOut": "Sign out",
+    "FailedLoad": "Failed to load",
+    "ErrorAppend": "There was an error :",
+    "Multi": "Multi",
+    "People": "People",
+    "Movies": "Movies",
+    "Tv Series": "Tv Series"   
+}

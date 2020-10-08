@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:onlyfilms/utilities/localization.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -43,7 +44,7 @@ class AccountPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                "Sign out",
+                AppLocalizations.of(context).translate("SignOut"),
                 style: TextStyle(
                   fontSize: 20,
                   color: Theme.of(context).textSelectionColor,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:onlyfilms/utilities/localization.dart';
 import 'package:onlyfilms/utilities/theme.dart';
 
 import 'onlyfilms_page.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         // Check for errors
         if (snapshot.hasError) {
           return Text(
-            'There was an error :(',
+            AppLocalizations.of(context).translate("ErrorAppend"),
             style: Theme.of(context).textTheme.headline5,
           );
         }
