@@ -10,7 +10,6 @@ class OnlyFilms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(localizationsDelegates: [
-      // ... app-specific localization delegate[s] here
       AppLocalizations.delegate,
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,

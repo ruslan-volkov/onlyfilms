@@ -31,7 +31,6 @@ class NavigatorPageState extends State<NavigatorPage> {
         type: BottomNavigationBarType.shifting,
         unselectedItemColor: Theme.of(context).unselectedWidgetColor,
         selectedItemColor: Theme.of(context).selectedRowColor,
-        // fixedColor: Colors.lightBlue[800],
         currentIndex: _currentIndex,
         iconSize: 30,
         items: [
