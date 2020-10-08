@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:onlyfilms/models/model.dart';
-import 'package:onlyfilms/models/movie.dart';
+import 'package:onlyfilms/models/model_details.dart';
 
 class RatingInformation extends StatelessWidget {
-  RatingInformation(this.movie);
-  final Model movie;
+  RatingInformation(this.element);
+  final ModelDetails element;
 
   Widget _buildRatingBar(ThemeData theme) {
     var stars = <Widget>[];
 
     for (var i = 1; i <= 5; i++) {
-      var color = i <= (movie as Movie).voteAverage
-          ? theme.accentColor
-          : Colors.black12;
+      var color =
+          i <= element.voteAverage / 2 ? theme.accentColor : Colors.black12;
+      // TODO : convertir en notation étoile sur 10 avec des étoiles à moitié remplies
       var star = Icon(
         Icons.star,
         color: color,
@@ -28,14 +28,14 @@ class RatingInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var textTheme = theme.textTheme;
-    var ratingCaptionStyle = textTheme.caption.copyWith(color: Colors.black45);
+    var ratingCaptionStyle = textTheme.caption;
 
     var numericRating = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          (movie as Movie).voteAverage.toString(),
+          element.voteAverage.toString(),
           style: textTheme.headline6.copyWith(
             fontWeight: FontWeight.w400,
             color: theme.accentColor,

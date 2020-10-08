@@ -7,10 +7,7 @@ class Tv extends ModelDetails {
   final String releaseDate;
   final List<Person> createdBy;
   final String status;
-  final num voteAverage;
   final int voteCount;
-  final List<Genre> genres;
-  final String backdropPath;
   final List<int> episodeRuntime;
 
   Tv(
@@ -22,33 +19,38 @@ class Tv extends ModelDetails {
       this.createdBy,
       overview,
       this.status,
-      this.voteAverage,
+      voteAverage,
       this.voteCount,
-      this.genres,
-      this.backdropPath,
+      genres,
+      backdropPath,
       this.episodeRuntime})
       : super(
             id: id,
             name: name,
             image: image,
             mediaType: mediaType,
-            overview: overview);
+            overview: overview,
+            genres: genres,
+            backdropPath: backdropPath,
+            voteAverage: voteAverage);
 
   factory Tv.fromJson(Map<String, dynamic> json) {
     final model = ModelDetails.fromJsonBase(json);
     return Tv(
         id: model.id,
-        mediaType: model.mediaType,
+        mediaType: MediaType.tv,
         name: json["name"],
         releaseDate: json["first_air_date"],
         createdBy: Person.getPeopleFromJsonArray(json["created_by"]),
-        overview: model.overview,
+        overview: json["overview"],
         status: json["status"],
         voteAverage: json["vote_average"],
         voteCount: json["vote_count"],
         genres: Genre.getGenresFromJsonArray(json["genres"]),
         backdropPath: Model.getImageUrl(json["backdrop_path"]),
-        episodeRuntime: json["episode_run_time"],
+        episodeRuntime: json["episode_run_time"] != null
+            ? List<int>.from(json["episode_run_time"])
+            : null,
         image: Model.getImageUrl(json["poster_path"]));
   }
 }

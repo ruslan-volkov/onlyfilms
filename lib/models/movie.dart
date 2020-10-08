@@ -4,12 +4,9 @@ import 'package:onlyfilms/models/model_details.dart';
 
 class Movie extends ModelDetails {
   final String releaseDate;
-  final double revenue;
+  final int revenue;
   final String status;
-  final num voteAverage;
   final int voteCount;
-  final List<Genre> genres;
-  final String backdropPath;
   final int runtime;
 
   Movie(
@@ -21,23 +18,26 @@ class Movie extends ModelDetails {
       overview,
       this.revenue,
       this.status,
-      this.voteAverage,
+      voteAverage,
       this.voteCount,
-      this.genres,
-      this.backdropPath,
+      genres,
+      backdropPath,
       this.runtime})
       : super(
             id: id,
             image: image,
             mediaType: mediaType,
             name: name,
-            overview: overview);
+            overview: overview,
+            genres: genres,
+            backdropPath: backdropPath,
+            voteAverage: voteAverage);
 
   factory Movie.fromJson(Map<String, dynamic> json) {
     final model = ModelDetails.fromJsonBase(json);
     return Movie(
         id: model.id,
-        mediaType: model.mediaType,
+        mediaType: MediaType.movie,
         name: json["title"],
         releaseDate: json["release_date"],
         overview: model.overview,

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:onlyfilms/navigator_page.dart';
 import 'package:onlyfilms/screens/auth/login_page.dart';
+import 'package:onlyfilms/widgets/progress_indicator.dart';
 
 class LandingPage extends StatelessWidget {
   @override
@@ -16,14 +17,7 @@ class LandingPage extends StatelessWidget {
           }
           return NavigatorPage();
         } else {
-          return Scaffold(
-            backgroundColor: Theme.of(context).splashColor,
-            body: Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.white,
-              ),
-            ),
-          );
+          return CustomProgressIndicator();
         }
       },
     );

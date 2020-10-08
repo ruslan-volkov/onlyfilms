@@ -13,4 +13,9 @@ var darkTheme = ThemeData(
     primaryColor: Color(0xFF2A6A71),
     primaryColorLight: Color(0xFF1B998B),
     textSelectionColor: Color(0xFFFFFEAD),
-    splashColor: Color(0xFFE84855));
+    splashColor: Color(0xFFF47263),
+    textTheme: TextTheme(
+        headline6: TextStyle(color: Colors.white),
+        subtitle1: TextStyle(color: Colors.white),
+        caption: TextStyle(color: Colors.white),
+        bodyText2: TextStyle(color: Colors.white70)));

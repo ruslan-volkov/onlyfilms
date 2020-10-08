@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:onlyfilms/models/image_api.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
 
@@ -30,9 +31,26 @@ Future<List<Model>> fetchAll(
 
 Future<ModelDetails> getDetails({MediaType type, int id}) async {
   if (!id.isNaN) {
-    final response = await http.get('$url${type.url}/${id.toString()}');
+    final response = await http.get('$url${type.url}/${id.toString()}?$apiKey');
     if (response.statusCode == 200) {
       return ModelDetails.fromJson(json.decode(response.body), type);
+    } else {
+      throw Exception("Failed to load");
+    }
+  } else {
+    throw Exception("Id should be a number");
+  }
+}
+
+Future<List<ImageApi>> getImages({MediaType type, int id}) async {
+  if (!id.isNaN) {
+    final response =
+        await http.get('$url${type.url}/${id.toString()}/images?$apiKey');
+    if (response.statusCode == 200) {
+      List<ImageApi> result = new List<ImageApi>();
+      var body = json.decode(response.body);
+      result = ImageApi.getFromJsonByType(type, body);
+      return result;
     } else {
       throw Exception("Failed to load");
     }

@@ -1,3 +1,4 @@
+import 'package:onlyfilms/models/genre.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
 
@@ -16,24 +17,33 @@ class Person extends ModelDetails {
       overview,
       this.birthday,
       this.deathday,
-      this.knownForDepartment})
+      this.knownForDepartment,
+      genres,
+      backdropPath,
+      voteAverage})
       : super(
             id: id,
             name: name,
             image: image,
             mediaType: mediaType,
-            overview: overview);
+            overview: overview,
+            genres: genres,
+            backdropPath: backdropPath,
+            voteAverage: voteAverage);
 
   factory Person.fromJson(Map<String, dynamic> json) {
     final model = ModelDetails.fromJsonBase(json);
     return Person(
         id: model.id,
-        mediaType: model.mediaType,
+        mediaType: MediaType.person,
         name: json["name"],
-        overview: model.overview,
+        overview: json["biography"],
         birthday: json["birthday"],
         deathday: json["deathday"],
         knownForDepartment: json["known_for_department"],
+        genres: new List<Genre>(),
+        backdropPath: "",
+        voteAverage: null,
         image: Model.getImageUrl(json["profile_path"]));
   }
 

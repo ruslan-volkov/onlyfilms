@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
-import 'package:onlyfilms/models/movie.dart';
 import 'package:onlyfilms/screens/details/arc_banner_image.dart';
 import 'package:onlyfilms/screens/details/poster.dart';
 import 'package:onlyfilms/screens/details/rating_information.dart';
 
 class MovieDetailHeader extends StatelessWidget {
-  MovieDetailHeader(this.movie);
-  final ModelDetails movie;
+  MovieDetailHeader(this.element);
+  final ModelDetails element;
 
-  List<Widget> _buildCategoryChips(TextTheme textTheme) {
-    return (movie as Movie).genres.map((genre) {
+  List<Widget> _buildCategoryChips(BuildContext context) {
+    return element.genres.map((genre) {
       return Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: Chip(
           label: Text(genre.name),
-          labelStyle: textTheme.caption,
-          backgroundColor: Colors.black12,
+          labelStyle: Theme.of(context).textTheme.caption,
+          backgroundColor: Theme.of(context).accentColor,
         ),
       );
     }).toList();
@@ -28,41 +27,47 @@ class MovieDetailHeader extends StatelessWidget {
     var textTheme = Theme.of(context).textTheme;
 
     var movieInformation = Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          movie.name,
+          element.name,
           style: textTheme.headline6,
         ),
-        movie.mediaType == MediaType.movie || movie.mediaType == MediaType.tv
-            ? {SizedBox(height: 8.0), RatingInformation(movie)}
+        SizedBox(height: 8.0),
+        element.mediaType != MediaType.person
+            ? RatingInformation(element)
             : Container(),
         SizedBox(height: 12.0),
-        Row(children: _buildCategoryChips(textTheme)),
+        SizedBox(
+            height: 50.0,
+            child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.all(8),
+                children: _buildCategoryChips(context))),
       ],
     );
 
     return Stack(
       children: [
-        movie.mediaType == MediaType.movie || movie.mediaType == MediaType.tv
-            ? Padding(
-                padding: const EdgeInsets.only(bottom: 140.0),
-                child: ArcBannerImage((movie as Movie).backdropPath),
-              )
-            : Container(),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 140.0),
+          child: ArcBannerImage(element.backdropPath),
+        ),
         Positioned(
           bottom: 0.0,
           left: 16.0,
-          right: 16.0,
+          right: 0.0,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Poster(
-                movie.image,
+                element.image,
                 height: 180.0,
               ),
-              SizedBox(width: 16.0),
+              SizedBox(width: 10.0),
               Expanded(child: movieInformation),
             ],
           ),

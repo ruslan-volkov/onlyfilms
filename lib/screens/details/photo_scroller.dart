@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:onlyfilms/models/image_api.dart';
 
 class PhotoScroller extends StatelessWidget {
   PhotoScroller(this.photoUrls);
-  final List<String> photoUrls;
+  final List<ImageApi> photoUrls;
 
   Widget _buildPhoto(BuildContext context, int index) {
     var photo = photoUrls[index];
 
+    // TODO : aspect ratio and sizing -> depending on poster or other ...
+    // TODO : image viewer on click
     return Padding(
       padding: const EdgeInsets.only(right: 16.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4.0),
-        child: Image.asset(
-          photo,
+        child: Image.network(
+          photo.filePath,
           width: 160.0,
           height: 120.0,
           fit: BoxFit.cover,

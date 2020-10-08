@@ -5,13 +5,15 @@ import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/screens/details/details_page.dart';
 import 'package:onlyfilms/services/fetch.dart';
 import 'package:onlyfilms/utilities/localization.dart';
+import 'package:onlyfilms/widgets/progress_indicator.dart';
 
 class SearchPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => SearchPageState();
 }
 
-class SearchPageState extends State<SearchPage> {
+class SearchPageState extends State<SearchPage>
+    with AutomaticKeepAliveClientMixin {
   final types = [MediaType.movie, MediaType.tv, MediaType.person];
   MediaType selected = MediaType.multi;
   List<Model> items;
@@ -51,6 +53,7 @@ class SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var size = MediaQuery.of(context).size;
     final posterRatio = 0.6;
 
@@ -58,8 +61,8 @@ class SearchPageState extends State<SearchPage> {
         child: Container(
             color: Theme.of(context).backgroundColor,
             child: Container(
-                padding: EdgeInsets.only(
-                    left: size.width * 0.05, right: size.width * 0.05),
+                // padding: EdgeInsets.only(
+                //     left: size.width * 0.05, right: size.width * 0.05),
                 margin: EdgeInsets.only(
                   top: 5.0,
                 ),
@@ -74,42 +77,53 @@ class SearchPageState extends State<SearchPage> {
                               children: [
                                 Expanded(
                                   flex: 8,
-                                  child: TextField(
-                                    controller: textFieldController,
-                                    onChanged: (value) => {
-                                      if (previousQuery != value)
-                                        {loadData(value, true)}
-                                      else
-                                        {loadData(value, false)},
-                                    },
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor:
-                                          Theme.of(context).primaryColorDark,
-                                      hintStyle: TextStyle(
-                                          color: Colors.white70, fontSize: 16),
-                                      hintText: AppLocalizations.of(context)
-                                          .translate("Search"),
-                                      prefixIcon: const Icon(
-                                        Icons.search_sharp,
-                                        color: Colors.white,
-                                      ),
-                                      suffixIcon: IconButton(
-                                        onPressed: () => {
-                                          textFieldController.clear(),
-                                          _clearAndScrollToTop(),
+                                  child: Container(
+                                      padding: EdgeInsets.only(
+                                          left: size.width * 0.05,
+                                          right: size.width * 0.05),
+                                      child: TextField(
+                                        controller: textFieldController,
+                                        onChanged: (value) => {
+                                          if (previousQuery != value)
+                                            {loadData(value, true)}
+                                          else
+                                            {loadData(value, false)},
                                         },
-                                        icon: Icon(Icons.clear),
-                                      ),
-                                    ),
-                                  ),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 16),
+                                        decoration: InputDecoration(
+                                          border: new OutlineInputBorder(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              const Radius.circular(15.0),
+                                            ),
+                                          ),
+                                          filled: true,
+                                          fillColor: Theme.of(context)
+                                              .primaryColorDark,
+                                          hintStyle: TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 16),
+                                          hintText: AppLocalizations.of(context)
+                                              .translate("Search"),
+                                          prefixIcon: const Icon(
+                                            Icons.search_sharp,
+                                            color: Colors.white,
+                                          ),
+                                          suffixIcon: IconButton(
+                                            onPressed: () => {
+                                              textFieldController.clear(),
+                                              _clearAndScrollToTop(),
+                                            },
+                                            icon: Icon(Icons.clear),
+                                          ),
+                                        ),
+                                      )),
                                 ),
                               ])),
                       Expanded(flex: 1, child: filters()),
                       Expanded(
-                          flex: 8,
+                          flex: 11,
                           child: Container(
                             margin: EdgeInsets.zero,
                             padding: EdgeInsets.zero,
@@ -123,7 +137,7 @@ class SearchPageState extends State<SearchPage> {
                                       gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(
                                         childAspectRatio: posterRatio,
-                                        crossAxisCount: 2,
+                                        crossAxisCount: 3,
                                       ),
                                       padding: EdgeInsets.zero,
                                       itemCount: snapshot.data.length,
@@ -138,8 +152,14 @@ class SearchPageState extends State<SearchPage> {
                                               flex: 10,
                                               child: GestureDetector(
                                                   onTap: () => {
-                                                        DetailsPage(snapshot
-                                                            .data[index])
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  DetailsPage(snapshot
+                                                                          .data[
+                                                                      index])),
+                                                        )
                                                       },
                                                   child: Card(
                                                     elevation: 18.0,
@@ -165,21 +185,12 @@ class SearchPageState extends State<SearchPage> {
                                                                   null)
                                                                 return child;
                                                               return Center(
-                                                                child:
-                                                                    CircularProgressIndicator(
-                                                                  backgroundColor:
-                                                                      Theme.of(
-                                                                              context)
-                                                                          .splashColor,
-                                                                  value: loadingProgress
-                                                                              .expectedTotalBytes !=
-                                                                          null
-                                                                      ? loadingProgress
-                                                                              .cumulativeBytesLoaded /
-                                                                          loadingProgress
-                                                                              .expectedTotalBytes
-                                                                      : null,
-                                                                ),
+                                                                child: CustomProgressIndicator(
+                                                                    value: loadingProgress.expectedTotalBytes !=
+                                                                            null
+                                                                        ? loadingProgress.cumulativeBytesLoaded /
+                                                                            loadingProgress.expectedTotalBytes
+                                                                        : null),
                                                               );
                                                             },
                                                           )
@@ -273,4 +284,8 @@ class SearchPageState extends State<SearchPage> {
     page = 1;
     previousQuery = "";
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
