@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:onlyfilms/utilities/theme.dart';
 
 import 'onlyfilms_page.dart';
 
@@ -26,12 +27,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //     statusBarColor: Color(0xFF2A6A71),
-    //     statusBarBrightness: Brightness.light));
-    FlutterStatusbarcolor.setStatusBarColor(Color(0xFF2D3047));
-    if (useWhiteForeground(Color(0xFF2D3047))) {
+    FlutterStatusbarcolor.setStatusBarColor(darkAppBarColor);
+    if (useWhiteForeground(darkAppBarColor)) {
       FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     } else {
       FlutterStatusbarcolor.setStatusBarWhiteForeground(false);

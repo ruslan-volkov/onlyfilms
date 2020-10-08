@@ -8,7 +8,7 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color(0xFF383B57),
+        color: Theme.of(context).backgroundColor,
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -30,7 +30,7 @@ class AccountPage extends StatelessWidget {
       onPressed: () async {
         await _auth.signOut();
       },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       highlightElevation: 0,
       borderSide: BorderSide(color: Colors.grey),
       child: Padding(
@@ -46,7 +46,7 @@ class AccountPage extends StatelessWidget {
                 "Sign out",
                 style: TextStyle(
                   fontSize: 20,
-                  color: Color(0xFFFFFEAD),
+                  color: Theme.of(context).textSelectionColor,
                 ),
               ),
             )

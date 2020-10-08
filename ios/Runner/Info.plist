@@ -71,5 +71,8 @@
 	<string>fbshareextension</string>
 	</array>
 	<!-- End of the Facebook Sign-in Section -->
+	<key>UIStatusBarHidden</key>
+	<true/>
+
 </dict>
 </plist>

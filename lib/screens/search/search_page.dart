@@ -54,7 +54,7 @@ class SearchPageState extends State<SearchPage> {
 
     return SafeArea(
         child: Container(
-            color: Color(0xFF383B57),
+            color: Theme.of(context).backgroundColor,
             child: Container(
                 padding: EdgeInsets.only(
                     left: size.width * 0.05, right: size.width * 0.05),
@@ -84,7 +84,8 @@ class SearchPageState extends State<SearchPage> {
                                         color: Colors.white, fontSize: 16),
                                     decoration: InputDecoration(
                                       filled: true,
-                                      fillColor: Color(0xFF585C89),
+                                      fillColor:
+                                          Theme.of(context).primaryColorDark,
                                       hintStyle: TextStyle(
                                           color: Colors.white70, fontSize: 16),
                                       hintText: "Search",
@@ -155,6 +156,10 @@ class SearchPageState extends State<SearchPage> {
                                                           return Center(
                                                             child:
                                                                 CircularProgressIndicator(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .splashColor,
                                                               value: loadingProgress
                                                                           .expectedTotalBytes !=
                                                                       null
@@ -226,8 +231,8 @@ class SearchPageState extends State<SearchPage> {
                 },
                 label: Text(types[index].name),
                 labelStyle: TextStyle(color: Colors.white),
-                backgroundColor: Color(0xFF2A6A71),
-                selectedColor: Color(0xFF1B998B),
+                backgroundColor: Theme.of(context).primaryColor,
+                selectedColor: Theme.of(context).primaryColorLight,
                 elevation: 10,
                 pressElevation: 5,
               );
