@@ -13,7 +13,7 @@ Future<List<Model>> fetchAll(
   List<Model> result = new List<Model>();
   if (query.isNotEmpty) {
     final response = await http.get(
-        'search/${type.url}?$apiKey&$langUS&page=${page.toString()}&query=$query');
+        '${url}search/${type.url}?$apiKey&$langUS&page=${page.toString()}&query=$query');
     if (response.statusCode == 200) {
       for (final e in json.decode(response.body)["results"]) {
         result.add(Model.fromJson(e, type));

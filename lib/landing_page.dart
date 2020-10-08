@@ -17,9 +17,10 @@ class LandingPage extends StatelessWidget {
           return NavigatorPage();
         } else {
           return Scaffold(
+            backgroundColor: Theme.of(context).splashColor,
             body: Center(
               child: CircularProgressIndicator(
-                backgroundColor: Theme.of(context).splashColor,
+                backgroundColor: Colors.white,
               ),
             ),
           );

@@ -34,8 +34,10 @@ class Person extends Model {
 
   static List<Person> getPeopleFromJsonArray(dynamic json) {
     List<Person> ppl = new List<Person>();
-    for (var person in json) {
-      ppl.add(Person.fromJson(person));
+    if (json != null) {
+      for (var person in json) {
+        ppl.add(Person.fromJson(person));
+      }
     }
     return ppl;
   }

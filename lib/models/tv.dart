@@ -7,7 +7,7 @@ class Tv extends Model {
   final List<Person> createdBy;
   final String overview;
   final String status;
-  final int voteAverage;
+  final num voteAverage;
   final int voteCount;
   final List<Genre> genres;
   final String backdropPath;

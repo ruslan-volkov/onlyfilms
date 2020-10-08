@@ -10,8 +10,10 @@ class Genre {
 
   static List<Genre> getGenresFromJsonArray(dynamic json) {
     List<Genre> genres = new List<Genre>();
-    for (var genre in json) {
-      genres.add(Genre.fromJson(genre));
+    if (json != null) {
+      for (var genre in json) {
+        genres.add(Genre.fromJson(genre));
+      }
     }
     return genres;
   }

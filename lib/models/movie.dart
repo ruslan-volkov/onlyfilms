@@ -4,9 +4,9 @@ import 'package:onlyfilms/models/model.dart';
 class Movie extends Model {
   final String releaseDate;
   final String overview;
-  final int revenue;
+  final double revenue;
   final String status;
-  final int voteAverage;
+  final num voteAverage;
   final int voteCount;
   final List<Genre> genres;
   final String backdropPath;
