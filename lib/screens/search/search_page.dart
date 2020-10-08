@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:onlyfilms/models/model.dart';
+import 'package:onlyfilms/screens/details/details_page.dart';
 import 'package:onlyfilms/services/fetch.dart';
 import 'package:onlyfilms/utilities/localization.dart';
 
@@ -135,56 +136,65 @@ class SearchPageState extends State<SearchPage> {
                                           children: [
                                             Expanded(
                                               flex: 10,
-                                              child: Card(
-                                                elevation: 18.0,
-                                                child: snapshot.data[index]
-                                                                .image !=
-                                                            null &&
-                                                        snapshot.data[index]
-                                                            .image.isNotEmpty
-                                                    ? Image.network(
-                                                        snapshot
-                                                            .data[index].image,
-                                                        fit: BoxFit.fill,
-                                                        loadingBuilder:
-                                                            (BuildContext
-                                                                    context,
-                                                                Widget child,
-                                                                ImageChunkEvent
-                                                                    loadingProgress) {
-                                                          if (loadingProgress ==
-                                                              null)
-                                                            return child;
-                                                          return Center(
-                                                            child:
-                                                                CircularProgressIndicator(
-                                                              backgroundColor:
-                                                                  Theme.of(
-                                                                          context)
-                                                                      .splashColor,
-                                                              value: loadingProgress
-                                                                          .expectedTotalBytes !=
-                                                                      null
-                                                                  ? loadingProgress
-                                                                          .cumulativeBytesLoaded /
-                                                                      loadingProgress
-                                                                          .expectedTotalBytes
-                                                                  : null,
-                                                            ),
-                                                          );
-                                                        },
-                                                      )
-                                                    : Image.asset(
-                                                        "assets/image_not_found.png",
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                clipBehavior: Clip.antiAlias,
-                                              ),
+                                              child: GestureDetector(
+                                                  onTap: () => {
+                                                        DetailsPage(snapshot
+                                                            .data[index])
+                                                      },
+                                                  child: Card(
+                                                    elevation: 18.0,
+                                                    child: snapshot.data[index]
+                                                                    .image !=
+                                                                null &&
+                                                            snapshot
+                                                                .data[index]
+                                                                .image
+                                                                .isNotEmpty
+                                                        ? Image.network(
+                                                            snapshot.data[index]
+                                                                .image,
+                                                            fit: BoxFit.fill,
+                                                            loadingBuilder:
+                                                                (BuildContext
+                                                                        context,
+                                                                    Widget
+                                                                        child,
+                                                                    ImageChunkEvent
+                                                                        loadingProgress) {
+                                                              if (loadingProgress ==
+                                                                  null)
+                                                                return child;
+                                                              return Center(
+                                                                child:
+                                                                    CircularProgressIndicator(
+                                                                  backgroundColor:
+                                                                      Theme.of(
+                                                                              context)
+                                                                          .splashColor,
+                                                                  value: loadingProgress
+                                                                              .expectedTotalBytes !=
+                                                                          null
+                                                                      ? loadingProgress
+                                                                              .cumulativeBytesLoaded /
+                                                                          loadingProgress
+                                                                              .expectedTotalBytes
+                                                                      : null,
+                                                                ),
+                                                              );
+                                                            },
+                                                          )
+                                                        : Image.asset(
+                                                            "assets/image_not_found.png",
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                  )),
                                             ),
                                             Expanded(
                                                 flex: 1,
                                                 child: Text(
-                                                  snapshot.data[index].title,
+                                                  snapshot.data[index].name,
                                                   textAlign: TextAlign.center,
                                                   overflow:
                                                       TextOverflow.ellipsis,

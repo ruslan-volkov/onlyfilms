@@ -11,14 +11,15 @@ final personType = "person";
 
 class Model {
   final int id;
-  final String mediaType;
+  final MediaType mediaType;
   final String image;
-  final String title;
+  final String name;
 
-  Model({this.id, this.mediaType, this.image, this.title});
+  Model({this.id, this.mediaType, this.image, this.name});
 
   factory Model.fromJsonBase(Map<String, dynamic> json) {
-    return Model(id: json["id"], mediaType: json["media_type"]);
+    return Model(
+        id: json["id"], mediaType: getMediaTypeFromText(json["media_type"]));
   }
 
   factory Model.fromJson(Map<String, dynamic> json, MediaType mediaType) {

@@ -1,9 +1,9 @@
 import 'package:onlyfilms/models/genre.dart';
 import 'package:onlyfilms/models/model.dart';
+import 'package:onlyfilms/models/model_details.dart';
 
-class Movie extends Model {
+class Movie extends ModelDetails {
   final String releaseDate;
-  final String overview;
   final double revenue;
   final String status;
   final num voteAverage;
@@ -15,10 +15,10 @@ class Movie extends Model {
   Movie(
       {id,
       mediaType,
-      title,
+      name,
       this.releaseDate,
       image,
-      this.overview,
+      overview,
       this.revenue,
       this.status,
       this.voteAverage,
@@ -26,16 +26,21 @@ class Movie extends Model {
       this.genres,
       this.backdropPath,
       this.runtime})
-      : super(id: id, image: image, mediaType: mediaType, title: title);
+      : super(
+            id: id,
+            image: image,
+            mediaType: mediaType,
+            name: name,
+            overview: overview);
 
   factory Movie.fromJson(Map<String, dynamic> json) {
-    final model = Model.fromJsonBase(json);
+    final model = ModelDetails.fromJsonBase(json);
     return Movie(
         id: model.id,
         mediaType: model.mediaType,
-        title: json["title"],
+        name: json["title"],
         releaseDate: json["release_date"],
-        overview: json["overview"],
+        overview: model.overview,
         revenue: json["revenue"],
         status: json["status"],
         voteAverage: json["vote_average"],

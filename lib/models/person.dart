@@ -1,31 +1,36 @@
 import 'package:onlyfilms/models/model.dart';
+import 'package:onlyfilms/models/model_details.dart';
 
-class Person extends Model {
+class Person extends ModelDetails {
   final String releaseDate;
-  final String biography;
   final String birthday;
   final String deathday;
   final String knownForDepartment;
 
   Person(
       {id,
-      title,
+      name,
       mediaType,
       this.releaseDate,
       image,
-      this.biography,
+      overview,
       this.birthday,
       this.deathday,
       this.knownForDepartment})
-      : super(id: id, title: title, image: image, mediaType: mediaType);
+      : super(
+            id: id,
+            name: name,
+            image: image,
+            mediaType: mediaType,
+            overview: overview);
 
   factory Person.fromJson(Map<String, dynamic> json) {
-    final model = Model.fromJsonBase(json);
+    final model = ModelDetails.fromJsonBase(json);
     return Person(
         id: model.id,
         mediaType: model.mediaType,
-        title: json["name"],
-        biography: json["biography"],
+        name: json["name"],
+        overview: model.overview,
         birthday: json["birthday"],
         deathday: json["deathday"],
         knownForDepartment: json["known_for_department"],

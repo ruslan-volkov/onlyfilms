@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:onlyfilms/models/model.dart';
+import 'package:onlyfilms/models/model_details.dart';
 
 // TODO : get api key from flutter db
 final String apiKey = "api_key=596add70d5379735ac76cac1ac83c4b0";
@@ -27,11 +28,11 @@ Future<List<Model>> fetchAll(
   }
 }
 
-Future<Model> getDetails({MediaType type, int id}) async {
+Future<ModelDetails> getDetails({MediaType type, int id}) async {
   if (!id.isNaN) {
     final response = await http.get('$url${type.url}/${id.toString()}');
     if (response.statusCode == 200) {
-      return Model.fromJson(json.decode(response.body), type);
+      return ModelDetails.fromJson(json.decode(response.body), type);
     } else {
       throw Exception("Failed to load");
     }
