@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:onlyfilms/models/model.dart';
-import 'package:onlyfilms/models/movie.dart';
-import 'package:onlyfilms/models/person.dart';
-import 'package:onlyfilms/models/tv.dart';
-import 'package:onlyfilms/utilities/localization.dart';
 
 class ImageApi extends Model {
   final num aspectRatio;

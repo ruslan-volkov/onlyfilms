@@ -286,6 +286,5 @@ class SearchPageState extends State<SearchPage>
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
