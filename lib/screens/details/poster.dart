@@ -19,14 +19,9 @@ class Poster extends StatelessWidget {
     return Material(
         borderRadius: BorderRadius.circular(4.0),
         elevation: 2.0,
-        child: GestureDetector(
-          onTap: () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ImageViewer(posterUrl)),
-            )
-          },
-          child: Image.network(
+        child: ImageViewer(
+          posterUrl,
+          Image.network(
             posterUrl,
             fit: BoxFit.cover,
             width: width,

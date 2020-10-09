@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/utilities/localization.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -16,7 +17,7 @@ class AccountPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               // FlutterLogo(size: 150),
-              SizedBox(height: 50),
+              SizedBox(height: ScreenUtil().setHeight(50)),
               _signOutButton(context),
             ],
           ),

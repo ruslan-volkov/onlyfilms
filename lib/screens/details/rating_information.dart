@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/model_details.dart';
 
 class RatingInformation extends StatelessWidget {
@@ -55,7 +56,7 @@ class RatingInformation extends StatelessWidget {
             color: theme.accentColor,
           ),
         ),
-        SizedBox(height: 4.0),
+        SizedBox(height: ScreenUtil().setHeight(4)),
         Text(
           'Ratings',
           style: ratingCaptionStyle,
@@ -82,7 +83,7 @@ class RatingInformation extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         numericRating,
-        SizedBox(width: 16.0),
+        SizedBox(width: ScreenUtil().setWidth(16)),
         starRating,
       ],
     );

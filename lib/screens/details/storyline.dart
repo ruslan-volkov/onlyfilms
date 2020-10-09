@@ -13,11 +13,6 @@ class Storyline extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Text(
-        //   'Story line',
-        //   style: textTheme.subtitle1.copyWith(fontSize: 18.0),
-        // ),
-        // SizedBox(height: 8.0),
         ExpandablePanel(
           header: Text("Story line",
               style: textTheme.subtitle1.copyWith(fontSize: 16.0)),

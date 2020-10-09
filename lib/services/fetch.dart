@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:onlyfilms/models/cast.dart';
 import 'package:onlyfilms/models/image_api.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
@@ -57,6 +58,22 @@ Future<List<ImageApi>> getImages({MediaType type, int id}) async {
   } else {
     throw Exception("Id should be a number");
   }
+}
 
-  // TODO : cast
+Future<List<Cast>> getCast({MediaType type, int id}) async {
+  if (!id.isNaN) {
+    final response =
+        await http.get('$url${type.url}/${id.toString()}/credits?$apiKey');
+    if (response.statusCode == 200) {
+      List<Cast> result = new List<Cast>();
+      for (final e in json.decode(response.body)["cast"]) {
+        result.add(Cast.fromJson(e, type));
+      }
+      return result;
+    } else {
+      throw Exception("Failed to load");
+    }
+  } else {
+    throw Exception("Id should be a number");
+  }
 }

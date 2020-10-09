@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:onlyfilms/models/person.dart';
+import 'package:onlyfilms/models/cast.dart';
+import 'package:onlyfilms/screens/details/image_viewer.dart';
+import 'package:onlyfilms/utilities/localization.dart';
 
 class ActorScroller extends StatelessWidget {
-  ActorScroller(this.actors);
-  final List<Person> actors;
+  ActorScroller(this.cast);
+  final List<Cast> cast;
 
   Widget _buildActor(BuildContext ctx, int index) {
-    var actor = actors[index];
+    var actor = cast[index];
 
     return Padding(
       padding: const EdgeInsets.only(right: 16.0),
       child: Column(
         children: [
-          CircleAvatar(
-            backgroundImage: AssetImage(actor.image),
-            radius: 40.0,
-          ),
+          ImageViewer(
+              actor.image,
+              CircleAvatar(
+                backgroundImage: NetworkImage(actor.image),
+                radius: 40.0,
+              )),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(actor.name),
@@ -35,14 +39,14 @@ class ActorScroller extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
-            'Actors',
+            AppLocalizations.of(context).translate("Cast"),
             style: textTheme.subtitle1.copyWith(fontSize: 18.0),
           ),
         ),
         SizedBox.fromSize(
           size: const Size.fromHeight(120.0),
           child: ListView.builder(
-            itemCount: actors.length,
+            itemCount: cast.length,
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.only(top: 12.0, left: 20.0),
             itemBuilder: _buildActor,

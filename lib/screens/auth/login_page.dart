@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/screens/auth/sign_in_anonymous.dart';
 import 'package:onlyfilms/screens/auth/sign_in_button.dart';
 import 'package:onlyfilms/screens/auth/sign_in_facebook.dart';
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       // FlutterLogo(size: 150),
-                      SizedBox(height: 50),
+                      SizedBox(height: ScreenUtil().setHeight(50)),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -41,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                             text: AppLocalizations.of(context)
                                 .translate("SignInAnonymously"),
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: ScreenUtil().setHeight(20)),
                           SignInButton(
                               context: context,
                               onPressed: GoogleSignin().signInWithGoogle,
@@ -50,8 +51,8 @@ class _LoginPageState extends State<LoginPage> {
                               logo: Image(
                                   image: AssetImage(
                                       "assets/google_logo_small.png"),
-                                  height: 35.0)),
-                          SizedBox(height: 20),
+                                  height: ScreenUtil().setHeight(35))),
+                          SizedBox(height: ScreenUtil().setHeight(20)),
                           SignInButton(
                               context: context,
                               onPressed: FacebookSignin().signInWithFacebook,
@@ -60,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                               logo: Image(
                                   image: AssetImage(
                                       "assets/facebook_logo_small.png"),
-                                  height: 35.0)),
+                                  height: ScreenUtil().setHeight(35))),
                         ],
                       ),
                     ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
 import 'package:onlyfilms/screens/details/arc_banner_image.dart';
@@ -34,13 +35,13 @@ class DetailsHeader extends StatelessWidget {
           element.name,
           style: textTheme.headline6,
         ),
-        SizedBox(height: 8.0),
+        SizedBox(height: ScreenUtil().setHeight(16)),
         element.mediaType != MediaType.person
             ? RatingInformation(element)
             : Container(),
-        SizedBox(height: 12.0),
+        SizedBox(height: ScreenUtil().setHeight(24)),
         SizedBox(
-            height: 50.0,
+            height: ScreenUtil().setHeight(100),
             child: ListView(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
@@ -53,7 +54,7 @@ class DetailsHeader extends StatelessWidget {
       return Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 140.0),
+            padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(300)),
             child: ArcBannerImage(element.backdropPath),
           ),
           Positioned(
@@ -66,9 +67,9 @@ class DetailsHeader extends StatelessWidget {
               children: [
                 Poster(
                   element.image,
-                  height: 180.0,
+                  height: ScreenUtil().setHeight(425),
                 ),
-                SizedBox(width: 10.0),
+                SizedBox(width: ScreenUtil().setWidth(40)),
                 Expanded(child: movieInformation),
               ],
             ),
@@ -84,9 +85,9 @@ class DetailsHeader extends StatelessWidget {
           children: [
             Poster(
               element.image,
-              height: 180.0,
+              height: ScreenUtil().setHeight(400),
             ),
-            SizedBox(width: 10.0),
+            SizedBox(width: ScreenUtil().setWidth(10)),
             Expanded(child: movieInformation),
           ],
         ),

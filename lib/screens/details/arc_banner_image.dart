@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/screens/details/image_viewer.dart';
 
 class ArcBannerImage extends StatelessWidget {
@@ -11,17 +12,12 @@ class ArcBannerImage extends StatelessWidget {
 
     return ClipPath(
         clipper: ArcClipper(),
-        child: GestureDetector(
-          onTap: () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ImageViewer(imageUrl)),
-            )
-          },
-          child: Image.network(
+        child: ImageViewer(
+          imageUrl,
+          Image.network(
             imageUrl,
             width: screenWidth,
-            height: 230.0,
+            height: ScreenUtil().setHeight(500),
             fit: BoxFit.cover,
           ),
         ));

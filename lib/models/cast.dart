@@ -1,8 +1,4 @@
-import 'package:onlyfilms/models/genre.dart';
 import 'package:onlyfilms/models/model.dart';
-import 'package:onlyfilms/models/movie.dart';
-import 'package:onlyfilms/models/person.dart';
-import 'package:onlyfilms/models/tv.dart';
 
 class Cast extends Model {
   Cast({id, mediaType, image, name})
@@ -18,17 +14,13 @@ class Cast extends Model {
     }
     return Cast(
         id: model.id,
-        mediaType: model.mediaType,
-        image: image.isNotEmpty ? Model.getImageUrl(image) : "",
-        name: model.name);
+        mediaType: mediaType,
+        image:
+            image != null && image.isNotEmpty ? Model.getImageUrl(image) : "",
+        name: json["name"] != null && json["name"] != ""
+            ? json["name"]
+            : json["title"] != null && json["title"] != ""
+                ? json["title"]
+                : "");
   }
-
-  // static List<Cast> getFromJsonByType(
-  //     MediaType type, Map<String, dynamic> json) {
-  //   List<Cast> result = new List<Cast>();
-  //   for (final e in json) {
-  //     result.add(Cast.fromJson(e, type));
-  //   }
-  //   return result;
-  // }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
+import 'package:onlyfilms/models/cast.dart';
 import 'package:onlyfilms/models/image_api.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
@@ -21,51 +23,70 @@ class DetailsPageState extends State<DetailsPage> {
 // class DetailsPage extends StatelessWidget {
   Future<ModelDetails> details;
   Future<List<ImageApi>> photos;
+  Future<List<Cast>> cast;
 
   void initState() {
     super.initState();
     details = getDetails(type: widget.element.mediaType, id: widget.element.id);
     photos = getImages(type: widget.element.mediaType, id: widget.element.id);
+    cast = getCast(type: widget.element.mediaType, id: widget.element.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SizedBox.expand(
-            child: Container(
-                color: Theme.of(context).backgroundColor,
-                child: FutureBuilder<ModelDetails>(
-                  future: details,
-                  builder: (context, snapshot) {
-                    return snapshot.hasData
-                        ? SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                DetailsHeader(snapshot.data),
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Storyline(snapshot.data.overview),
+        body: SafeArea(
+            bottom: false,
+            child: SizedBox.expand(
+                child: Container(
+                    // margin: EdgeInsets.only(
+                    //   top: 50.0,
+                    // ),
+                    color: Theme.of(context).backgroundColor,
+                    child: FutureBuilder<ModelDetails>(
+                      future: details,
+                      builder: (context, snapshot) {
+                        return snapshot.hasData
+                            ? SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    DetailsHeader(snapshot.data),
+                                    Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Storyline(snapshot.data.overview),
+                                    ),
+                                    FutureBuilder<List<ImageApi>>(
+                                        future: photos,
+                                        builder: (context, snapshot) {
+                                          return snapshot.hasData
+                                              ? ImageScroller(snapshot.data)
+                                              : Container();
+                                          // Center(
+                                          //     child: CustomProgressIndicator(),
+                                          //   );
+                                        }),
+                                    SizedBox(
+                                        height: ScreenUtil().setHeight(20)),
+                                    FutureBuilder<List<Cast>>(
+                                        future: cast,
+                                        builder: (context, snapshot) {
+                                          return snapshot.hasData
+                                              ? ActorScroller(snapshot.data)
+                                              : Container();
+                                          // Center(
+                                          //     child: CustomProgressIndicator(),
+                                          //   );
+                                        }),
+                                    // ActorScroller(snapshot.data.cast),
+                                    SizedBox(
+                                        height: ScreenUtil().setHeight(50)),
+                                  ],
                                 ),
-                                FutureBuilder<List<ImageApi>>(
-                                    future: photos,
-                                    builder: (context, snapshot) {
-                                      return snapshot.hasData
-                                          ? ImageScroller(snapshot.data)
-                                          : Container();
-                                      // Center(
-                                      //     child: CustomProgressIndicator(),
-                                      //   );
-                                    }),
-                                SizedBox(height: 20.0),
-                                ActorScroller(snapshot.data.cast),
-                                SizedBox(height: 50.0),
-                              ],
-                            ),
-                          )
-                        : Center(
-                            child: CustomProgressIndicator(),
-                          );
-                  },
-                ))));
+                              )
+                            : Center(
+                                child: CustomProgressIndicator(),
+                              );
+                      },
+                    )))));
   }
 }

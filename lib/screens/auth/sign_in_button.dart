@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 
 class SignInButton extends StatelessWidget {
   SignInButton(
@@ -28,7 +29,9 @@ class SignInButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              logo != null ? logo : SizedBox(height: 35),
+              logo != null
+                  ? logo
+                  : SizedBox(height: ScreenUtil().setHeight(35)),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/image_api.dart';
 import 'package:onlyfilms/screens/details/image_viewer.dart';
 
@@ -11,20 +12,14 @@ class ImageScroller extends StatelessWidget {
 
     return Padding(
         padding: const EdgeInsets.only(right: 16.0),
-        child: GestureDetector(
-          onTap: () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ImageViewer(photo.filePath)),
-            )
-          },
-          child: ClipRRect(
+        child: ImageViewer(
+          photo.filePath,
+          ClipRRect(
             borderRadius: BorderRadius.circular(4.0),
             child: Image.network(
               photo.filePath,
-              width: 150.0 * photo.aspectRatio,
-              height: 150.0,
+              width: ScreenUtil().setHeight(300) * photo.aspectRatio,
+              height: ScreenUtil().setHeight(150),
               fit: BoxFit.cover,
             ),
           ),

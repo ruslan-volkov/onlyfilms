@@ -15,6 +15,7 @@ class SearchPage extends StatefulWidget {
 class SearchPageState extends State<SearchPage>
     with AutomaticKeepAliveClientMixin {
   final types = [MediaType.movie, MediaType.tv, MediaType.person];
+  Timer searchOnStoppedTyping;
   MediaType selected = MediaType.multi;
   List<Model> items;
   var scrollController = ScrollController();
@@ -31,6 +32,25 @@ class SearchPageState extends State<SearchPage>
     previousQuery = query;
     items.addAll(data);
     _modelStream.add(items);
+  }
+
+  _onChangeHandler(value) {
+    const duration = Duration(
+        milliseconds:
+            800); // set the duration that you want call search() after that.
+    if (searchOnStoppedTyping != null) {
+      setState(() => searchOnStoppedTyping.cancel()); // clear timer
+    }
+    setState(
+        () => searchOnStoppedTyping = new Timer(duration, () => search(value)));
+  }
+
+  search(value) {
+    if (previousQuery != value) {
+      loadData(value, true);
+    } else {
+      loadData(value, false);
+    }
   }
 
   @override
@@ -83,12 +103,7 @@ class SearchPageState extends State<SearchPage>
                                           right: size.width * 0.05),
                                       child: TextField(
                                         controller: textFieldController,
-                                        onChanged: (value) => {
-                                          if (previousQuery != value)
-                                            {loadData(value, true)}
-                                          else
-                                            {loadData(value, false)},
-                                        },
+                                        onChanged: _onChangeHandler,
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 14),
                                         decoration: InputDecoration(
