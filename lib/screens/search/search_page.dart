@@ -6,6 +6,7 @@ import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/screens/details/details_page.dart';
 import 'package:onlyfilms/services/fetch.dart';
 import 'package:onlyfilms/utilities/localization.dart';
+import 'package:onlyfilms/widgets/custom_inkwell.dart';
 import 'package:onlyfilms/widgets/progress_indicator.dart';
 
 class SearchPage extends StatefulWidget {
@@ -169,57 +170,54 @@ class SearchPageState extends State<SearchPage>
                                           children: [
                                             Expanded(
                                               flex: 10,
-                                              child: GestureDetector(
-                                                  onTap: () => {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  DetailsPage(snapshot
-                                                                          .data[
-                                                                      index])),
-                                                        )
-                                                      },
-                                                  child: Card(
-                                                    elevation: 18.0,
-                                                    child: snapshot.data[index]
-                                                                    .image !=
-                                                                null &&
-                                                            snapshot
-                                                                .data[index]
-                                                                .image
-                                                                .isNotEmpty
-                                                        ? Image.network(
-                                                            snapshot.data[index]
-                                                                .image,
-                                                            fit: BoxFit.fill,
-                                                            loadingBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    Widget
-                                                                        child,
-                                                                    ImageChunkEvent
-                                                                        loadingProgress) {
-                                                              if (loadingProgress ==
-                                                                  null)
-                                                                return child;
-                                                              return Center(
-                                                                child: CustomProgressIndicator(
-                                                                    value: loadingProgress.expectedTotalBytes !=
-                                                                            null
-                                                                        ? loadingProgress.cumulativeBytesLoaded /
-                                                                            loadingProgress.expectedTotalBytes
-                                                                        : null),
-                                                              );
-                                                            },
-                                                          )
-                                                        : Image.asset(
-                                                            "assets/image_not_found.png",
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                  )),
+                                              child: Card(
+                                                elevation: 18.0,
+                                                child: snapshot.data[index]
+                                                                .image !=
+                                                            null &&
+                                                        snapshot.data[index]
+                                                            .image.isNotEmpty
+                                                    ? CustomInkwell(
+                                                        Image.network(
+                                                          snapshot.data[index]
+                                                              .image,
+                                                          fit: BoxFit.cover,
+                                                          loadingBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  Widget child,
+                                                                  ImageChunkEvent
+                                                                      loadingProgress) {
+                                                            if (loadingProgress ==
+                                                                null)
+                                                              return child;
+                                                            return Center(
+                                                              child: CustomProgressIndicator(
+                                                                  value: loadingProgress
+                                                                              .expectedTotalBytes !=
+                                                                          null
+                                                                      ? loadingProgress
+                                                                              .cumulativeBytesLoaded /
+                                                                          loadingProgress
+                                                                              .expectedTotalBytes
+                                                                      : null),
+                                                            );
+                                                          },
+                                                        ),
+                                                        () => Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      DetailsPage(
+                                                                          snapshot
+                                                                              .data[index])),
+                                                            ))
+                                                    : Image.asset(
+                                                        "assets/image_not_found.png",
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                clipBehavior: Clip.antiAlias,
+                                              ),
                                             ),
                                             Expanded(
                                                 flex: 1,

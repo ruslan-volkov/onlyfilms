@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/image_api.dart';
-import 'package:onlyfilms/screens/details/image_viewer.dart';
+import 'package:photo_view/photo_view.dart';
 
 class ImageScroller extends StatelessWidget {
   ImageScroller(this.photoUrls);
@@ -9,21 +9,42 @@ class ImageScroller extends StatelessWidget {
 
   Widget _buildPhoto(BuildContext context, int index) {
     var photo = photoUrls[index];
-
+    var width = ScreenUtil().setWidth(400) * photo.aspectRatio;
+    var height = ScreenUtil().setHeight(300);
     return Padding(
         padding: const EdgeInsets.only(right: 16.0),
-        child: ImageViewer(
-          photo.filePath,
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4.0),
-            child: Image.network(
-              photo.filePath,
-              width: ScreenUtil().setHeight(300) * photo.aspectRatio,
-              height: ScreenUtil().setHeight(150),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ));
+        child: Container(
+            width: width,
+            height: height,
+            child: Stack(
+              children: <Widget>[
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(4.0),
+                    child: Image.network(
+                      photo.filePath,
+                      width: width,
+                      height: height,
+                      fit: BoxFit.fitHeight,
+                    )),
+                Positioned.fill(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Container(
+                                      child: PhotoView(
+                                    imageProvider: NetworkImage(photo.filePath),
+                                  ))),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            )));
   }
 
   @override

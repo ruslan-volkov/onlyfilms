@@ -8,16 +8,16 @@ class ArcBannerImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.of(context).size.width;
-
+    var width = MediaQuery.of(context).size.width;
+    var height = ScreenUtil().setHeight(500);
     return ClipPath(
         clipper: ArcClipper(),
         child: ImageViewer(
           imageUrl,
           Image.network(
             imageUrl,
-            width: screenWidth,
-            height: ScreenUtil().setHeight(500),
+            width: width,
+            height: height,
             fit: BoxFit.cover,
           ),
         ));
