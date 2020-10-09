@@ -1,6 +1,6 @@
 import 'package:onlyfilms/models/model.dart';
 
-class ImageApi extends Model {
+class ImageApi {
   final num aspectRatio;
   final String filePath;
   final int height;

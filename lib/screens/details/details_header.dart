@@ -5,8 +5,8 @@ import 'package:onlyfilms/screens/details/arc_banner_image.dart';
 import 'package:onlyfilms/screens/details/poster.dart';
 import 'package:onlyfilms/screens/details/rating_information.dart';
 
-class MovieDetailHeader extends StatelessWidget {
-  MovieDetailHeader(this.element);
+class DetailsHeader extends StatelessWidget {
+  DetailsHeader(this.element);
   final ModelDetails element;
 
   List<Widget> _buildCategoryChips(BuildContext context) {

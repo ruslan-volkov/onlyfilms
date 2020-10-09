@@ -3,7 +3,7 @@ import 'package:onlyfilms/models/image_api.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
 import 'package:onlyfilms/screens/details/details_header.dart';
-import 'package:onlyfilms/screens/details/photo_scroller.dart';
+import 'package:onlyfilms/screens/details/image_scroller.dart';
 import 'package:onlyfilms/screens/details/storyline.dart';
 import 'package:onlyfilms/services/fetch.dart';
 import 'package:onlyfilms/widgets/progress_indicator.dart';
@@ -40,7 +40,7 @@ class DetailsPageState extends State<DetailsPage> {
                         ? SingleChildScrollView(
                             child: Column(
                               children: [
-                                MovieDetailHeader(snapshot.data),
+                                DetailsHeader(snapshot.data),
                                 Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Storyline(snapshot.data.overview),
@@ -50,7 +50,7 @@ class DetailsPageState extends State<DetailsPage> {
                                     future: photos,
                                     builder: (context, snapshot) {
                                       return snapshot.hasData
-                                          ? PhotoScroller(snapshot.data)
+                                          ? ImageScroller(snapshot.data)
                                           : Container();
                                       // Center(
                                       //     child: CustomProgressIndicator(),

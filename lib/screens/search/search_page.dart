@@ -254,8 +254,8 @@ class SearchPageState extends State<SearchPage>
                 },
                 label: Text(getMediaTypeName(types[index], context)),
                 labelStyle: TextStyle(color: Colors.white),
-                backgroundColor: Theme.of(context).primaryColor,
-                selectedColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.blueGrey,
+                selectedColor: Theme.of(context).splashColor,
                 elevation: 10,
                 pressElevation: 5,
               );
