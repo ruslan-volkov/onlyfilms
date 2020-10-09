@@ -33,10 +33,7 @@ class SignInButton extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
                   text,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Theme.of(context).textSelectionColor,
-                  ),
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
               )
             ],

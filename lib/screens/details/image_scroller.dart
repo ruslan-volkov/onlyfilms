@@ -9,7 +9,6 @@ class ImageScroller extends StatelessWidget {
   Widget _buildPhoto(BuildContext context, int index) {
     var photo = photoUrls[index];
 
-    // TODO : image viewer on click
     return Padding(
         padding: const EdgeInsets.only(right: 16.0),
         child: GestureDetector(

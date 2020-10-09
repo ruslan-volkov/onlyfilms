@@ -90,8 +90,9 @@ class SearchPageState extends State<SearchPage>
                                             {loadData(value, false)},
                                         },
                                         style: TextStyle(
-                                            color: Colors.white, fontSize: 16),
+                                            color: Colors.white, fontSize: 14),
                                         decoration: InputDecoration(
+                                          isDense: true,
                                           border: new OutlineInputBorder(
                                             borderRadius:
                                                 const BorderRadius.all(
@@ -99,11 +100,12 @@ class SearchPageState extends State<SearchPage>
                                             ),
                                           ),
                                           filled: true,
+                                          focusColor: Colors.black,
                                           fillColor: Theme.of(context)
                                               .primaryColorDark,
                                           hintStyle: TextStyle(
                                               color: Colors.white70,
-                                              fontSize: 16),
+                                              fontSize: 14),
                                           hintText: AppLocalizations.of(context)
                                               .translate("Search"),
                                           prefixIcon: const Icon(

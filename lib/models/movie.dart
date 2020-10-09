@@ -1,3 +1,4 @@
+import 'package:onlyfilms/models/cast.dart';
 import 'package:onlyfilms/models/genre.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
@@ -8,6 +9,7 @@ class Movie extends ModelDetails {
   final String status;
   final int voteCount;
   final int runtime;
+  final List<Cast> credits;
 
   Movie(
       {id,
@@ -22,7 +24,8 @@ class Movie extends ModelDetails {
       this.voteCount,
       genres,
       backdropPath,
-      this.runtime})
+      this.runtime,
+      this.credits})
       : super(
             id: id,
             image: image,

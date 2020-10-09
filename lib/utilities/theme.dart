@@ -12,11 +12,12 @@ var darkTheme = ThemeData(
     primaryColorDark: Color(0xFF585C89),
     primaryColor: Color(0xFF2A6A71),
     primaryColorLight: Color(0xFF1B998B),
-    textSelectionColor: Color(0xFFFFFEAD),
+    textSelectionColor: Color(0xFF383B57),
     splashColor: Color(0xFFF47263),
     highlightColor: Color(0xFFff9b70),
     textTheme: TextTheme(
         headline6: TextStyle(color: Colors.white),
         subtitle1: TextStyle(color: Colors.white),
         caption: TextStyle(color: Colors.white),
-        bodyText2: TextStyle(color: Colors.white70)));
+        bodyText2: TextStyle(color: Colors.white70),
+        bodyText1: TextStyle(color: Color(0xFFFFFEAD), fontSize: 20)));

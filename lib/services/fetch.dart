@@ -57,4 +57,6 @@ Future<List<ImageApi>> getImages({MediaType type, int id}) async {
   } else {
     throw Exception("Id should be a number");
   }
+
+  // TODO : cast
 }

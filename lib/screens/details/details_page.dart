@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onlyfilms/models/image_api.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
+import 'package:onlyfilms/screens/details/actor_scroller.dart';
 import 'package:onlyfilms/screens/details/details_header.dart';
 import 'package:onlyfilms/screens/details/image_scroller.dart';
 import 'package:onlyfilms/screens/details/storyline.dart';
@@ -45,7 +46,6 @@ class DetailsPageState extends State<DetailsPage> {
                                   padding: const EdgeInsets.all(10.0),
                                   child: Storyline(snapshot.data.overview),
                                 ),
-
                                 FutureBuilder<List<ImageApi>>(
                                     future: photos,
                                     builder: (context, snapshot) {
@@ -55,10 +55,10 @@ class DetailsPageState extends State<DetailsPage> {
                                       // Center(
                                       //     child: CustomProgressIndicator(),
                                       //   );
-                                    })
-                                // SizedBox(height: 20.0),
-                                // ActorScroller(movie.actors),
-                                // SizedBox(height: 50.0),
+                                    }),
+                                SizedBox(height: 20.0),
+                                ActorScroller(snapshot.data.cast),
+                                SizedBox(height: 50.0),
                               ],
                             ),
                           )

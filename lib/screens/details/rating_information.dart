@@ -13,7 +13,12 @@ class RatingInformation extends StatelessWidget {
       IconData ic = Icons.star;
       if (i == voteAverage.floor()) {
         if (dec >= 0.3 && dec <= 0.7) {
+          stars.add(Icon(
+            ic,
+            color: color,
+          ));
           ic = Icons.star_half;
+          i++;
         }
       }
       if (i == voteAverage.ceil()) {
