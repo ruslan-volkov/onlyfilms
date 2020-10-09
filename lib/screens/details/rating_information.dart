@@ -4,9 +4,8 @@ import 'package:onlyfilms/models/model_details.dart';
 class RatingInformation extends StatelessWidget {
   RatingInformation(this.element);
   final ModelDetails element;
-  double voteAverage;
 
-  Widget _buildRatingBar(ThemeData theme) {
+  Widget _buildRatingBar(ThemeData theme, double voteAverage) {
     var stars = <Widget>[];
     for (var i = 1; i <= 5; i++) {
       var dec = voteAverage - voteAverage.truncate();
@@ -38,7 +37,7 @@ class RatingInformation extends StatelessWidget {
     var theme = Theme.of(context);
     var textTheme = theme.textTheme;
     var ratingCaptionStyle = textTheme.caption;
-    voteAverage = double.parse((element.voteAverage / 2).toStringAsFixed(1));
+    var voteAverage = getVoteAverage(element.voteAverage);
 
     var numericRating = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +62,7 @@ class RatingInformation extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildRatingBar(theme),
+        _buildRatingBar(theme, voteAverage),
         Padding(
           padding: const EdgeInsets.only(top: 4.0, left: 4.0),
           child: Text(
@@ -82,5 +81,9 @@ class RatingInformation extends StatelessWidget {
         starRating,
       ],
     );
+  }
+
+  getVoteAverage(double voteAverage) {
+    return double.parse((voteAverage / 2).toStringAsFixed(1));
   }
 }
