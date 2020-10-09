@@ -1,5 +1,6 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 
 class Storyline extends StatelessWidget {
   Storyline(this.storyline);
@@ -15,7 +16,8 @@ class Storyline extends StatelessWidget {
       children: [
         ExpandablePanel(
           header: Text("Story line",
-              style: textTheme.subtitle1.copyWith(fontSize: 16.0)),
+              style: textTheme.subtitle1
+                  .copyWith(fontSize: ScreenUtil().setSp(45))),
           theme: ExpandableThemeData(iconColor: theme.accentColor),
           collapsed: Text(
             storyline,
@@ -29,31 +31,6 @@ class Storyline extends StatelessWidget {
             softWrap: true,
           ),
         ),
-        // Text(
-        //   storyline,
-        //   style: textTheme.bodyText2.copyWith(
-        //     color: Colors.white70,
-        //     fontSize: 16.0,
-        //   ),
-        // ),
-        // // No expand-collapse in this tutorial, we just slap the "more"
-        // // button below the text like in the mockup.
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.end,
-        //   crossAxisAlignment: CrossAxisAlignment.end,
-        //   children: [
-        //     Text(
-        //       'more',
-        //       style: textTheme.bodyText2
-        //           .copyWith(fontSize: 16.0, color: theme.accentColor),
-        //     ),
-        //     Icon(
-        //       Icons.keyboard_arrow_down,
-        //       size: 18.0,
-        //       color: theme.accentColor,
-        //     ),
-        //   ],
-        // ),
       ],
     );
   }

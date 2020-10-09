@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/screens/details/details_page.dart';
 import 'package:onlyfilms/services/fetch.dart';
@@ -105,7 +106,8 @@ class SearchPageState extends State<SearchPage>
                                         controller: textFieldController,
                                         onChanged: _onChangeHandler,
                                         style: TextStyle(
-                                            color: Colors.white, fontSize: 14),
+                                            color: Colors.white,
+                                            fontSize: ScreenUtil().setSp(40)),
                                         decoration: InputDecoration(
                                           isDense: true,
                                           border: new OutlineInputBorder(
@@ -120,7 +122,7 @@ class SearchPageState extends State<SearchPage>
                                               .primaryColorDark,
                                           hintStyle: TextStyle(
                                               color: Colors.white70,
-                                              fontSize: 14),
+                                              fontSize: ScreenUtil().setSp(40)),
                                           hintText: AppLocalizations.of(context)
                                               .translate("Search"),
                                           prefixIcon: const Icon(
@@ -228,7 +230,8 @@ class SearchPageState extends State<SearchPage>
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 14.0,
+                                                      fontSize: ScreenUtil()
+                                                          .setSp(35),
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ))

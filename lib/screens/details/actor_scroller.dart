@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/cast.dart';
 import 'package:onlyfilms/screens/details/image_viewer.dart';
 import 'package:onlyfilms/utilities/localization.dart';
@@ -40,7 +41,8 @@ class ActorScroller extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
             AppLocalizations.of(context).translate("Cast"),
-            style: textTheme.subtitle1.copyWith(fontSize: 18.0),
+            style:
+                textTheme.subtitle1.copyWith(fontSize: ScreenUtil().setSp(45)),
           ),
         ),
         SizedBox.fromSize(
