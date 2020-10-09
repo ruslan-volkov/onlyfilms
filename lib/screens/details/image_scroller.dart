@@ -30,6 +30,8 @@ class ImageScroller extends StatelessWidget {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.blueGrey.withOpacity(0.5),
                       onTap: () {
                         Navigator.push(
                           context,
