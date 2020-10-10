@@ -60,10 +60,10 @@ class DetailsPageState extends State<DetailsPage> {
                                         builder: (context, snapshot) {
                                           return snapshot.hasData
                                               ? ImageScroller(snapshot.data)
-                                              : Container();
-                                          // Center(
-                                          //     child: CustomProgressIndicator(),
-                                          //   );
+                                              : Center(
+                                                  child:
+                                                      CustomProgressIndicator(),
+                                                );
                                         }),
                                     SizedBox(
                                         height: ScreenUtil().setHeight(20)),
@@ -72,10 +72,10 @@ class DetailsPageState extends State<DetailsPage> {
                                         builder: (context, snapshot) {
                                           return snapshot.hasData
                                               ? ActorScroller(snapshot.data)
-                                              : Container();
-                                          // Center(
-                                          //     child: CustomProgressIndicator(),
-                                          //   );
+                                              : Center(
+                                                  child:
+                                                      CustomProgressIndicator(),
+                                                );
                                         }),
                                     // ActorScroller(snapshot.data.cast),
                                     SizedBox(

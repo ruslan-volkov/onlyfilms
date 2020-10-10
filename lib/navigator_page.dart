@@ -28,31 +28,28 @@ class NavigatorPageState extends State<NavigatorPage> {
         index: _currentIndex,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        unselectedItemColor: Theme.of(context).unselectedWidgetColor,
-        selectedItemColor: Theme.of(context).selectedRowColor,
+        backgroundColor: Theme.of(context).backgroundColor,
+        type: BottomNavigationBarType.fixed,
+        unselectedItemColor: Theme.of(context).splashColor,
+        selectedItemColor: Theme.of(context).highlightColor,
         currentIndex: _currentIndex,
         iconSize: 30,
         items: [
           BottomNavigationBarItem(
             icon: new Icon(Icons.perm_identity_sharp),
             label: AppLocalizations.of(context).translate("Account"),
-            backgroundColor: Theme.of(context).bottomAppBarColor,
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.movie_sharp),
+            icon: new Icon(Icons.movie_creation_outlined),
             label: AppLocalizations.of(context).translate("Home"),
-            backgroundColor: Theme.of(context).bottomAppBarColor,
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.search_sharp),
             label: AppLocalizations.of(context).translate("Search"),
-            backgroundColor: Theme.of(context).bottomAppBarColor,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.event_sharp),
+            icon: Icon(Icons.list_outlined),
             label: AppLocalizations.of(context).translate("Calendar"),
-            backgroundColor: Theme.of(context).bottomAppBarColor,
           )
         ],
         onTap: (int index) {

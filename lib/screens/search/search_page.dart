@@ -6,8 +6,8 @@ import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/screens/details/details_page.dart';
 import 'package:onlyfilms/services/fetch.dart';
 import 'package:onlyfilms/utilities/localization.dart';
+import 'package:onlyfilms/widgets/custom_image_loading_builder.dart';
 import 'package:onlyfilms/widgets/custom_inkwell.dart';
-import 'package:onlyfilms/widgets/progress_indicator.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -39,7 +39,7 @@ class SearchPageState extends State<SearchPage>
   _onChangeHandler(value) {
     const duration = Duration(
         milliseconds:
-            800); // set the duration that you want call search() after that.
+            500); // set the duration that you want call search() after that.
     if (searchOnStoppedTyping != null) {
       setState(() => searchOnStoppedTyping.cancel()); // clear timer
     }
@@ -77,7 +77,7 @@ class SearchPageState extends State<SearchPage>
   Widget build(BuildContext context) {
     super.build(context);
     var size = MediaQuery.of(context).size;
-    final posterRatio = 0.6;
+    final posterRatio = 0.7;
 
     return SafeArea(
         child: Container(
@@ -111,6 +111,11 @@ class SearchPageState extends State<SearchPage>
                                             fontSize: ScreenUtil().setSp(40)),
                                         decoration: InputDecoration(
                                           isDense: true,
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Theme.of(context)
+                                                      .highlightColor,
+                                                  width: 0.0)),
                                           border: new OutlineInputBorder(
                                             borderRadius:
                                                 const BorderRadius.all(
@@ -122,20 +127,27 @@ class SearchPageState extends State<SearchPage>
                                           fillColor: Theme.of(context)
                                               .primaryColorDark,
                                           hintStyle: TextStyle(
-                                              color: Colors.white70,
+                                              color: Theme.of(context)
+                                                  .highlightColor,
                                               fontSize: ScreenUtil().setSp(40)),
                                           hintText: AppLocalizations.of(context)
                                               .translate("Search"),
-                                          prefixIcon: const Icon(
-                                            Icons.search_sharp,
-                                            color: Colors.white,
+                                          prefixIcon: Icon(
+                                            Icons.search,
+                                            size: ScreenUtil().setHeight(50),
+                                            color: Theme.of(context)
+                                                .highlightColor,
                                           ),
                                           suffixIcon: IconButton(
                                             onPressed: () => {
                                               textFieldController.clear(),
                                               _clearAndScrollToTop(),
                                             },
-                                            icon: Icon(Icons.clear),
+                                            icon: Icon(
+                                              Icons.clear,
+                                              color: Theme.of(context)
+                                                  .highlightColor,
+                                            ),
                                           ),
                                         ),
                                       )),
@@ -188,20 +200,9 @@ class SearchPageState extends State<SearchPage>
                                                                   Widget child,
                                                                   ImageChunkEvent
                                                                       loadingProgress) {
-                                                            if (loadingProgress ==
-                                                                null)
-                                                              return child;
-                                                            return Center(
-                                                              child: CustomProgressIndicator(
-                                                                  value: loadingProgress
-                                                                              .expectedTotalBytes !=
-                                                                          null
-                                                                      ? loadingProgress
-                                                                              .cumulativeBytesLoaded /
-                                                                          loadingProgress
-                                                                              .expectedTotalBytes
-                                                                      : null),
-                                                            );
+                                                            return CustomImageLoadingBuilder(
+                                                                child,
+                                                                loadingProgress);
                                                           },
                                                         ),
                                                         () => Navigator.push(
@@ -218,21 +219,7 @@ class SearchPageState extends State<SearchPage>
                                                       ),
                                                 clipBehavior: Clip.antiAlias,
                                               ),
-                                            ),
-                                            Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                  snapshot.data[index].name,
-                                                  textAlign: TextAlign.center,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: ScreenUtil()
-                                                          .setSp(35),
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ))
+                                            )
                                           ],
                                         );
                                       });
@@ -272,8 +259,8 @@ class SearchPageState extends State<SearchPage>
                 },
                 label: Text(getMediaTypeName(types[index], context)),
                 labelStyle: TextStyle(color: Colors.white),
-                backgroundColor: Colors.blueGrey,
-                selectedColor: Theme.of(context).splashColor,
+                backgroundColor: Theme.of(context).splashColor,
+                selectedColor: Theme.of(context).highlightColor,
                 elevation: 10,
                 pressElevation: 5,
               );

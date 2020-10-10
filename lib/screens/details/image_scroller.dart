@@ -9,7 +9,7 @@ class ImageScroller extends StatelessWidget {
 
   Widget _buildPhoto(BuildContext context, int index) {
     var photo = photoUrls[index];
-    var width = ScreenUtil().setWidth(400) * photo.aspectRatio;
+    var width = ScreenUtil().setWidth(300) * photo.aspectRatio;
     var height = ScreenUtil().setHeight(300);
     return Padding(
         padding: const EdgeInsets.only(right: 16.0),
