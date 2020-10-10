@@ -19,8 +19,8 @@ class HomePageState extends State<HomePage> {
             children: [
               Container(),
               Positioned(
-                bottom: 10.0,
-                right: 10.0,
+                bottom: ScreenUtil().setHeight(20),
+                right: ScreenUtil().setWidth(20),
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -28,14 +28,14 @@ class HomePageState extends State<HomePage> {
                       Align(
                         alignment: Alignment.bottomRight,
                         child: CustomSwitch(
-                          width: ScreenUtil().setWidth(250),
+                          width: ScreenUtil().setWidth(280),
                           height: ScreenUtil().setHeight(100),
                           activeColor: Theme.of(context).splashColor,
                           inactiveColor: Theme.of(context).accentColor,
                           activeText:
                               AppLocalizations.of(context).translate("Movies"),
-                          inactiveText: AppLocalizations.of(context)
-                              .translate("Tv Series"),
+                          inactiveText:
+                              AppLocalizations.of(context).translate("Series"),
                           value: choice,
                           onChanged: (value) {
                             setState(() {

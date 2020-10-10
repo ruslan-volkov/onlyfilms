@@ -1,6 +1,7 @@
 library custom_switch;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 
 class CustomSwitch extends StatefulWidget {
   final bool value;
@@ -81,9 +82,9 @@ class _CustomSwitchState extends State<CustomSwitch>
                           child: Text(
                             widget.activeText,
                             style: TextStyle(
-                                color: Colors.white70,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 16.0),
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: ScreenUtil().setSp(50)),
                           ),
                         )
                       : Container(),
@@ -102,9 +103,9 @@ class _CustomSwitchState extends State<CustomSwitch>
                           child: Text(
                             widget.inactiveText,
                             style: TextStyle(
-                                color: Colors.white70,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 16.0),
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: ScreenUtil().setSp(50)),
                           ),
                         )
                       : Container(),
