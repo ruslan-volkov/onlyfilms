@@ -25,6 +25,8 @@ class SearchPageState extends State<SearchPage>
   StreamController<List<Model>> _modelStream;
   var page = 1;
   var previousQuery = "";
+  var streamBuilder;
+  final posterRatio = 0.7;
 
   Future<void> loadData(String query, bool refresh) async {
     final data = await fetchAll(type: selected, query: query, page: page);
@@ -39,7 +41,7 @@ class SearchPageState extends State<SearchPage>
   _onChangeHandler(value) {
     const duration = Duration(
         milliseconds:
-            500); // set the duration that you want call search() after that.
+            300); // set the duration that you want call search() after that.
     if (searchOnStoppedTyping != null) {
       setState(() => searchOnStoppedTyping.cancel()); // clear timer
     }
@@ -71,164 +73,80 @@ class SearchPageState extends State<SearchPage>
         }
       }
     });
+    streamBuilder = _streamBuilder();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    var size = MediaQuery.of(context).size;
-    final posterRatio = 0.7;
 
     return SafeArea(
         child: Container(
             color: Theme.of(context).backgroundColor,
             child: Container(
-                // padding: EdgeInsets.only(
-                //     left: size.width * 0.05, right: size.width * 0.05),
                 margin: EdgeInsets.only(
-                  top: 5.0,
+                  top: ScreenUtil().setHeight(20),
                 ),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                          flex: 1,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                  flex: 8,
-                                  child: Container(
-                                      padding: EdgeInsets.only(
-                                          left: size.width * 0.05,
-                                          right: size.width * 0.05),
-                                      child: TextField(
-                                        controller: textFieldController,
-                                        onChanged: _onChangeHandler,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: ScreenUtil().setSp(40)),
-                                        decoration: InputDecoration(
-                                          isDense: true,
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Theme.of(context)
-                                                      .highlightColor,
-                                                  width: 0.0)),
-                                          border: new OutlineInputBorder(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              const Radius.circular(15.0),
-                                            ),
-                                          ),
-                                          filled: true,
-                                          focusColor: Colors.black,
-                                          fillColor: Theme.of(context)
-                                              .primaryColorDark,
-                                          hintStyle: TextStyle(
-                                              color: Theme.of(context)
-                                                  .highlightColor,
-                                              fontSize: ScreenUtil().setSp(40)),
-                                          hintText: AppLocalizations.of(context)
-                                              .translate("Search"),
-                                          prefixIcon: Icon(
-                                            Icons.search,
-                                            size: ScreenUtil().setHeight(50),
-                                            color: Theme.of(context)
-                                                .highlightColor,
-                                          ),
-                                          suffixIcon: IconButton(
-                                            onPressed: () => {
-                                              textFieldController.clear(),
-                                              _clearAndScrollToTop(),
-                                            },
-                                            icon: Icon(
-                                              Icons.clear,
-                                              color: Theme.of(context)
-                                                  .highlightColor,
-                                            ),
-                                          ),
-                                        ),
-                                      )),
+                        flex: 1,
+                        child: Container(
+                            padding: EdgeInsets.only(
+                                left: ScreenUtil().setWidth(50),
+                                right: ScreenUtil().setWidth(50)),
+                            child: TextField(
+                              controller: textFieldController,
+                              onChanged: _onChangeHandler,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: ScreenUtil().setSp(40)),
+                              decoration: InputDecoration(
+                                isDense: true,
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).highlightColor,
+                                        width: 0.0)),
+                                border: new OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                    const Radius.circular(15.0),
+                                  ),
                                 ),
-                              ])),
+                                filled: true,
+                                focusColor: Colors.black,
+                                fillColor: Theme.of(context).primaryColorDark,
+                                hintStyle: TextStyle(
+                                    color: Theme.of(context).highlightColor,
+                                    fontSize: ScreenUtil().setSp(40)),
+                                hintText: AppLocalizations.of(context)
+                                    .translate("Search"),
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  size: ScreenUtil().setHeight(50),
+                                  color: Theme.of(context).highlightColor,
+                                ),
+                                suffixIcon: IconButton(
+                                  onPressed: () => {
+                                    textFieldController.clear(),
+                                    _clearAndScrollToTop(),
+                                  },
+                                  icon: Icon(
+                                    Icons.clear,
+                                    color: Theme.of(context).highlightColor,
+                                  ),
+                                ),
+                              ),
+                            )),
+                      ),
                       Expanded(flex: 1, child: filters()),
                       Expanded(
                           flex: 11,
                           child: Container(
-                            margin: EdgeInsets.zero,
-                            padding: EdgeInsets.zero,
-                            child: StreamBuilder<List<Model>>(
-                              stream: _modelStream.stream,
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
-                                if (snapshot.hasData) {
-                                  return GridView.builder(
-                                      controller: scrollController,
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: posterRatio,
-                                        crossAxisCount: 3,
-                                      ),
-                                      padding: EdgeInsets.zero,
-                                      itemCount: snapshot.data.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Expanded(
-                                              flex: 10,
-                                              child: Card(
-                                                elevation: 18.0,
-                                                child: snapshot.data[index]
-                                                                .image !=
-                                                            null &&
-                                                        snapshot.data[index]
-                                                            .image.isNotEmpty
-                                                    ? CustomInkwell(
-                                                        Image.network(
-                                                          snapshot.data[index]
-                                                              .image,
-                                                          fit: BoxFit.cover,
-                                                          loadingBuilder:
-                                                              (BuildContext
-                                                                      context,
-                                                                  Widget child,
-                                                                  ImageChunkEvent
-                                                                      loadingProgress) {
-                                                            return CustomImageLoadingBuilder(
-                                                                child,
-                                                                loadingProgress);
-                                                          },
-                                                        ),
-                                                        () => Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) =>
-                                                                      DetailsPage(
-                                                                          snapshot
-                                                                              .data[index])),
-                                                            ))
-                                                    : Image.asset(
-                                                        "assets/image_not_found.png",
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                clipBehavior: Clip.antiAlias,
-                                              ),
-                                            )
-                                          ],
-                                        );
-                                      });
-                                } else {
-                                  return Center(child: Container());
-                                }
-                              },
-                            ),
-                          ))
+                              margin: EdgeInsets.zero,
+                              padding: EdgeInsets.zero,
+                              child: streamBuilder))
                     ]))));
   }
 
@@ -261,13 +179,71 @@ class SearchPageState extends State<SearchPage>
                 labelStyle: TextStyle(color: Colors.white),
                 backgroundColor: Theme.of(context).splashColor,
                 selectedColor: Theme.of(context).highlightColor,
-                elevation: 10,
+                elevation: 2,
                 pressElevation: 5,
               );
             }).toList(),
           ),
         ],
       ),
+    );
+  }
+
+  StreamBuilder<List<Model>> _streamBuilder() {
+    return StreamBuilder<List<Model>>(
+      stream: _modelStream.stream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return GridView.builder(
+              controller: scrollController,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: posterRatio,
+                crossAxisCount: 3,
+              ),
+              padding: EdgeInsets.zero,
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      flex: 10,
+                      child: Card(
+                        elevation: 18.0,
+                        child: snapshot.data[index].image != null &&
+                                snapshot.data[index].image.isNotEmpty
+                            ? CustomInkwell(
+                                Image.network(
+                                  snapshot.data[index].image,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent loadingProgress) {
+                                    return CustomImageLoadingBuilder(
+                                        child, loadingProgress);
+                                  },
+                                ),
+                                () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailsPage(
+                                              snapshot.data[index])),
+                                    ))
+                            : Image.asset(
+                                "assets/image_not_found.png",
+                                fit: BoxFit.cover,
+                              ),
+                        clipBehavior: Clip.antiAlias,
+                      ),
+                    )
+                  ],
+                );
+              });
+        } else {
+          return Center(child: Container());
+        }
+      },
     );
   }
 

@@ -11,8 +11,38 @@ final String apiKey = "api_key=596add70d5379735ac76cac1ac83c4b0";
 final String langUS = "language=en-US";
 final String url = "https://api.themoviedb.org/3/";
 
+enum HomeCategoryType {
+  popular,
+  top_rated,
+  upcoming,
+  now_playing,
+  airing_today,
+  on_the_air
+}
+
+extension QueryTypeExtension on HomeCategoryType {
+  String get url {
+    switch (this) {
+      case HomeCategoryType.popular:
+        return "popular";
+      case HomeCategoryType.top_rated:
+        return "top_rated";
+      case HomeCategoryType.upcoming:
+        return "upcoming";
+      case HomeCategoryType.now_playing:
+        return "now_playing";
+      case HomeCategoryType.airing_today:
+        return "airing_today";
+      case HomeCategoryType.on_the_air:
+        return "on_the_air";
+      default:
+        return null;
+    }
+  }
+}
+
 Future<List<Model>> fetchAll(
-    {MediaType type = MediaType.multi, String query, int page}) async {
+    {MediaType type = MediaType.multi, String query, int page = 1}) async {
   List<Model> result = new List<Model>();
   if (query.isNotEmpty) {
     final response = await http.get(
@@ -75,5 +105,20 @@ Future<List<Cast>> getCast({MediaType type, int id}) async {
     }
   } else {
     throw Exception("Id should be a number");
+  }
+}
+
+Future<List<Model>> getHomeCategoryItems(
+    {MediaType type, HomeCategoryType category, int page = 1}) async {
+  final response =
+      await http.get('$url${type.url}/${category.url}?$apiKey&page=$page');
+  if (response.statusCode == 200) {
+    List<Model> result = new List<Model>();
+    for (final e in json.decode(response.body)["results"]) {
+      result.add(Model.fromJson(e, type));
+    }
+    return result;
+  } else {
+    throw Exception("Failed to load");
   }
 }

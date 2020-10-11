@@ -13,7 +13,8 @@ class CustomImageLoadingBuilder extends StatelessWidget {
           value: loadingProgress.expectedTotalBytes != null
               ? loadingProgress.cumulativeBytesLoaded /
                   loadingProgress.expectedTotalBytes
-              : null),
+              : null,
+          backgroundColor: Theme.of(context).splashColor),
     );
   }
 }

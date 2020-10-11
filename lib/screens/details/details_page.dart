@@ -62,7 +62,10 @@ class DetailsPageState extends State<DetailsPage> {
                                               ? ImageScroller(snapshot.data)
                                               : Center(
                                                   child:
-                                                      CustomProgressIndicator(),
+                                                      CustomProgressIndicator(
+                                                          backgroundColor:
+                                                              Theme.of(context)
+                                                                  .splashColor),
                                                 );
                                         }),
                                     SizedBox(
@@ -74,7 +77,10 @@ class DetailsPageState extends State<DetailsPage> {
                                               ? ActorScroller(snapshot.data)
                                               : Center(
                                                   child:
-                                                      CustomProgressIndicator(),
+                                                      CustomProgressIndicator(
+                                                          backgroundColor:
+                                                              Theme.of(context)
+                                                                  .splashColor),
                                                 );
                                         }),
                                     // ActorScroller(snapshot.data.cast),
@@ -84,7 +90,9 @@ class DetailsPageState extends State<DetailsPage> {
                                 ),
                               )
                             : Center(
-                                child: CustomProgressIndicator(),
+                                child: CustomProgressIndicator(
+                                    backgroundColor:
+                                        Theme.of(context).splashColor),
                               );
                       },
                     )))));

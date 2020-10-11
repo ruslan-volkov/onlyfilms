@@ -13,11 +13,13 @@ class NavigatorPage extends StatefulWidget {
 }
 
 class NavigatorPageState extends State<NavigatorPage> {
-  int _currentIndex = 2;
+  int _currentIndex = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
       body: IndexedStack(
         children: <Widget>[
           AccountPage(),

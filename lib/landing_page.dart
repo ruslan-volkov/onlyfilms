@@ -20,7 +20,8 @@ class LandingPage extends StatelessWidget {
           }
           return NavigatorPage();
         } else {
-          return CustomProgressIndicator();
+          return CustomProgressIndicator(
+              backgroundColor: Theme.of(context).splashColor);
         }
       },
     );
