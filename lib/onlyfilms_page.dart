@@ -6,7 +6,16 @@ import 'package:onlyfilms/utilities/theme.dart';
 
 void main() => runApp(OnlyFilms());
 
-class OnlyFilms extends StatelessWidget {
+class OnlyFilms extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => OnlyFilmsState();
+}
+
+class OnlyFilmsState extends State<OnlyFilms> {
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(localizationsDelegates: [

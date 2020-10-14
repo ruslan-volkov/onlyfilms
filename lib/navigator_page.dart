@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/screens/calendar/calendar_page.dart';
 import 'package:onlyfilms/screens/home/home_page.dart';
 import 'package:onlyfilms/screens/search/search_page.dart';
@@ -17,6 +18,8 @@ class NavigatorPageState extends State<NavigatorPage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context,
+        designSize: Size(1080, 1920), allowFontScaling: true);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       resizeToAvoidBottomPadding: false,

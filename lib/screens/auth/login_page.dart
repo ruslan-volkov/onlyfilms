@@ -31,7 +31,6 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      // FlutterLogo(size: 150),
                       SizedBox(height: ScreenUtil().setHeight(50)),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -51,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                               logo: Image(
                                   image: AssetImage(
                                       "assets/google_logo_small.png"),
-                                  height: ScreenUtil().setHeight(35))),
+                                  height: ScreenUtil().setHeight(70))),
                           SizedBox(height: ScreenUtil().setHeight(20)),
                           SignInButton(
                               context: context,
@@ -61,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                               logo: Image(
                                   image: AssetImage(
                                       "assets/facebook_logo_small.png"),
-                                  height: ScreenUtil().setHeight(35))),
+                                  height: ScreenUtil().setHeight(70))),
                         ],
                       ),
                     ],
