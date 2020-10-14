@@ -21,4 +21,4 @@ var darkTheme = ThemeData(
         subtitle1: TextStyle(color: Colors.white),
         caption: TextStyle(color: Colors.white),
         bodyText2: TextStyle(color: Colors.white70),
-        bodyText1: TextStyle(color: Color(0xFFFFFEAD), fontSize: 20)));
+        bodyText1: TextStyle(color: Color(0xFFF47263), fontSize: 20)));
