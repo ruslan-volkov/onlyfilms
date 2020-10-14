@@ -59,7 +59,11 @@ class DetailsPageState extends State<DetailsPage> {
                                         builder: (context, snapshot) {
                                           return snapshot.hasData
                                               ? ImageScroller(snapshot.data)
-                                              : Center(
+                                              : Container(
+                                                  height: ScreenUtil()
+                                                      .setHeight(500),
+                                                  width: ScreenUtil()
+                                                      .setWidth(500),
                                                   child:
                                                       CustomProgressIndicator(
                                                           backgroundColor:
@@ -76,7 +80,11 @@ class DetailsPageState extends State<DetailsPage> {
                                               ? ActorScroller(
                                                   widget.element.mediaType,
                                                   snapshot.data)
-                                              : Center(
+                                              : Container(
+                                                  height: ScreenUtil()
+                                                      .setHeight(500),
+                                                  width: ScreenUtil()
+                                                      .setWidth(500),
                                                   child:
                                                       CustomProgressIndicator(
                                                           backgroundColor:
