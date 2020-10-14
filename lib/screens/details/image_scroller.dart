@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/image_api.dart';
-import 'package:onlyfilms/widgets/custom_image_loading_builder.dart';
+import 'package:onlyfilms/widgets/image_loader.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ImageScroller extends StatelessWidget {
@@ -25,11 +25,8 @@ class ImageScroller extends StatelessWidget {
                         width: width, height: height, fit: BoxFit.fitHeight,
                         loadingBuilder: (BuildContext context, Widget child,
                             ImageChunkEvent loadingProgress) {
-                      return Container(
-                          width: width,
-                          height: height,
-                          child: CustomImageLoadingBuilder(
-                              child, loadingProgress));
+                      return CustomImageLoader(
+                          width, height, child, loadingProgress);
                     })),
                 Positioned.fill(
                   child: Material(

@@ -42,7 +42,6 @@ class RatingInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var textTheme = theme.textTheme;
-    var ratingCaptionStyle = textTheme.caption;
     var voteAverage = getVoteAverage(element.voteAverage);
 
     var numericRating = Column(

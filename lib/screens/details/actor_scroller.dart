@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/cast.dart';
 import 'package:onlyfilms/screens/details/image_viewer.dart';
 import 'package:onlyfilms/utilities/localization.dart';
-import 'package:onlyfilms/widgets/custom_image_loading_builder.dart';
+import 'package:onlyfilms/widgets/image_loader.dart';
 
 class ActorScroller extends StatelessWidget {
   ActorScroller(this.cast);
@@ -25,11 +25,8 @@ class ActorScroller extends StatelessWidget {
                       height: height,
                       fit: BoxFit.fill, loadingBuilder: (BuildContext context,
                           Widget child, ImageChunkEvent loadingProgress) {
-                      return Container(
-                          width: width,
-                          height: height,
-                          child: CustomImageLoadingBuilder(
-                              child, loadingProgress));
+                      return CustomImageLoader(
+                          width, height, child, loadingProgress);
                     })
                   : Image.asset(
                       "assets/image_not_found.png",
@@ -37,10 +34,6 @@ class ActorScroller extends StatelessWidget {
                       height: height,
                       fit: BoxFit.cover,
                     )),
-          // CircleAvatar(
-          //   backgroundImage: NetworkImage(actor.image),
-          //   radius: 40.0,
-          // )),
           Padding(
             padding: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
             child: Text(
