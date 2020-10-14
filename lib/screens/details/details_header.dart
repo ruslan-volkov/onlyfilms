@@ -45,7 +45,7 @@ class DetailsHeader extends StatelessWidget {
             child: ListView(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.all(8),
+                // padding: EdgeInsets.all(ScreenUtil().setHeight(16)),
                 children: _buildCategoryChips(context))),
       ],
     );

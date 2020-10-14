@@ -95,8 +95,10 @@ class HomePageState extends State<HomePage> {
                                   return snapshot.hasData
                                       ? HomeCategory(
                                           type == MediaType.movie
-                                              ? "Now playing"
-                                              : "Airing today",
+                                              ? AppLocalizations.of(context)
+                                                  .translate("Now playing")
+                                              : AppLocalizations.of(context)
+                                                  .translate("Airing today"),
                                           snapshot.data)
                                       : Center(
                                           child: CustomProgressIndicator(
@@ -114,8 +116,10 @@ class HomePageState extends State<HomePage> {
                                   return snapshot.hasData
                                       ? HomeCategory(
                                           type == MediaType.movie
-                                              ? "Upcoming"
-                                              : "On the air",
+                                              ? AppLocalizations.of(context)
+                                                  .translate("Upcoming")
+                                              : AppLocalizations.of(context)
+                                                  .translate("On the air"),
                                           snapshot.data)
                                       : Center(
                                           child: CustomProgressIndicator(
@@ -129,7 +133,10 @@ class HomePageState extends State<HomePage> {
                                 future: popular,
                                 builder: (context, snapshot) {
                                   return snapshot.hasData
-                                      ? HomeCategory("Popular", snapshot.data)
+                                      ? HomeCategory(
+                                          AppLocalizations.of(context)
+                                              .translate("Popular"),
+                                          snapshot.data)
                                       : Center(
                                           child: CustomProgressIndicator(
                                               backgroundColor: Theme.of(context)
@@ -142,7 +149,10 @@ class HomePageState extends State<HomePage> {
                                 future: topRated,
                                 builder: (context, snapshot) {
                                   return snapshot.hasData
-                                      ? HomeCategory("Top rated", snapshot.data)
+                                      ? HomeCategory(
+                                          AppLocalizations.of(context)
+                                              .translate("Top rated"),
+                                          snapshot.data)
                                       : Center(
                                           child: CustomProgressIndicator(
                                               backgroundColor: Theme.of(context)
@@ -151,38 +161,7 @@ class HomePageState extends State<HomePage> {
                                 })),
                       ])),
             ],
-          )
-          // child: Column(
-          //   children: [
-          //     // TODO : get home page categories
-          //     // Upcoming (movie), airing today and on the air (series)
-          //     // Latest
-          //     // Popular
-          //     // Top rated
-
-          //     // bottom right -> switch button tv/movie
-          //     Container(
-          //         child: Align(
-          //       alignment: Alignment.bottomRight,
-          //       child: CustomSwitch(
-          //         width: ScreenUtil().setWidth(250),
-          //         height: ScreenUtil().setHeight(100),
-          //         activeColor: Theme.of(context).splashColor,
-          //         inactiveColor: Theme.of(context).accentColor,
-          //         activeText: AppLocalizations.of(context).translate("Movies"),
-          //         inactiveText:
-          //             AppLocalizations.of(context).translate("Tv Series"),
-          //         value: choice,
-          //         onChanged: (value) {
-          //           setState(() {
-          //             choice = value;
-          //           });
-          //         },
-          //       ),
-          //     ))
-          //   ],
-          // ),
-          ),
+          )),
     );
   }
 }

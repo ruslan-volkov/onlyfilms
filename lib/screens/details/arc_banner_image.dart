@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/screens/details/image_viewer.dart';
+import 'package:onlyfilms/widgets/custom_image_loading_builder.dart';
 
 class ArcBannerImage extends StatelessWidget {
   ArcBannerImage(this.imageUrl);
@@ -14,12 +15,16 @@ class ArcBannerImage extends StatelessWidget {
         clipper: ArcClipper(),
         child: ImageViewer(
           imageUrl,
-          Image.network(
-            imageUrl,
-            width: width,
-            height: height,
-            fit: BoxFit.cover,
-          ),
+          Image.network(imageUrl,
+              width: width,
+              height: height,
+              fit: BoxFit.cover, loadingBuilder: (BuildContext context,
+                  Widget child, ImageChunkEvent loadingProgress) {
+            return Container(
+                width: width,
+                height: height,
+                child: CustomImageLoadingBuilder(child, loadingProgress));
+          }),
         ));
   }
 }

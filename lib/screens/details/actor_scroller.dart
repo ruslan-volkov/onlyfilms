@@ -11,7 +11,8 @@ class ActorScroller extends StatelessWidget {
 
   Widget _buildActor(BuildContext ctx, int index) {
     var actor = cast[index];
-
+    var width = ScreenUtil().setWidth(400) * 0.7;
+    var height = ScreenUtil().setHeight(400);
     return Padding(
       padding: EdgeInsets.only(right: ScreenUtil().setWidth(32)),
       child: Column(
@@ -20,16 +21,20 @@ class ActorScroller extends StatelessWidget {
               actor.image,
               actor.image != null && actor.image.isNotEmpty
                   ? Image.network(actor.image,
-                      width: ScreenUtil().setWidth(400) * 0.7,
-                      height: ScreenUtil().setHeight(400),
+                      width: width,
+                      height: height,
                       fit: BoxFit.fill, loadingBuilder: (BuildContext context,
                           Widget child, ImageChunkEvent loadingProgress) {
-                      return CustomImageLoadingBuilder(child, loadingProgress);
+                      return Container(
+                          width: width,
+                          height: height,
+                          child: CustomImageLoadingBuilder(
+                              child, loadingProgress));
                     })
                   : Image.asset(
                       "assets/image_not_found.png",
-                      width: ScreenUtil().setWidth(400) * 0.7,
-                      height: ScreenUtil().setHeight(400),
+                      width: width,
+                      height: height,
                       fit: BoxFit.cover,
                     )),
           // CircleAvatar(

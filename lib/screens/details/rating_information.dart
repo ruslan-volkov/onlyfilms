@@ -56,11 +56,6 @@ class RatingInformation extends StatelessWidget {
             color: theme.accentColor,
           ),
         ),
-        SizedBox(height: ScreenUtil().setHeight(4)),
-        Text(
-          'Ratings',
-          style: ratingCaptionStyle,
-        ),
       ],
     );
 
@@ -69,13 +64,6 @@ class RatingInformation extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _buildRatingBar(theme, voteAverage),
-        Padding(
-          padding: const EdgeInsets.only(top: 4.0, left: 4.0),
-          child: Text(
-            'Grade now',
-            style: ratingCaptionStyle,
-          ),
-        ),
       ],
     );
 

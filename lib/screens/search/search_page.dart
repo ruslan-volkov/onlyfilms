@@ -210,6 +210,7 @@ class SearchPageState extends State<SearchPage>
                     Expanded(
                       flex: 10,
                       child: Card(
+                        color: Theme.of(context).backgroundColor,
                         elevation: 18.0,
                         child: snapshot.data[index].image != null &&
                                 snapshot.data[index].image.isNotEmpty

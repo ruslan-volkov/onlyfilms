@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/screens/details/details_page.dart';
+import 'package:onlyfilms/widgets/custom_image_loading_builder.dart';
 
 class HomeCategory extends StatelessWidget {
   HomeCategory(this.title, this.items);
@@ -23,7 +24,7 @@ class HomeCategory extends StatelessWidget {
                   child: Text(
                     title,
                     style: TextStyle(
-                        color: Theme.of(context).splashColor,
+                        color: Colors.white70,
                         fontSize: ScreenUtil().setSp(50)),
                   )),
               Container(
@@ -52,12 +53,16 @@ class HomeCategory extends StatelessWidget {
           elevation: 2.0,
           child: Stack(
             children: <Widget>[
-              Image.network(
-                item.image,
-                fit: BoxFit.cover,
-                width: width,
-                height: height,
-              ),
+              Image.network(item.image,
+                  fit: BoxFit.cover,
+                  width: width,
+                  height: height, loadingBuilder: (BuildContext context,
+                      Widget child, ImageChunkEvent loadingProgress) {
+                return Container(
+                    width: width,
+                    height: height,
+                    child: CustomImageLoadingBuilder(child, loadingProgress));
+              }),
               Positioned.fill(
                 child: Material(
                   color: Colors.transparent,

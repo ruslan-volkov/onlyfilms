@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/image_api.dart';
+import 'package:onlyfilms/widgets/custom_image_loading_builder.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ImageScroller extends StatelessWidget {
@@ -20,12 +21,16 @@ class ImageScroller extends StatelessWidget {
               children: <Widget>[
                 ClipRRect(
                     borderRadius: BorderRadius.circular(4.0),
-                    child: Image.network(
-                      photo.filePath,
-                      width: width,
-                      height: height,
-                      fit: BoxFit.fitHeight,
-                    )),
+                    child: Image.network(photo.filePath,
+                        width: width, height: height, fit: BoxFit.fitHeight,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent loadingProgress) {
+                      return Container(
+                          width: width,
+                          height: height,
+                          child: CustomImageLoadingBuilder(
+                              child, loadingProgress));
+                    })),
                 Positioned.fill(
                   child: Material(
                     color: Colors.transparent,
