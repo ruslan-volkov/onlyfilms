@@ -32,18 +32,5 @@ class ImageViewer extends StatelessWidget {
         ),
       ],
     );
-
-    // return GestureDetector(
-    //     onTap: () => {
-    //           Navigator.push(
-    //             context,
-    //             MaterialPageRoute(
-    //                 builder: (context) => Container(
-    //                         child: PhotoView(
-    //                       imageProvider: NetworkImage(url),
-    //                     ))),
-    //           )
-    //         },
-    //     child: child);
   }
 }

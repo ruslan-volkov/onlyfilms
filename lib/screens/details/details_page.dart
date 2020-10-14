@@ -20,10 +20,9 @@ class DetailsPage extends StatefulWidget {
 }
 
 class DetailsPageState extends State<DetailsPage> {
-// class DetailsPage extends StatelessWidget {
   Future<ModelDetails> details;
   Future<List<ImageApi>> photos;
-  Future<List<Cast>> cast;
+  Future<List<Model>> cast;
 
   void initState() {
     super.initState();
@@ -70,11 +69,13 @@ class DetailsPageState extends State<DetailsPage> {
                                         }),
                                     SizedBox(
                                         height: ScreenUtil().setHeight(20)),
-                                    FutureBuilder<List<Cast>>(
+                                    FutureBuilder<List<Model>>(
                                         future: cast,
                                         builder: (context, snapshot) {
                                           return snapshot.hasData
-                                              ? ActorScroller(snapshot.data)
+                                              ? ActorScroller(
+                                                  widget.element.mediaType,
+                                                  snapshot.data)
                                               : Center(
                                                   child:
                                                       CustomProgressIndicator(
@@ -83,7 +84,6 @@ class DetailsPageState extends State<DetailsPage> {
                                                                   .splashColor),
                                                 );
                                         }),
-                                    // ActorScroller(snapshot.data.cast),
                                     SizedBox(
                                         height: ScreenUtil().setHeight(50)),
                                   ],

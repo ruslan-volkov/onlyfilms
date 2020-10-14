@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:onlyfilms/models/cast.dart';
-import 'package:onlyfilms/screens/details/image_viewer.dart';
+import 'package:onlyfilms/models/model.dart';
+import 'package:onlyfilms/screens/details/details_page.dart';
 import 'package:onlyfilms/utilities/localization.dart';
+import 'package:onlyfilms/widgets/image_action.dart';
 import 'package:onlyfilms/widgets/image_loader.dart';
 
 class ActorScroller extends StatelessWidget {
-  ActorScroller(this.cast);
-  final List<Cast> cast;
+  ActorScroller(this.mediaType, this.cast);
+  final MediaType mediaType;
+  final List<Model> cast;
 
-  Widget _buildActor(BuildContext ctx, int index) {
+  Widget _buildActor(BuildContext context, int index) {
     var actor = cast[index];
-    var width = ScreenUtil().setWidth(400) * 0.7;
+    var width = ScreenUtil().setWidth(400) * 0.65;
     var height = ScreenUtil().setHeight(400);
     return Padding(
       padding: EdgeInsets.only(right: ScreenUtil().setWidth(32)),
       child: Column(
         children: [
-          ImageViewer(
-              actor.image,
+          ImageAction(
               actor.image != null && actor.image.isNotEmpty
                   ? Image.network(actor.image,
                       width: width,
@@ -33,7 +34,11 @@ class ActorScroller extends StatelessWidget {
                       width: width,
                       height: height,
                       fit: BoxFit.cover,
-                    )),
+                    ),
+              () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DetailsPage(actor)),
+                  )),
           Padding(
             padding: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
             child: Text(

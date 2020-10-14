@@ -11,6 +11,7 @@ class Cast extends Model {
       image = json["profile_path"];
     } else if (mediaType == MediaType.person) {
       image = json["poster_path"];
+      return Model.fromJson(json, getMediaTypeFromText(json["media_type"]));
     }
     return Cast(
         id: model.id,

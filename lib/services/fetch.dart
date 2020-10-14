@@ -90,14 +90,18 @@ Future<List<ImageApi>> getImages({MediaType type, int id}) async {
   }
 }
 
-Future<List<Cast>> getCast({MediaType type, int id}) async {
+Future<List<Model>> getCast({MediaType type, int id}) async {
   if (!id.isNaN) {
-    final response =
-        await http.get('$url${type.url}/${id.toString()}/credits?$apiKey');
+    final response = await http.get(
+        '$url${type.url}/${id.toString()}/${type == MediaType.person ? 'combined_credits' : 'credits'}?$apiKey');
     if (response.statusCode == 200) {
-      List<Cast> result = new List<Cast>();
+      List<Model> result = new List<Model>();
       for (final e in json.decode(response.body)["cast"]) {
-        result.add(Cast.fromJson(e, type));
+        if (type == MediaType.person) {
+          result.add(Model.fromJson(e, MediaType.movie));
+        } else {
+          result.add(Model.fromJson(e, MediaType.person));
+        }
       }
       return result;
     } else {
