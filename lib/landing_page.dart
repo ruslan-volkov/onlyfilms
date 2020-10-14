@@ -19,6 +19,10 @@ class LandingPageState extends State<LandingPage> {
             MaterialPageRoute(
                 builder: (context) => Container(child: LoginPage())));
       } else {
+        Navigator.pop(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Container(child: LoginPage())));
         Navigator.push(
             context,
             MaterialPageRoute(

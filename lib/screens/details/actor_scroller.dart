@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/cast.dart';
 import 'package:onlyfilms/screens/details/image_viewer.dart';
 import 'package:onlyfilms/utilities/localization.dart';
+import 'package:onlyfilms/widgets/custom_image_loading_builder.dart';
 
 class ActorScroller extends StatelessWidget {
   ActorScroller(this.cast);
@@ -12,18 +13,35 @@ class ActorScroller extends StatelessWidget {
     var actor = cast[index];
 
     return Padding(
-      padding: const EdgeInsets.only(right: 16.0),
+      padding: EdgeInsets.only(right: ScreenUtil().setWidth(32)),
       child: Column(
         children: [
           ImageViewer(
               actor.image,
-              CircleAvatar(
-                backgroundImage: NetworkImage(actor.image),
-                radius: 40.0,
-              )),
+              actor.image != null && actor.image.isNotEmpty
+                  ? Image.network(actor.image,
+                      width: ScreenUtil().setWidth(400) * 0.7,
+                      height: ScreenUtil().setHeight(400),
+                      fit: BoxFit.fill, loadingBuilder: (BuildContext context,
+                          Widget child, ImageChunkEvent loadingProgress) {
+                      return CustomImageLoadingBuilder(child, loadingProgress);
+                    })
+                  : Image.asset(
+                      "assets/image_not_found.png",
+                      width: ScreenUtil().setWidth(400) * 0.7,
+                      height: ScreenUtil().setHeight(400),
+                      fit: BoxFit.cover,
+                    )),
+          // CircleAvatar(
+          //   backgroundImage: NetworkImage(actor.image),
+          //   radius: 40.0,
+          // )),
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(actor.name),
+            padding: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
+            child: Text(
+              actor.name,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
@@ -46,7 +64,7 @@ class ActorScroller extends StatelessWidget {
           ),
         ),
         SizedBox.fromSize(
-          size: const Size.fromHeight(120.0),
+          size: Size.fromHeight(ScreenUtil().setHeight(500)),
           child: ListView.builder(
             itemCount: cast.length,
             scrollDirection: Axis.horizontal,
