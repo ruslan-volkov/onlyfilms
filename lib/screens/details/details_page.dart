@@ -49,6 +49,9 @@ class DetailsPageState extends State<DetailsPage> {
                                 child: Column(
                                   children: [
                                     DetailsHeader(snapshot.data),
+                                    // TODO : afficher sous forme d'onglet avec les informations et les épisodes
+                                    // seulement dans le cas d'une série
+                                    // pour les films, afficher un bouton de status avec vu/ non vu/suivre
                                     Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Storyline(snapshot.data.overview),

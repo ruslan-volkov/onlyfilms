@@ -53,13 +53,16 @@ class HomeCategory extends StatelessWidget {
           elevation: 2.0,
           child: Stack(
             children: <Widget>[
-              Image.network(item.image,
-                  fit: BoxFit.cover,
-                  width: width,
-                  height: height, loadingBuilder: (BuildContext context,
-                      Widget child, ImageChunkEvent loadingProgress) {
-                return CustomImageLoader(width, height, child, loadingProgress);
-              }),
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(4.0),
+                  child: Image.network(item.image,
+                      fit: BoxFit.cover,
+                      width: width,
+                      height: height, loadingBuilder: (BuildContext context,
+                          Widget child, ImageChunkEvent loadingProgress) {
+                    return CustomImageLoader(
+                        width, height, child, loadingProgress);
+                  })),
               Positioned.fill(
                 child: Material(
                   color: Colors.transparent,

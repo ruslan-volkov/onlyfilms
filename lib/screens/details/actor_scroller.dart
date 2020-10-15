@@ -13,7 +13,7 @@ class ActorScroller extends StatelessWidget {
 
   Widget _buildActor(BuildContext context, int index) {
     var actor = cast[index];
-    var width = ScreenUtil().setWidth(400) * 0.65;
+    var width = ScreenUtil().setHeight(400) * 0.65;
     var height = ScreenUtil().setHeight(400);
     return Padding(
       padding: EdgeInsets.only(right: ScreenUtil().setWidth(32)),

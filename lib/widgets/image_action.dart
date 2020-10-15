@@ -9,7 +9,7 @@ class ImageAction extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        child,
+        ClipRRect(borderRadius: BorderRadius.circular(4.0), child: child),
         Positioned.fill(
           child: Material(
             color: Colors.transparent,

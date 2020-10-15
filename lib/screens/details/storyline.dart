@@ -18,7 +18,11 @@ class Storyline extends StatelessWidget {
           header: Text("Story line",
               style: textTheme.subtitle1
                   .copyWith(fontSize: ScreenUtil().setSp(45))),
-          theme: ExpandableThemeData(iconColor: theme.accentColor),
+          theme: ExpandableThemeData(
+              iconColor: theme.accentColor,
+              tapBodyToCollapse: true,
+              tapBodyToExpand: true,
+              tapHeaderToExpand: true),
           collapsed: Text(
             storyline,
             softWrap: true,
