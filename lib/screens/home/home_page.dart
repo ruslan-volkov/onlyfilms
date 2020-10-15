@@ -46,7 +46,8 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       body: Container(
           color: Theme.of(context).backgroundColor,
           child: Column(
@@ -59,23 +60,27 @@ class HomePageState extends State<HomePage> {
                     children: [
                       Align(
                         alignment: Alignment.bottomRight,
-                        child: CustomSwitch(
-                          width: ScreenUtil().setWidth(280),
-                          height: ScreenUtil().setHeight(100),
-                          activeColor: Theme.of(context).splashColor,
-                          inactiveColor: Theme.of(context).accentColor,
-                          activeText:
-                              AppLocalizations.of(context).translate("Movies"),
-                          inactiveText:
-                              AppLocalizations.of(context).translate("Series"),
-                          value: type == MediaType.movie,
-                          onChanged: (value) {
-                            setState(() {
-                              type = value ? MediaType.movie : MediaType.tv;
-                              load();
-                            });
-                          },
-                        ),
+                        child: Container(
+                            margin: EdgeInsets.only(
+                                top: ScreenUtil().setWidth(30),
+                                right: ScreenUtil().setWidth(30)),
+                            child: CustomSwitch(
+                              width: ScreenUtil().setWidth(280),
+                              height: ScreenUtil().setHeight(100),
+                              activeColor: Theme.of(context).splashColor,
+                              inactiveColor: Theme.of(context).accentColor,
+                              activeText: AppLocalizations.of(context)
+                                  .translate("Movies"),
+                              inactiveText: AppLocalizations.of(context)
+                                  .translate("Series"),
+                              value: type == MediaType.movie,
+                              onChanged: (value) {
+                                setState(() {
+                                  type = value ? MediaType.movie : MediaType.tv;
+                                  load();
+                                });
+                              },
+                            )),
                       ),
                     ]),
               ),
@@ -162,6 +167,6 @@ class HomePageState extends State<HomePage> {
                       ])),
             ],
           )),
-    );
+    ));
   }
 }
