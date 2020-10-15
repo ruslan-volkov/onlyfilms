@@ -25,7 +25,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
+  // TODO : cache pour les images téléchargées
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(darkAppBarColor);
