@@ -63,9 +63,10 @@ class HomePageState extends State<HomePage> {
                         child: Container(
                             margin: EdgeInsets.only(
                                 top: ScreenUtil().setWidth(30),
-                                right: ScreenUtil().setWidth(30)),
+                                right: ScreenUtil().setWidth(30),
+                                bottom: ScreenUtil().setWidth(10)),
                             child: CustomSwitch(
-                              width: ScreenUtil().setWidth(280),
+                              width: ScreenUtil().setWidth(300),
                               height: ScreenUtil().setHeight(100),
                               activeColor: Theme.of(context).splashColor,
                               inactiveColor: Theme.of(context).accentColor,

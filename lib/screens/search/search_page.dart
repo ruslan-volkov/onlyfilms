@@ -107,7 +107,7 @@ class SearchPageState extends State<SearchPage>
                                 isDense: true,
                                 focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Theme.of(context).highlightColor,
+                                        // color: Theme.of(context).highlightColor,
                                         width: 0.0)),
                                 border: new OutlineInputBorder(
                                   borderRadius: const BorderRadius.all(
@@ -117,11 +117,11 @@ class SearchPageState extends State<SearchPage>
                                 filled: true,
                                 focusColor: Colors.black,
                                 fillColor: Theme.of(context).primaryColorDark,
-                                hintStyle: TextStyle(
-                                    color: Theme.of(context).highlightColor,
-                                    fontSize: ScreenUtil().setSp(40)),
-                                hintText: AppLocalizations.of(context)
-                                    .translate("Search"),
+                                // hintStyle: TextStyle(
+                                //     color: Theme.of(context).highlightColor,
+                                //     fontSize: ScreenUtil().setSp(40)),
+                                // hintText: AppLocalizations.of(context)
+                                //     .translate("Search"),
                                 prefixIcon: Icon(
                                   Icons.search,
                                   size: ScreenUtil().setHeight(50),
@@ -181,6 +181,8 @@ class SearchPageState extends State<SearchPage>
                 selectedColor: Theme.of(context).highlightColor,
                 elevation: 2,
                 pressElevation: 5,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
               );
             }).toList(),
           ),
