@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/screens/details/details_page.dart';
 import 'package:onlyfilms/services/fetch.dart';
-import 'package:onlyfilms/utilities/localization.dart';
 import 'package:onlyfilms/widgets/custom_image_loading_builder.dart';
 import 'package:onlyfilms/widgets/custom_inkwell.dart';
 
