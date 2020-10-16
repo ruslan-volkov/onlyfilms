@@ -57,18 +57,18 @@ class DetailsBodyState extends State<DetailsBody> {
                 textTheme.subtitle1.copyWith(fontSize: ScreenUtil().setSp(45)),
           ),
         ),
+        FutureBuilder<List<Model>>(
+            future: cast,
+            builder: (context, snapshot) {
+              return snapshot.hasData
+                  ? CastScroller(widget.element.mediaType, snapshot.data)
+                  : Container(
+                      height: ScreenUtil().setWidth(300),
+                      width: ScreenUtil().setWidth(300),
+                      child: CustomProgressIndicator(),
+                    );
+            })
       ]),
-      FutureBuilder<List<Model>>(
-          future: cast,
-          builder: (context, snapshot) {
-            return snapshot.hasData
-                ? CastScroller(widget.element.mediaType, snapshot.data)
-                : Container(
-                    height: ScreenUtil().setWidth(300),
-                    width: ScreenUtil().setWidth(300),
-                    child: CustomProgressIndicator(),
-                  );
-          }),
       SizedBox(height: ScreenUtil().setHeight(50))
     ]);
   }

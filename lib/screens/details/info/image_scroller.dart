@@ -57,7 +57,7 @@ class ImageScroller extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox.fromSize(
-          size: Size.fromHeight(ScreenUtil().setHeight(400)),
+          size: Size.fromHeight(ScreenUtil().setHeight(350)),
           child: ListView.builder(
             itemCount: photoUrls.length,
             scrollDirection: Axis.horizontal,
