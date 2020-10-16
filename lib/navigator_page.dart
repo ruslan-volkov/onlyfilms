@@ -4,6 +4,7 @@ import 'package:onlyfilms/screens/calendar/calendar_page.dart';
 import 'package:onlyfilms/screens/home/home_page.dart';
 import 'package:onlyfilms/screens/search/search_page.dart';
 import 'package:onlyfilms/screens/settings/account_page.dart';
+import 'package:onlyfilms/services/fetch.dart';
 import 'package:onlyfilms/utilities/localization.dart';
 
 class NavigatorPage extends StatefulWidget {
@@ -20,49 +21,57 @@ class NavigatorPageState extends State<NavigatorPage> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context,
         designSize: Size(1080, 1920), allowFontScaling: true);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      resizeToAvoidBottomPadding: false,
-      body: IndexedStack(
-        children: <Widget>[
-          AccountPage(),
-          HomePage(),
-          SearchPage(),
-          CalendarPage(),
-        ],
-        index: _currentIndex,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).backgroundColor,
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor: Theme.of(context).splashColor,
-        selectedItemColor: Theme.of(context).highlightColor,
-        currentIndex: _currentIndex,
-        iconSize: 30,
-        items: [
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.perm_identity_sharp),
-            label: AppLocalizations.of(context).translate("Account"),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.movie_creation_outlined),
-            label: AppLocalizations.of(context).translate("Home"),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.search_sharp),
-            label: AppLocalizations.of(context).translate("Search"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_outlined),
-            label: AppLocalizations.of(context).translate("Calendar"),
-          )
-        ],
-        onTap: (int index) {
-          setState(() => _currentIndex = index);
-        },
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-      ),
-    );
+    return FutureBuilder<bool>(
+        future: GenresApi.setGenres(),
+        builder: (context, snapshot) {
+          return snapshot.data != null && snapshot.data
+              ? Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  resizeToAvoidBottomPadding: false,
+                  body: IndexedStack(
+                    children: <Widget>[
+                      AccountPage(),
+                      HomePage(),
+                      SearchPage(),
+                      CalendarPage(),
+                    ],
+                    index: _currentIndex,
+                  ),
+                  bottomNavigationBar: BottomNavigationBar(
+                    backgroundColor: Theme.of(context).backgroundColor,
+                    type: BottomNavigationBarType.fixed,
+                    unselectedItemColor: Theme.of(context).splashColor,
+                    selectedItemColor: Theme.of(context).highlightColor,
+                    currentIndex: _currentIndex,
+                    iconSize: 30,
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: new Icon(Icons.perm_identity_sharp),
+                        label:
+                            AppLocalizations.of(context).translate("Account"),
+                      ),
+                      BottomNavigationBarItem(
+                        icon: new Icon(Icons.movie_creation_outlined),
+                        label: AppLocalizations.of(context).translate("Home"),
+                      ),
+                      BottomNavigationBarItem(
+                        icon: new Icon(Icons.search_sharp),
+                        label: AppLocalizations.of(context).translate("Search"),
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.list_outlined),
+                        label:
+                            AppLocalizations.of(context).translate("Calendar"),
+                      )
+                    ],
+                    onTap: (int index) {
+                      setState(() => _currentIndex = index);
+                    },
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                  ),
+                )
+              : Container();
+        });
   }
 }

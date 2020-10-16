@@ -30,6 +30,7 @@ class EpisodesPageState extends State<EpisodesPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return FutureBuilder<ModelDetails>(
         future: details,
         builder: (context, snapshotDetails) {

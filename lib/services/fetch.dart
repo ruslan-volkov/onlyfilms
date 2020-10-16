@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:onlyfilms/models/genre.dart';
 import 'package:onlyfilms/models/image_api.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
@@ -10,6 +12,7 @@ import 'package:onlyfilms/models/season.dart';
 final String apiKey = "api_key=596add70d5379735ac76cac1ac83c4b0";
 final String langUS = "language=en-US";
 final String url = "https://api.themoviedb.org/3/";
+String lang;
 
 enum HomeCategoryType {
   popular,
@@ -18,6 +21,27 @@ enum HomeCategoryType {
   now_playing,
   airing_today,
   on_the_air
+}
+
+void initLang(Locale locale) {
+  lang = '${locale.languageCode}-${locale.countryCode}';
+}
+
+class GenresApi {
+  static List<Genre> tvGenres = [];
+  static List<Genre> movieGenres = [];
+  static final GenresApi _singleton = GenresApi._internal();
+  static Future<bool> setGenres() async {
+    movieGenres = await getGenres(MediaType.movie);
+    tvGenres = await getGenres(MediaType.tv);
+    return true;
+  }
+
+  factory GenresApi() {
+    return _singleton;
+  }
+
+  GenresApi._internal();
 }
 
 extension QueryTypeExtension on HomeCategoryType {
@@ -46,7 +70,7 @@ Future<List<Model>> fetchAll(
   List<Model> result = [];
   if (query.isNotEmpty) {
     final response = await http.get(
-        '${url}search/${type.url}?$apiKey&$langUS&page=${page.toString()}&query=$query');
+        '${url}search/${type.url}?$apiKey&language=$lang&page=${page.toString()}&query=$query');
     if (response.statusCode == 200) {
       for (final e in json.decode(response.body)["results"]) {
         result.add(Model.fromJson(e, type));
@@ -62,7 +86,8 @@ Future<List<Model>> fetchAll(
 
 Future<ModelDetails> getDetails({MediaType type, int id}) async {
   if (!id.isNaN) {
-    final response = await http.get('$url${type.url}/${id.toString()}?$apiKey');
+    final response = await http
+        .get('$url${type.url}/${id.toString()}?$apiKey&language=$lang');
     if (response.statusCode == 200) {
       return ModelDetails.fromJson(json.decode(response.body), type);
     } else {
@@ -93,7 +118,7 @@ Future<List<ImageApi>> getImages({MediaType type, int id}) async {
 Future<List<Model>> getCast({MediaType type, int id}) async {
   if (!id.isNaN) {
     final response = await http.get(
-        '$url${type.url}/${id.toString()}/${type == MediaType.person ? 'combined_credits' : 'credits'}?$apiKey');
+        '$url${type.url}/${id.toString()}/${type == MediaType.person ? 'combined_credits' : 'credits'}?$apiKey&language=$lang');
     if (response.statusCode == 200) {
       List<Model> result = [];
       for (final e in json.decode(response.body)["cast"]) {
@@ -114,8 +139,8 @@ Future<List<Model>> getCast({MediaType type, int id}) async {
 
 Future<List<Model>> getHomeCategoryItems(
     {MediaType type, HomeCategoryType category, int page = 1}) async {
-  final response =
-      await http.get('$url${type.url}/${category.url}?$apiKey&page=$page');
+  final response = await http
+      .get('$url${type.url}/${category.url}?$apiKey&language=$lang&page=$page');
   if (response.statusCode == 200) {
     List<Model> result = [];
     for (final e in json.decode(response.body)["results"]) {
@@ -132,7 +157,7 @@ Future<List<Season>> getSeasons({int tvId, int numberOfSeasons = 1}) async {
   List<Future> futures = [];
   for (var i = 1; i <= numberOfSeasons; i++) {
     futures.add(http
-        .get('$url${MediaType.tv.url}/$tvId/season/$i?$apiKey')
+        .get('$url${MediaType.tv.url}/$tvId/season/$i?$apiKey&language=$lang')
         .then((response) => {
               if (response.statusCode == 200)
                 {seasons.add(Season.fromJson(json.decode(response.body)))}
@@ -142,4 +167,18 @@ Future<List<Season>> getSeasons({int tvId, int numberOfSeasons = 1}) async {
   }
   await Future.wait(futures);
   return seasons;
+}
+
+Future<List<Genre>> getGenres(MediaType type) async {
+  final response =
+      await http.get('${url}genre/${type.url}/list?$apiKey&language=$lang');
+  if (response.statusCode == 200) {
+    List<Genre> result = [];
+    for (final e in json.decode(response.body)["genres"]) {
+      result.add(Genre.fromJson(e));
+    }
+    return result;
+  } else {
+    throw Exception("Failed to load");
+  }
 }

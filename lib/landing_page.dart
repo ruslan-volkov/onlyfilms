@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:onlyfilms/navigator_page.dart';
 import 'package:onlyfilms/screens/auth/login_page.dart';
+import 'package:onlyfilms/services/fetch.dart';
+import 'package:onlyfilms/utilities/localization.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -33,6 +35,7 @@ class LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
+    initLang(AppLocalizations.of(context).locale);
     return NavigatorPage();
   }
 }

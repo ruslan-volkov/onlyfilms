@@ -213,29 +213,36 @@ class SearchPageState extends State<SearchPage>
                       child: Card(
                         color: Theme.of(context).backgroundColor,
                         elevation: 18.0,
-                        child: snapshot.data[index].image != null &&
-                                snapshot.data[index].image.isNotEmpty
-                            ? CustomInkwell(
-                                Image.network(
-                                  snapshot.data[index].image,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent loadingProgress) {
-                                    return CustomImageLoadingBuilder(
-                                        child, loadingProgress);
-                                  },
-                                ),
-                                () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DetailsPage(
-                                              snapshot.data[index])),
-                                    ))
-                            : Image.asset(
-                                "assets/image_not_found.png",
-                                fit: BoxFit.cover,
-                              ),
+                        child: CustomInkwell(
+                            snapshot.data[index].image != null &&
+                                    snapshot.data[index].image.isNotEmpty
+                                ? Image.network(
+                                    snapshot.data[index].image,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent loadingProgress) {
+                                      return CustomImageLoadingBuilder(
+                                          child, loadingProgress);
+                                    },
+                                  )
+                                : Center(
+                                    child: Icon(
+                                    Icons.report,
+                                    color: Theme.of(context).splashColor,
+                                    size: ScreenUtil().setWidth(100),
+                                  )),
+
+                            // Image.asset(
+                            //     "assets/image_not_found.png",
+                            //     fit: BoxFit.cover,
+                            //   ),
+                            () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailsPage(snapshot.data[index])),
+                                )),
                         clipBehavior: Clip.antiAlias,
                       ),
                     )

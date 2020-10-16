@@ -24,8 +24,8 @@ class OnlyFilmsState extends State<OnlyFilms> {
       GlobalWidgetsLocalizations.delegate,
       GlobalCupertinoLocalizations.delegate,
     ], supportedLocales: [
-      const Locale("en", ""),
-      const Locale("fr", ""),
+      const Locale("en", "US"),
+      const Locale("fr", "FR"),
     ], title: "OnlyFilms", theme: darkTheme, home: LandingPage());
   }
 }

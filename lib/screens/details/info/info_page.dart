@@ -30,6 +30,7 @@ class InfoPageState extends State<InfoPage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var textTheme = Theme.of(context).textTheme;
     return Column(children: [
       Padding(

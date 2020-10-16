@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => HomePageState();
 }
 
-class HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   MediaType type = MediaType.movie;
   Future<List<Model>> upcoming;
   Future<List<Model>> popular;
@@ -46,6 +46,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SafeArea(
         child: Scaffold(
       body: Container(
@@ -162,4 +163,7 @@ class HomePageState extends State<HomePage> {
           )),
     ));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

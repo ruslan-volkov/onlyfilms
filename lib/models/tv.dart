@@ -51,7 +51,7 @@ class Tv extends ModelDetails {
         status: json["status"],
         voteAverage: json["vote_average"],
         voteCount: json["vote_count"],
-        genres: Genre.getGenresFromJsonArray(json["genres"]),
+        genres: Genre.getGenresFromIdsArray(json["genre_ids"]),
         backdropPath: Model.getImageUrl(json["backdrop_path"]),
         episodeRuntime: json["episode_run_time"] != null
             ? List<int>.from(json["episode_run_time"])

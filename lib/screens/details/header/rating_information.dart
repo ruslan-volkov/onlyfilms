@@ -76,7 +76,7 @@ class RatingInformation extends StatelessWidget {
     );
   }
 
-  getVoteAverage(double voteAverage) {
+  getVoteAverage(num voteAverage) {
     return double.parse((voteAverage / 2).toStringAsFixed(1));
   }
 }

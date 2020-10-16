@@ -48,7 +48,7 @@ class Movie extends ModelDetails {
         status: json["status"],
         voteAverage: json["vote_average"],
         voteCount: json["vote_count"],
-        genres: Genre.getGenresFromJsonArray(json["genres"]),
+        genres: Genre.getGenresFromIdsArray(json["genre_ids"]),
         backdropPath: Model.getImageUrl(json["backdrop_path"]),
         runtime: json["runtime"],
         image: Model.getImageUrl(json["poster_path"]));
