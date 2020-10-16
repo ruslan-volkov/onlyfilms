@@ -17,4 +17,14 @@ class Season {
         airDate: json["air_date"],
         episodes: Episode.getEpisodesFromJsonArray(json["episodes"]));
   }
+
+  static List<Season> getSeasonsFromJsonArray(dynamic json) {
+    List<Season> seasons = new List<Season>();
+    if (json != null) {
+      for (var season in json) {
+        seasons.add(Season.fromJson(season));
+      }
+    }
+    return seasons;
+  }
 }

@@ -34,32 +34,7 @@ class EpisodesPageState extends State<EpisodesPage>
         future: details,
         builder: (context, snapshotDetails) {
           return snapshotDetails.hasData
-              ? FutureBuilder<List<Season>>(
-                  future: getSeasons(
-                      tvId: snapshotDetails.data.id,
-                      numberOfSeasons:
-                          (snapshotDetails.data as Tv).numberOfSeasons),
-                  builder: (context, snapshot) {
-                    return snapshot.hasData
-                        ? _buildSeasons(snapshot.data)
-                        : Container(
-                            height: ScreenUtil().setWidth(300),
-                            width: ScreenUtil().setWidth(300),
-                            child: CustomProgressIndicator(),
-                          );
-                  })
-              : Container(
-                  height: ScreenUtil().setWidth(300),
-                  width: ScreenUtil().setWidth(300),
-                  child: CustomProgressIndicator(),
-                );
-        });
-
-    return FutureBuilder<List<Season>>(
-        future: seasons,
-        builder: (context, snapshot) {
-          return snapshot.hasData
-              ? _buildSeasons(snapshot.data)
+              ? _buildSeasons((snapshotDetails.data as Tv).seasons)
               : Container(
                   height: ScreenUtil().setWidth(300),
                   width: ScreenUtil().setWidth(300),

@@ -2,6 +2,7 @@ import 'package:onlyfilms/models/genre.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
 import 'package:onlyfilms/models/person.dart';
+import 'package:onlyfilms/models/season.dart';
 
 class Tv extends ModelDetails {
   final String releaseDate;
@@ -10,6 +11,7 @@ class Tv extends ModelDetails {
   final int voteCount;
   final List<int> episodeRuntime;
   final int numberOfSeasons;
+  final List<Season> seasons;
 
   Tv(
       {id,
@@ -25,7 +27,8 @@ class Tv extends ModelDetails {
       genres,
       backdropPath,
       this.episodeRuntime,
-      this.numberOfSeasons})
+      this.numberOfSeasons,
+      this.seasons})
       : super(
             id: id,
             name: name,
@@ -54,6 +57,7 @@ class Tv extends ModelDetails {
             ? List<int>.from(json["episode_run_time"])
             : null,
         image: Model.getImageUrl(json["poster_path"]),
-        numberOfSeasons: json["number_of_seasons"]);
+        numberOfSeasons: json["number_of_seasons"],
+        seasons: Season.getSeasonsFromJsonArray(json["seasons"]));
   }
 }
