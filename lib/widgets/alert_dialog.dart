@@ -8,6 +8,7 @@ class OkAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      titleTextStyle: TextStyle(color: Colors.black),
       title: Text(title),
       content: Text(content),
       actions: [

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:onlyfilms/landing_page.dart';
 import 'package:onlyfilms/utilities/localization.dart';
 import 'package:onlyfilms/widgets/alert_dialog.dart';
 
@@ -10,9 +11,16 @@ class SignIn {
 
   Future<void> signIn(BuildContext context, AuthCredential credential) async {
     try {
-      final UserCredential authResult =
-          await _auth.signInWithCredential(credential);
-      final User user = authResult.user;
+      User user;
+      if (_auth.currentUser != null && _auth.currentUser.isAnonymous) {
+        final UserCredential authResult =
+            await _auth.currentUser.linkWithCredential(credential);
+        user = authResult.user;
+      } else {
+        final UserCredential authResult =
+            await _auth.signInWithCredential(credential);
+        user = authResult.user;
+      }
 
       if (user != null) {
         assert(!user.isAnonymous);
@@ -21,8 +29,11 @@ class SignIn {
         final User currentUser = _auth.currentUser;
         assert(user.uid == currentUser.uid);
 
-        print('signInWithGoogle succeeded: $user');
-
+        print('signIn succeeded: $user');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Container(child: LandingPage())));
         return '$user';
       }
     } catch (error) {

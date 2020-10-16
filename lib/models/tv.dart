@@ -9,6 +9,7 @@ class Tv extends ModelDetails {
   final String status;
   final int voteCount;
   final List<int> episodeRuntime;
+  final int numberOfSeasons;
 
   Tv(
       {id,
@@ -23,7 +24,8 @@ class Tv extends ModelDetails {
       this.voteCount,
       genres,
       backdropPath,
-      this.episodeRuntime})
+      this.episodeRuntime,
+      this.numberOfSeasons})
       : super(
             id: id,
             name: name,
@@ -51,6 +53,7 @@ class Tv extends ModelDetails {
         episodeRuntime: json["episode_run_time"] != null
             ? List<int>.from(json["episode_run_time"])
             : null,
-        image: Model.getImageUrl(json["poster_path"]));
+        image: Model.getImageUrl(json["poster_path"]),
+        numberOfSeasons: json["number_of_seasons"]);
   }
 }

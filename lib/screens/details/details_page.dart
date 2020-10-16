@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/image_api.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
-import 'package:onlyfilms/screens/details/details_body.dart';
+import 'package:onlyfilms/screens/details/episodes/episodes_page.dart';
+import 'package:onlyfilms/screens/details/info/info_page.dart';
 import 'package:onlyfilms/screens/details/header/details_header.dart';
 import 'package:onlyfilms/services/fetch.dart';
 import 'package:onlyfilms/utilities/localization.dart';
@@ -23,7 +24,7 @@ class DetailsPageState extends State<DetailsPage>
   final bodyGlobalKey = GlobalKey();
   TabController _tabController;
   ScrollController _scrollController;
-  bool fixedScroll;
+  bool fixedScroll = false;
 
   Future<ModelDetails> details;
   Future<List<ImageApi>> photos;
@@ -65,68 +66,74 @@ class DetailsPageState extends State<DetailsPage>
       duration: Duration(microseconds: 300),
       curve: Curves.ease,
     );
-
-    setState(() {
-      fixedScroll = _tabController.index == 2;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: NestedScrollView(
-        controller: _scrollController,
-        headerSliverBuilder: (context, value) {
-          return [
-            SliverToBoxAdapter(child: _buildCarousel()),
-            SliverToBoxAdapter(
-              child: TabBar(
-                controller: _tabController,
-                labelColor: Theme.of(context).textTheme.headline6.color,
-                isScrollable: true,
-                tabs: [
-                  Container(
-                      width: ScreenUtil().setWidth(540),
-                      child: Tab(
-                          text:
-                              AppLocalizations.of(context).translate("About"))),
-                  Container(
-                      width: ScreenUtil().setWidth(540),
-                      child: Tab(
-                          text: AppLocalizations.of(context)
-                              .translate("Episodes"))),
-                ],
+      body: widget.element.mediaType == MediaType.tv
+          ? NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder: (context, value) {
+                return [
+                  SliverToBoxAdapter(child: _buildCarousel()),
+                  SliverToBoxAdapter(
+                    child: TabBar(
+                      controller: _tabController,
+                      labelColor: Theme.of(context).textTheme.headline6.color,
+                      isScrollable: true,
+                      tabs: [
+                        Container(
+                            width: ScreenUtil().setWidth(540),
+                            child: Tab(
+                                text: AppLocalizations.of(context)
+                                    .translate("About"))),
+                        Container(
+                            width: ScreenUtil().setWidth(540),
+                            child: Tab(
+                                text: AppLocalizations.of(context)
+                                    .translate("Episodes"))),
+                      ],
+                    ),
+                  ),
+                ];
+              },
+              body: Container(
+                color: Theme.of(context).backgroundColor,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    SingleChildScrollView(child: _info()),
+                    SingleChildScrollView(child: EpisodesPage(widget.element)),
+                  ],
+                ),
               ),
+            )
+          : SafeArea(
+              bottom: false,
+              child: SizedBox.expand(
+                  child: Container(
+                      color: Theme.of(context).backgroundColor,
+                      child: SingleChildScrollView(
+                          child:
+                              Column(children: [_buildCarousel(), _info()])))),
             ),
-          ];
-        },
-        body: Container(
-          color: Theme.of(context).backgroundColor,
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              SingleChildScrollView(
-                  child: FutureBuilder<ModelDetails>(
-                      future: details,
-                      builder: (context, snapshot) {
-                        return snapshot.hasData
-                            ? DetailsBody(
-                                widget.element, snapshot.data.overview)
-                            : Container(
-                                height: ScreenUtil().setHeight(500),
-                                width: ScreenUtil().setWidth(500),
-                                color: Colors.transparent,
-                                child: CustomProgressIndicator());
-                      })),
-              Icon(Icons.directions_transit),
-              // _buildTabContext(200),
-              // _buildTabContext(2)
-            ],
-          ),
-        ),
-      ),
     );
+  }
+
+  Widget _info() {
+    return FutureBuilder<ModelDetails>(
+        future: details,
+        builder: (context, snapshot) {
+          return snapshot.hasData
+              ? InfoPage(widget.element, snapshot.data.overview)
+              : Container(
+                  height: ScreenUtil().setHeight(500),
+                  width: ScreenUtil().setWidth(500),
+                  color: Colors.transparent,
+                  child: CustomProgressIndicator());
+        });
   }
 }
 

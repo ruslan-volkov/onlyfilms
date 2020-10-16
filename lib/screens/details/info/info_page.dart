@@ -9,16 +9,16 @@ import 'package:onlyfilms/services/fetch.dart';
 import 'package:onlyfilms/utilities/localization.dart';
 import 'package:onlyfilms/widgets/progress_indicator.dart';
 
-class DetailsBody extends StatefulWidget {
-  DetailsBody(this.element, this.overview);
+class InfoPage extends StatefulWidget {
+  InfoPage(this.element, this.overview);
   final Model element;
   final String overview;
 
   @override
-  State<StatefulWidget> createState() => DetailsBodyState();
+  State<StatefulWidget> createState() => InfoPageState();
 }
 
-class DetailsBodyState extends State<DetailsBody> {
+class InfoPageState extends State<InfoPage> with AutomaticKeepAliveClientMixin {
   Future<List<ImageApi>> photos;
   Future<List<Model>> cast;
 
@@ -72,4 +72,7 @@ class DetailsBodyState extends State<DetailsBody> {
       SizedBox(height: ScreenUtil().setHeight(50))
     ]);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

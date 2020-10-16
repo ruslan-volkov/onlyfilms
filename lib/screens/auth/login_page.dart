@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/screens/auth/sign_in_anonymous.dart';
@@ -13,6 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,13 +37,19 @@ class _LoginPageState extends State<LoginPage> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SignInButton(
-                            context: context,
-                            onPressed: AnonymousSignin().signInAnonymously,
-                            text: AppLocalizations.of(context)
-                                .translate("SignInAnonymously"),
-                          ),
-                          SizedBox(height: ScreenUtil().setHeight(20)),
+                          if (_auth.currentUser == null ||
+                              (_auth.currentUser != null &&
+                                  !_auth.currentUser.isAnonymous))
+                            SignInButton(
+                              context: context,
+                              onPressed: AnonymousSignin().signInAnonymously,
+                              text: AppLocalizations.of(context)
+                                  .translate("SignInAnonymously"),
+                            ),
+                          if (_auth.currentUser == null ||
+                              (_auth.currentUser != null &&
+                                  !_auth.currentUser.isAnonymous))
+                            SizedBox(height: ScreenUtil().setHeight(20)),
                           SignInButton(
                               context: context,
                               onPressed: GoogleSignin().signInWithGoogle,

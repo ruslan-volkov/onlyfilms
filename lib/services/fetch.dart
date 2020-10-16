@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:onlyfilms/models/image_api.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
+import 'package:onlyfilms/models/season.dart';
 
 // TODO : get api key from flutter db
 final String apiKey = "api_key=596add70d5379735ac76cac1ac83c4b0";
@@ -42,7 +43,7 @@ extension QueryTypeExtension on HomeCategoryType {
 
 Future<List<Model>> fetchAll(
     {MediaType type = MediaType.multi, String query, int page = 1}) async {
-  List<Model> result = new List<Model>();
+  List<Model> result = [];
   if (query.isNotEmpty) {
     final response = await http.get(
         '${url}search/${type.url}?$apiKey&$langUS&page=${page.toString()}&query=$query');
@@ -77,7 +78,7 @@ Future<List<ImageApi>> getImages({MediaType type, int id}) async {
     final response =
         await http.get('$url${type.url}/${id.toString()}/images?$apiKey');
     if (response.statusCode == 200) {
-      List<ImageApi> result = new List<ImageApi>();
+      List<ImageApi> result = [];
       var body = json.decode(response.body);
       result = ImageApi.getFromJsonByType(type, body);
       return result;
@@ -94,7 +95,7 @@ Future<List<Model>> getCast({MediaType type, int id}) async {
     final response = await http.get(
         '$url${type.url}/${id.toString()}/${type == MediaType.person ? 'combined_credits' : 'credits'}?$apiKey');
     if (response.statusCode == 200) {
-      List<Model> result = new List<Model>();
+      List<Model> result = [];
       for (final e in json.decode(response.body)["cast"]) {
         if (type == MediaType.person) {
           result.add(Model.fromJson(e, MediaType.movie));
@@ -116,7 +117,7 @@ Future<List<Model>> getHomeCategoryItems(
   final response =
       await http.get('$url${type.url}/${category.url}?$apiKey&page=$page');
   if (response.statusCode == 200) {
-    List<Model> result = new List<Model>();
+    List<Model> result = [];
     for (final e in json.decode(response.body)["results"]) {
       result.add(Model.fromJson(e, type));
     }
@@ -124,4 +125,21 @@ Future<List<Model>> getHomeCategoryItems(
   } else {
     throw Exception("Failed to load");
   }
+}
+
+Future<List<Season>> getSeasons({int tvId, int numberOfSeasons = 1}) async {
+  List<Season> seasons = [];
+  List<Future> futures = [];
+  for (var i = 1; i <= numberOfSeasons; i++) {
+    futures.add(http
+        .get('$url${MediaType.tv.url}/$tvId/season/$i?$apiKey')
+        .then((response) => {
+              if (response.statusCode == 200)
+                {seasons.add(Season.fromJson(json.decode(response.body)))}
+              else
+                {throw Exception("Failed to load")}
+            }));
+  }
+  await Future.wait(futures);
+  return seasons;
 }

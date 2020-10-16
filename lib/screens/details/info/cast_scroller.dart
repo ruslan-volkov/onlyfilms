@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/screens/details/details_page.dart';
-import 'package:onlyfilms/utilities/localization.dart';
 import 'package:onlyfilms/widgets/image_action.dart';
 import 'package:onlyfilms/widgets/image_loader.dart';
 
