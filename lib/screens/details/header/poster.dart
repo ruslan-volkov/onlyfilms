@@ -20,6 +20,7 @@ class Poster extends StatelessWidget {
     return Material(
         borderRadius: BorderRadius.circular(4.0),
         elevation: 2.0,
+        color: Theme.of(context).backgroundColor,
         child: ImageViewer(
           posterUrl,
           Image.network(posterUrl,

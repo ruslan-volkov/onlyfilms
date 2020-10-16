@@ -106,11 +106,9 @@ class HomePageState extends State<HomePage> {
                                               : AppLocalizations.of(context)
                                                   .translate("Airing today"),
                                           snapshot.data)
-                                      : Center(
-                                          child: CustomProgressIndicator(
-                                              backgroundColor: Theme.of(context)
-                                                  .backgroundColor),
-                                        );
+                                      : CustomProgressIndicator(
+                                          backgroundColor: Theme.of(context)
+                                              .backgroundColor);
                                 })),
                         SizedBox(
                             height: ScreenUtil().setHeight(650),
@@ -127,11 +125,9 @@ class HomePageState extends State<HomePage> {
                                               : AppLocalizations.of(context)
                                                   .translate("On the air"),
                                           snapshot.data)
-                                      : Center(
-                                          child: CustomProgressIndicator(
-                                              backgroundColor: Theme.of(context)
-                                                  .backgroundColor),
-                                        );
+                                      : CustomProgressIndicator(
+                                          backgroundColor: Theme.of(context)
+                                              .backgroundColor);
                                 })),
                         SizedBox(
                             height: ScreenUtil().setHeight(650),
@@ -143,11 +139,9 @@ class HomePageState extends State<HomePage> {
                                           AppLocalizations.of(context)
                                               .translate("Popular"),
                                           snapshot.data)
-                                      : Center(
-                                          child: CustomProgressIndicator(
-                                              backgroundColor: Theme.of(context)
-                                                  .backgroundColor),
-                                        );
+                                      : CustomProgressIndicator(
+                                          backgroundColor: Theme.of(context)
+                                              .backgroundColor);
                                 })),
                         SizedBox(
                             height: ScreenUtil().setHeight(650),
@@ -159,11 +153,9 @@ class HomePageState extends State<HomePage> {
                                           AppLocalizations.of(context)
                                               .translate("Top rated"),
                                           snapshot.data)
-                                      : Center(
-                                          child: CustomProgressIndicator(
-                                              backgroundColor: Theme.of(context)
-                                                  .backgroundColor),
-                                        );
+                                      : CustomProgressIndicator(
+                                          backgroundColor: Theme.of(context)
+                                              .backgroundColor);
                                 })),
                       ])),
             ],

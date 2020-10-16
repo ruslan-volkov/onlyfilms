@@ -35,10 +35,8 @@ class MyApp extends StatelessWidget {
       FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     }
     return FutureBuilder(
-      // Initialize FlutterFire:
       future: _initialization,
       builder: (context, snapshot) {
-        // Check for errors
         if (snapshot.hasError) {
           return Text(
             AppLocalizations.of(context).translate("ErrorAppend"),
@@ -46,12 +44,10 @@ class MyApp extends StatelessWidget {
           );
         }
 
-        // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           return OnlyFilms();
         }
 
-        // Otherwise, show something whilst waiting for initialization to complete
         return CircularProgressIndicator();
       },
     );

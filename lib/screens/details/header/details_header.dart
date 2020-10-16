@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/model.dart';
 import 'package:onlyfilms/models/model_details.dart';
-import 'package:onlyfilms/screens/details/arc_banner_image.dart';
-import 'package:onlyfilms/screens/details/poster.dart';
-import 'package:onlyfilms/screens/details/rating_information.dart';
+import 'package:onlyfilms/screens/details/header/arc_banner_image.dart';
+import 'package:onlyfilms/screens/details/header/poster.dart';
+import 'package:onlyfilms/screens/details/header/rating_information.dart';
 
 class DetailsHeader extends StatelessWidget {
   DetailsHeader(this.element);

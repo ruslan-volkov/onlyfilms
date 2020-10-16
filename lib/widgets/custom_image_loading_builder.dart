@@ -8,13 +8,11 @@ class CustomImageLoadingBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (loadingProgress == null) return child;
-    return Center(
-      child: CustomProgressIndicator(
-          value: loadingProgress.expectedTotalBytes != null
-              ? loadingProgress.cumulativeBytesLoaded /
-                  loadingProgress.expectedTotalBytes
-              : null,
-          backgroundColor: Theme.of(context).splashColor),
-    );
+    return CustomProgressIndicator(
+        value: loadingProgress.expectedTotalBytes != null
+            ? loadingProgress.cumulativeBytesLoaded /
+                loadingProgress.expectedTotalBytes
+            : null,
+        backgroundColor: Theme.of(context).backgroundColor);
   }
 }

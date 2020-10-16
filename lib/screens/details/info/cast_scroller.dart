@@ -6,13 +6,13 @@ import 'package:onlyfilms/utilities/localization.dart';
 import 'package:onlyfilms/widgets/image_action.dart';
 import 'package:onlyfilms/widgets/image_loader.dart';
 
-class ActorScroller extends StatelessWidget {
-  ActorScroller(this.mediaType, this.cast);
+class CastScroller extends StatelessWidget {
+  CastScroller(this.mediaType, this.casts);
   final MediaType mediaType;
-  final List<Model> cast;
+  final List<Model> casts;
 
-  Widget _buildActor(BuildContext context, int index) {
-    var actor = cast[index];
+  Widget _buildCast(BuildContext context, int index) {
+    var cast = casts[index];
     var width = ScreenUtil().setHeight(400) * 0.65;
     var height = ScreenUtil().setHeight(400);
     return Padding(
@@ -20,8 +20,8 @@ class ActorScroller extends StatelessWidget {
       child: Column(
         children: [
           ImageAction(
-              actor.image != null && actor.image.isNotEmpty
-                  ? Image.network(actor.image,
+              cast.image != null && cast.image.isNotEmpty
+                  ? Image.network(cast.image,
                       width: width,
                       height: height,
                       fit: BoxFit.fill, loadingBuilder: (BuildContext context,
@@ -37,12 +37,12 @@ class ActorScroller extends StatelessWidget {
                     ),
               () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DetailsPage(actor)),
+                    MaterialPageRoute(builder: (context) => DetailsPage(cast)),
                   )),
           Padding(
             padding: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
             child: Text(
-              actor.name,
+              cast.name,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -53,29 +53,14 @@ class ActorScroller extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var textTheme = Theme.of(context).textTheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Text(
-            AppLocalizations.of(context).translate("Cast"),
-            style:
-                textTheme.subtitle1.copyWith(fontSize: ScreenUtil().setSp(45)),
-          ),
-        ),
-        SizedBox.fromSize(
-          size: Size.fromHeight(ScreenUtil().setHeight(500)),
-          child: ListView.builder(
-            itemCount: cast.length,
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.only(top: 12.0, left: 20.0),
-            itemBuilder: _buildActor,
-          ),
-        ),
-      ],
+    return SizedBox.fromSize(
+      size: Size.fromHeight(ScreenUtil().setHeight(500)),
+      child: ListView.builder(
+        itemCount: casts.length,
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.only(top: 12.0, left: 20.0),
+        itemBuilder: _buildCast,
+      ),
     );
   }
 }

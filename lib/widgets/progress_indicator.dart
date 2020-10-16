@@ -7,10 +7,9 @@ class CustomProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor ?? Colors.transparent,
       body: Center(
         child: CircularProgressIndicator(
-          backgroundColor: Colors.white,
           value: value,
         ),
       ),
