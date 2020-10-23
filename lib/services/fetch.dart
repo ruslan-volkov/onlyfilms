@@ -166,6 +166,7 @@ Future<List<Season>> getSeasons({int tvId, int numberOfSeasons = 1}) async {
             }));
   }
   await Future.wait(futures);
+  seasons.sort((a, b) => a.seasonNumber.compareTo(b.seasonNumber));
   return seasons;
 }
 

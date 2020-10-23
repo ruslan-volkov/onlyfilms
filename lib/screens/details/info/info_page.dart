@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:onlyfilms/models/image_api.dart';
 import 'package:onlyfilms/models/model.dart';
+import 'package:onlyfilms/models/model_details.dart';
 import 'package:onlyfilms/screens/details/info/cast_scroller.dart';
 import 'package:onlyfilms/screens/details/info/image_scroller.dart';
 import 'package:onlyfilms/screens/details/info/storyline.dart';
@@ -10,9 +11,8 @@ import 'package:onlyfilms/utilities/localization.dart';
 import 'package:onlyfilms/widgets/progress_indicator.dart';
 
 class InfoPage extends StatefulWidget {
-  InfoPage(this.element, this.overview);
-  final Model element;
-  final String overview;
+  InfoPage(this.element);
+  final ModelDetails element;
 
   @override
   State<StatefulWidget> createState() => InfoPageState();
@@ -35,7 +35,7 @@ class InfoPageState extends State<InfoPage> with AutomaticKeepAliveClientMixin {
     return Column(children: [
       Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Storyline(widget.overview),
+        child: Storyline(widget.element.overview),
       ),
       FutureBuilder<List<ImageApi>>(
           future: photos,
