@@ -63,9 +63,9 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
                         alignment: Alignment.bottomRight,
                         child: Container(
                             margin: EdgeInsets.only(
-                                top: ScreenUtil().setWidth(30),
+                                top: ScreenUtil().setHeight(10),
                                 right: ScreenUtil().setWidth(30),
-                                bottom: ScreenUtil().setWidth(10)),
+                                bottom: ScreenUtil().setHeight(10)),
                             child: CustomSwitch(
                               width: ScreenUtil().setWidth(300),
                               height: ScreenUtil().setHeight(100),

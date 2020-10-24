@@ -43,7 +43,7 @@ getSeasonsAndEpisodes(int id) async {
       .get();
 
   for (var s in seasons.docs) {
-    var e = await firestore
+    var eps = await firestore
         .collection("user")
         .doc(FirebaseAuth.instance.currentUser.uid)
         .collection("following")
@@ -53,9 +53,11 @@ getSeasonsAndEpisodes(int id) async {
         .collection("episodes")
         .get();
     var ss = new Ep(id: s.id, seen: s.get("seen").toDate());
-    var ee = e.docs.length > 0
-        ? e.docs.map((e) => new Ep(id: e.id, seen: e.get("seen").toDate()))
-        : [];
+    var ee = eps.docs.length > 0
+        ? eps.docs
+            .map<Ep>((ep) => new Ep(id: ep.id, seen: ep.get("seen").toDate()))
+            .toList()
+        : new List<Ep>();
     result.add(new FollowObj(season: ss, episodes: ee));
     // {"season": , "episodes": e.docs.map((e) => e.data())});
   }
@@ -123,44 +125,68 @@ unseeEpisode(int id, Episode episode) async {
 }
 
 unseeSeason(int id, Season season) async {
-  await firestore
-      .collection("user")
-      .doc(FirebaseAuth.instance.currentUser.uid)
-      .collection("following")
-      .doc("$id")
-      .collection("seasons")
-      .doc("${season.seasonNumber}")
-      .set({"seen": null});
-  // var batch = firestore.batch();
+  // await firestore
+  //     .collection("user")
+  //     .doc(FirebaseAuth.instance.currentUser.uid)
+  //     .collection("following")
+  //     .doc("$id")
+  //     .collection("seasons")
+  //     .doc("${season.seasonNumber}")
+  //     .set({"seen": null});
+  var batch = firestore.batch();
 
-  // for (var episode in season.episodes) {
-  //   var doc = firestore
-  //       .collection("user")
-  //       .doc(FirebaseAuth.instance.currentUser.uid)
-  //       .collection("following")
-  //       .doc("$id")
-  //       .collection("seasons")
-  //       .doc("${episode.seasonNumber}")
-  //       .collection("episodes")
-  //       .doc("${episode.episodeNumber}");
-  //   batch.delete(doc);
-  // }
+  for (var episode in season.episodes) {
+    var doc = firestore
+        .collection("user")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection("following")
+        .doc("$id")
+        .collection("seasons")
+        .doc("${episode.seasonNumber}")
+        .collection("episodes")
+        .doc("${episode.episodeNumber}");
+    batch.delete(doc);
+  }
 
-  // batch.commit();
+  batch.commit();
 }
 
 seeSeason(int id, Season season) async {
+  // await firestore
+  //     .collection("user")
+  //     .doc(FirebaseAuth.instance.currentUser.uid)
+  //     .collection("following")
+  //     .doc("$id")
+  //     .collection("seasons")
+  //     .doc("${season.seasonNumber}")
+  //     .set({"seen": DateTime.now()});
+  var batch = firestore.batch();
+
+  for (var episode in season.episodes) {
+    var doc = firestore
+        .collection("user")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection("following")
+        .doc("$id")
+        .collection("seasons")
+        .doc("${episode.seasonNumber}")
+        .collection("episodes")
+        .doc("${episode.episodeNumber}");
+    batch.set(doc, {"seen": DateTime.now()});
+  }
+
+  batch.commit();
+}
+
+seeEpisode(int id, Episode episode) async {
   await firestore
       .collection("user")
       .doc(FirebaseAuth.instance.currentUser.uid)
       .collection("following")
       .doc("$id")
       .collection("seasons")
-      .doc("${season.seasonNumber}")
-      .set({"seen": DateTime.now()});
-}
-
-seeEpisode(int id, Episode episode) async {
+      .doc("${episode.seasonNumber}")
+      .set({"seen": DateTime.now()}, SetOptions(merge: true));
   await firestore
       .collection("user")
       .doc(FirebaseAuth.instance.currentUser.uid)

@@ -38,14 +38,17 @@ class EpisodesPageState extends State<EpisodesPage>
       var s = await getSeasons(
           tvId: widget.element.id,
           numberOfSeasons: widget.element.numberOfSeasons);
-      var test = await getSeasonsAndEpisodes(widget.element.id);
-      userSeasons = test;
+      await _reloadItems();
       _cachedItems.addAll(s);
       itemsSink.add(_cachedItems);
       // _limit += 10;
     } catch (e) {
       itemsSink.addError(e);
     }
+  }
+
+  Future<void> _reloadItems() async {
+    userSeasons = await getSeasonsAndEpisodes(widget.element.id);
   }
 
   void initState() {
@@ -81,67 +84,96 @@ class EpisodesPageState extends State<EpisodesPage>
   Widget _buildSeasons(List<Season> _seasons) {
     var theme = Theme.of(context);
     var textTheme = theme.textTheme;
-    return Column(children: [
-      for (var season in _seasons)
-        ExpandablePanel(
-          header: Row(children: [
-            Text(season.name,
-                style: textTheme.subtitle1
-                    .copyWith(fontSize: ScreenUtil().setSp(45))),
-            CircularCheckBox(
-                value: _hasSeenAllSeasonEpisodes(season),
-                materialTapTargetSize: MaterialTapTargetSize.padded,
-                onChanged: (bool x) {
-                  if (x) {
-                    _seeSeason(season);
-                  } else {
-                    _unseeSeason(season);
-                  }
-                  // setState(() {
-                  //   // b = !b;
-                  // });
-                  // b = !b;
-                }),
-          ]),
-          theme: ExpandableThemeData(
-              iconColor: theme.accentColor,
-              tapBodyToCollapse: true,
-              tapBodyToExpand: true,
-              tapHeaderToExpand: true),
-          expanded: _buildEpisodes(season.episodes),
-        )
-    ]);
+    return Padding(
+        padding: EdgeInsets.only(left: ScreenUtil().setWidth(30)),
+        child: Column(children: [
+          for (var season in _seasons)
+            ExpandablePanel(
+              header: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(season.name,
+                        style: textTheme.subtitle1
+                            .copyWith(fontSize: ScreenUtil().setSp(45))),
+                    CircularCheckBox(
+                        value: _hasSeenAllSeasonEpisodes(season),
+                        materialTapTargetSize: MaterialTapTargetSize.padded,
+                        onChanged: (bool x) {
+                          setState(() {
+                            new Future(() {
+                              if (x) {
+                                _seeSeason(season);
+                              } else {
+                                _unseeSeason(season);
+                              }
+                            });
+                          });
+                          // setState(() {
+                          //   // b = !b;
+                          // });
+                          // b = !b;
+                        }),
+                  ]),
+              theme: ExpandableThemeData(
+                  iconColor: theme.accentColor,
+                  tapBodyToCollapse: true,
+                  tapBodyToExpand: true,
+                  tapHeaderToExpand: true),
+              expanded: _buildEpisodes(season.episodes),
+            )
+        ]));
   }
 
   Widget _buildEpisodes(List<Episode> _episodes) {
-    return Column(
-      children: [
-        for (var episode in _episodes)
-          Row(
-            children: [
-              Text(episode.name),
-              CircularCheckBox(
-                  value: _hasSeenEpisode(episode),
-                  materialTapTargetSize: MaterialTapTargetSize.padded,
-                  onChanged: (bool x) {
-                    if (x) {
-                      _seeEpisode(episode);
-                    } else {
-                      _unseeEpisode(episode);
-                    }
-                    // setState(() {
-                    //   // b = !b;
-                    // });
-                    // b = !b;
-                  })
-            ],
-          )
-        // ListTile(
-        //   title: Text(episode.name),
+    return Padding(
+        padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
+        child: Column(
+          children: [
+            for (var episode in _episodes)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: ScreenUtil().setWidth(800),
+                    child: Text(
+                      episode.name,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Container(
+                      width: ScreenUtil().setWidth(100),
+                      child: CircularCheckBox(
+                          value: _hasSeenEpisode(episode),
+                          materialTapTargetSize: MaterialTapTargetSize.padded,
+                          onChanged: (bool x) {
+                            setState(() {
+                              // if (x) {
+                              //   _seeEpisode(episode);
+                              // } else {
+                              //   _unseeEpisode(episode);
+                              // }
+                              new Future(() {
+                                if (x) {
+                                  _seeEpisode(episode);
+                                } else {
+                                  _unseeEpisode(episode);
+                                }
+                              });
+                            });
 
-        // ),
-      ],
-    );
+                            // setState(() {
+                            //   // b = !b;
+                            // });
+                            // b = !b;
+                          }))
+                ],
+              )
+            // ListTile(
+            //   title: Text(episode.name),
+
+            // ),
+          ],
+        ));
   }
 
   _seeSeason(Season season) {
@@ -149,12 +181,18 @@ class EpisodesPageState extends State<EpisodesPage>
     var userSeason = userSeasons.firstWhere(
         (element) => element.season.id == season.seasonNumber.toString(),
         orElse: () => null);
+    var eps = season.episodes
+        .map((se) =>
+            new Ep(id: se.episodeNumber.toString(), seen: DateTime.now()))
+        .toList();
     if (userSeason != null) {
       userSeason.season.seen = DateTime.now();
+      userSeason.episodes.addAll(eps);
     } else {
       userSeasons.add(new FollowObj(
-          season: new Ep(
-              id: season.seasonNumber.toString(), seen: DateTime.now())));
+          season:
+              new Ep(id: season.seasonNumber.toString(), seen: DateTime.now()),
+          episodes: eps));
     }
   }
 
@@ -163,8 +201,9 @@ class EpisodesPageState extends State<EpisodesPage>
     var userSeason = userSeasons.firstWhere(
         (element) => element.season.id == season.seasonNumber.toString(),
         orElse: () => null);
+
     if (userSeason != null) {
-      userSeason.season.seen = null;
+      userSeason.episodes.clear();
     }
   }
 
@@ -174,15 +213,24 @@ class EpisodesPageState extends State<EpisodesPage>
         (element) => element.season.id == episode.seasonNumber.toString(),
         orElse: () => null);
     if (userSeason != null) {
-      var userEpisode = userSeason.episodes.firstWhere(
-          (element) => element.id == episode.episodeNumber.toString(),
-          orElse: () => null);
-      if (userEpisode != null) {
-        userEpisode.seen = DateTime.now();
-      } else {
-        userSeason.episodes.add(
-            new Ep(id: episode.episodeNumber.toString(), seen: DateTime.now()));
+      if (userSeason.episodes != null) {
+        var userEpisode = userSeason.episodes.firstWhere(
+            (element) => element.id == episode.episodeNumber.toString(),
+            orElse: () => null);
+        if (userEpisode != null) {
+          userEpisode.seen = DateTime.now();
+        } else {
+          userSeason.episodes.add(new Ep(
+              id: episode.episodeNumber.toString(), seen: DateTime.now()));
+        }
       }
+    } else {
+      userSeasons.add(new FollowObj(
+          season:
+              new Ep(id: episode.seasonNumber.toString(), seen: DateTime.now()),
+          episodes: new List<Ep>.from([
+            new Ep(id: episode.episodeNumber.toString(), seen: DateTime.now())
+          ])));
     }
   }
 
@@ -191,24 +239,23 @@ class EpisodesPageState extends State<EpisodesPage>
     var userSeason = userSeasons.firstWhere(
         (element) => element.season.id == episode.seasonNumber.toString(),
         orElse: () => null);
-    if (userSeason != null) {
-      var userEpisode = userSeason.episodes.firstWhere(
-          (element) => element.id == episode.episodeNumber.toString(),
-          orElse: () => null);
-      if (userEpisode != null) {
-        userEpisode.seen = null;
-      }
+    if (userSeason != null && userSeason != null) {
+      userSeason.episodes.removeWhere(
+          (element) => element.id == episode.episodeNumber.toString());
     }
   }
 
   _hasSeenAllSeasonEpisodes(Season season) {
     // TODO
-    if (userSeasons.any((element) =>
-        element.season.id == season.seasonNumber.toString() &&
-        element.season.seen != null)) {
-      return true;
+    for (var ep in season.episodes) {
+      if (!userSeasons.any((element) =>
+          element.season.id == ep.seasonNumber.toString() &&
+          element.episodes.any((e) => e.id == ep.episodeNumber.toString()))) {
+        return false;
+      }
     }
-    return false;
+
+    return true;
   }
 
   _hasSeenEpisode(Episode episode) {
@@ -216,11 +263,9 @@ class EpisodesPageState extends State<EpisodesPage>
     var season = userSeasons.firstWhere(
         (element) => element.season.id == episode.seasonNumber.toString(),
         orElse: () => null);
-    if (season != null && season.season.seen != null) {
-      return true;
-    } else if (season != null &&
-        season.episodes.any((e) =>
-            e.id == episode.episodeNumber.toString() && e.seen != null)) {
+    if (season != null &&
+        season.episodes != null &&
+        season.episodes.any((e) => e.id == episode.episodeNumber.toString())) {
       return true;
     }
     return false;
