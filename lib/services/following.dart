@@ -10,12 +10,56 @@ _followingId(int id) {
   return "$id-${FirebaseAuth.instance.currentUser.uid}";
 }
 
+class FollowObj {
+  final Ep season;
+  final List<Ep> episodes;
+
+  FollowObj({this.season, this.episodes});
+}
+
+class Ep {
+  final String id;
+  DateTime seen;
+
+  Ep({this.id, this.seen});
+}
+
 // _episodesId(int seasonNumber, int episodeNumber) {
 //   return "$seasonNumber-$episodeNumber";
 // }
 
 get(int id) async {
   return await firestore.collection("following").doc(_followingId(id)).get();
+}
+
+getSeasonsAndEpisodes(int id) async {
+  List<FollowObj> result = [];
+  var seasons = await firestore
+      .collection("user")
+      .doc(FirebaseAuth.instance.currentUser.uid)
+      .collection("following")
+      .doc("$id")
+      .collection("seasons")
+      .get();
+
+  for (var s in seasons.docs) {
+    var e = await firestore
+        .collection("user")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection("following")
+        .doc("$id")
+        .collection("seasons")
+        .doc(s.id)
+        .collection("episodes")
+        .get();
+    var ss = new Ep(id: s.id, seen: s.get("seen").toDate());
+    var ee = e.docs.length > 0
+        ? e.docs.map((e) => new Ep(id: e.id, seen: e.get("seen").toDate()))
+        : [];
+    result.add(new FollowObj(season: ss, episodes: ee));
+    // {"season": , "episodes": e.docs.map((e) => e.data())});
+  }
+  return result;
 }
 
 getEpisodes(int id) async {

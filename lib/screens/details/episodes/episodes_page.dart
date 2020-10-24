@@ -23,7 +23,7 @@ class EpisodesPageState extends State<EpisodesPage>
     with AutomaticKeepAliveClientMixin {
   Future<List<Season>> seasons;
   // Future<List<dynamic>> userEpisodes;
-  List<dynamic> userEpisodes;
+  List<FollowObj> userSeasons;
   var b = true;
 
   List<Season> _cachedItems = List.from([]);
@@ -38,8 +38,8 @@ class EpisodesPageState extends State<EpisodesPage>
       var s = await getSeasons(
           tvId: widget.element.id,
           numberOfSeasons: widget.element.numberOfSeasons);
-      var test = await getEpisodes(widget.element.id);
-      userEpisodes = test.docs;
+      var test = await getSeasonsAndEpisodes(widget.element.id);
+      userSeasons = test;
       _cachedItems.addAll(s);
       itemsSink.add(_cachedItems);
       // _limit += 10;
@@ -92,14 +92,14 @@ class EpisodesPageState extends State<EpisodesPage>
                 value: _hasSeenAllSeasonEpisodes(season),
                 materialTapTargetSize: MaterialTapTargetSize.padded,
                 onChanged: (bool x) {
-                  // if (x) {
-                  //   seeSeason(widget.element.id, season);
-                  // } else {
-                  //   unseeSeason(widget.element.id, season);
-                  // }
-                  setState(() {
-                    // b = !b;
-                  });
+                  if (x) {
+                    _seeSeason(season);
+                  } else {
+                    _unseeSeason(season);
+                  }
+                  // setState(() {
+                  //   // b = !b;
+                  // });
                   // b = !b;
                 }),
           ]),
@@ -124,14 +124,14 @@ class EpisodesPageState extends State<EpisodesPage>
                   value: _hasSeenEpisode(episode),
                   materialTapTargetSize: MaterialTapTargetSize.padded,
                   onChanged: (bool x) {
-                    // if (x) {
-                    //   seeEpisode(widget.element.id, episode);
-                    // } else {
-                    //   unseeEpisode(widget.element.id, episode);
-                    // }
-                    setState(() {
-                      // b = !b;
-                    });
+                    if (x) {
+                      _seeEpisode(episode);
+                    } else {
+                      _unseeEpisode(episode);
+                    }
+                    // setState(() {
+                    //   // b = !b;
+                    // });
                     // b = !b;
                   })
             ],
@@ -144,35 +144,86 @@ class EpisodesPageState extends State<EpisodesPage>
     );
   }
 
-  // _seeSeason(Season season) {}
+  _seeSeason(Season season) {
+    seeSeason(widget.element.id, season);
+    var userSeason = userSeasons.firstWhere(
+        (element) => element.season.id == season.seasonNumber.toString(),
+        orElse: () => null);
+    if (userSeason != null) {
+      userSeason.season.seen = DateTime.now();
+    } else {
+      userSeasons.add(new FollowObj(
+          season: new Ep(
+              id: season.seasonNumber.toString(), seen: DateTime.now())));
+    }
+  }
 
-  // _unseeSeason(Season season) {}
+  _unseeSeason(Season season) {
+    unseeSeason(widget.element.id, season);
+    var userSeason = userSeasons.firstWhere(
+        (element) => element.season.id == season.seasonNumber.toString(),
+        orElse: () => null);
+    if (userSeason != null) {
+      userSeason.season.seen = null;
+    }
+  }
 
-  // _seeEpisode(Season season) {}
-
-  // _unseeEpisode() {}
-
-  _hasSeenAllSeasonEpisodes(Season season) {
-    var seen = true;
-    for (var episode in season.episodes) {
-      // TODO
-      if (!userEpisodes.any((element) =>
-          element.season == episode.seasonNumber &&
-          element.episode == episode.episodeNumber)) {
-        return false;
+  _seeEpisode(Episode episode) {
+    seeEpisode(widget.element.id, episode);
+    var userSeason = userSeasons.firstWhere(
+        (element) => element.season.id == episode.seasonNumber.toString(),
+        orElse: () => null);
+    if (userSeason != null) {
+      var userEpisode = userSeason.episodes.firstWhere(
+          (element) => element.id == episode.episodeNumber.toString(),
+          orElse: () => null);
+      if (userEpisode != null) {
+        userEpisode.seen = DateTime.now();
+      } else {
+        userSeason.episodes.add(
+            new Ep(id: episode.episodeNumber.toString(), seen: DateTime.now()));
       }
     }
-    return seen;
+  }
+
+  _unseeEpisode(Episode episode) {
+    unseeEpisode(widget.element.id, episode);
+    var userSeason = userSeasons.firstWhere(
+        (element) => element.season.id == episode.seasonNumber.toString(),
+        orElse: () => null);
+    if (userSeason != null) {
+      var userEpisode = userSeason.episodes.firstWhere(
+          (element) => element.id == episode.episodeNumber.toString(),
+          orElse: () => null);
+      if (userEpisode != null) {
+        userEpisode.seen = null;
+      }
+    }
+  }
+
+  _hasSeenAllSeasonEpisodes(Season season) {
+    // TODO
+    if (userSeasons.any((element) =>
+        element.season.id == season.seasonNumber.toString() &&
+        element.season.seen != null)) {
+      return true;
+    }
+    return false;
   }
 
   _hasSeenEpisode(Episode episode) {
     // TODO
-    if (!userEpisodes.any((element) =>
-        element.season == episode.seasonNumber &&
-        element.episode == episode.episodeNumber)) {
-      return false;
+    var season = userSeasons.firstWhere(
+        (element) => element.season.id == episode.seasonNumber.toString(),
+        orElse: () => null);
+    if (season != null && season.season.seen != null) {
+      return true;
+    } else if (season != null &&
+        season.episodes.any((e) =>
+            e.id == episode.episodeNumber.toString() && e.seen != null)) {
+      return true;
     }
-    return true;
+    return false;
   }
 
   @override
