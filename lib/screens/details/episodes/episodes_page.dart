@@ -92,32 +92,36 @@ class EpisodesPageState extends State<EpisodesPage>
                   value: _seasonProgress(season),
                   backgroundColor: Colors.transparent,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).accentColor),
+                      Theme.of(context).splashColor),
                 ),
               ),
               Align(
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                    Padding(
-                        padding:
-                            EdgeInsets.only(left: ScreenUtil().setWidth(15)),
-                        child: Text(season.name,
-                            style: textTheme.subtitle1
-                                .copyWith(fontSize: ScreenUtil().setSp(45)))),
-                    CircularCheckBox(
-                        value: _hasSeenAllSeasonEpisodes(season),
-                        materialTapTargetSize: MaterialTapTargetSize.padded,
-                        onChanged: (bool x) {
-                          setState(() {
-                            if (x) {
-                              _seeSeason(season);
-                            } else {
-                              _unseeSeason(season);
-                            }
-                          });
-                        }),
-                  ]))
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                      height: ScreenUtil().setHeight(100),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: ScreenUtil().setWidth(15)),
+                                child: Text(season.name,
+                                    style: textTheme.subtitle1.copyWith(
+                                        fontSize: ScreenUtil().setSp(45)))),
+                            CircularCheckBox(
+                                value: _hasSeenAllSeasonEpisodes(season),
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.padded,
+                                onChanged: (bool x) {
+                                  setState(() {
+                                    if (x) {
+                                      _seeSeason(season);
+                                    } else {
+                                      _unseeSeason(season);
+                                    }
+                                  });
+                                }),
+                          ])))
             ],
           ),
           theme: ExpandableThemeData(
