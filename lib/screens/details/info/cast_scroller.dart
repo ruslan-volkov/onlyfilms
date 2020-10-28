@@ -39,12 +39,14 @@ class CastScroller extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => DetailsPage(cast)),
                   )),
           Padding(
-            padding: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
-            child: Text(
-              cast.name,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
+              padding: EdgeInsets.only(top: ScreenUtil().setHeight(16)),
+              child: Container(
+                width: width,
+                child: Text(
+                  cast.name,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )),
         ],
       ),
     );
