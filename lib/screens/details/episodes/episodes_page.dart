@@ -53,10 +53,6 @@ class EpisodesPageState extends State<EpisodesPage>
 
   void initState() {
     super.initState();
-    // seasons = getSeasons(
-    //     tvId: widget.element.id,
-    //     numberOfSeasons: widget.element.numberOfSeasons);
-    // userEpisodes = getEpisodes(widget.element.id);
   }
 
   @override
@@ -84,44 +80,55 @@ class EpisodesPageState extends State<EpisodesPage>
   Widget _buildSeasons(List<Season> _seasons) {
     var theme = Theme.of(context);
     var textTheme = theme.textTheme;
-    return Padding(
-        padding: EdgeInsets.only(left: ScreenUtil().setWidth(30)),
-        child: Column(children: [
-          for (var season in _seasons)
-            ExpandablePanel(
-              header: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(season.name,
-                        style: textTheme.subtitle1
-                            .copyWith(fontSize: ScreenUtil().setSp(45))),
+    return Column(children: [
+      for (var season in _seasons)
+        ExpandablePanel(
+          header: Stack(
+            children: <Widget>[
+              SizedBox(
+                width: ScreenUtil().setWidth(1080),
+                height: ScreenUtil().setHeight(100),
+                child: LinearProgressIndicator(
+                  value: _seasonProgress(season),
+                  backgroundColor: Colors.transparent,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).accentColor),
+                ),
+              ),
+              Align(
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                    Padding(
+                        padding:
+                            EdgeInsets.only(left: ScreenUtil().setWidth(15)),
+                        child: Text(season.name,
+                            style: textTheme.subtitle1
+                                .copyWith(fontSize: ScreenUtil().setSp(45)))),
                     CircularCheckBox(
                         value: _hasSeenAllSeasonEpisodes(season),
                         materialTapTargetSize: MaterialTapTargetSize.padded,
                         onChanged: (bool x) {
                           setState(() {
-                            new Future(() {
-                              if (x) {
-                                _seeSeason(season);
-                              } else {
-                                _unseeSeason(season);
-                              }
-                            });
+                            if (x) {
+                              _seeSeason(season);
+                            } else {
+                              _unseeSeason(season);
+                            }
                           });
-                          // setState(() {
-                          //   // b = !b;
-                          // });
-                          // b = !b;
                         }),
-                  ]),
-              theme: ExpandableThemeData(
-                  iconColor: theme.accentColor,
-                  tapBodyToCollapse: true,
-                  tapBodyToExpand: true,
-                  tapHeaderToExpand: true),
-              expanded: _buildEpisodes(season.episodes),
-            )
-        ]));
+                  ]))
+            ],
+          ),
+          theme: ExpandableThemeData(
+              iconColor: theme.accentColor,
+              tapBodyToCollapse: true,
+              tapBodyToExpand: true,
+              tapHeaderToExpand: true,
+              hasIcon: false),
+          expanded: _buildEpisodes(season.episodes),
+        )
+    ]);
   }
 
   Widget _buildEpisodes(List<Episode> _episodes) {
@@ -136,7 +143,7 @@ class EpisodesPageState extends State<EpisodesPage>
                   Container(
                     width: ScreenUtil().setWidth(800),
                     child: Text(
-                      episode.name,
+                      _episodeTitle(episode),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -147,40 +154,22 @@ class EpisodesPageState extends State<EpisodesPage>
                           materialTapTargetSize: MaterialTapTargetSize.padded,
                           onChanged: (bool x) {
                             setState(() {
-                              // if (x) {
-                              //   _seeEpisode(episode);
-                              // } else {
-                              //   _unseeEpisode(episode);
-                              // }
-                              new Future(() {
-                                if (x) {
-                                  _seeEpisode(episode);
-                                } else {
-                                  _unseeEpisode(episode);
-                                }
-                              });
+                              if (x) {
+                                _seeEpisode(episode);
+                              } else {
+                                _unseeEpisode(episode);
+                              }
                             });
-
-                            // setState(() {
-                            //   // b = !b;
-                            // });
-                            // b = !b;
                           }))
                 ],
               )
-            // ListTile(
-            //   title: Text(episode.name),
-
-            // ),
           ],
         ));
   }
 
-  _seeSeason(Season season) {
+  void _seeSeason(Season season) {
     seeSeason(widget.element.id, season);
-    var userSeason = userSeasons.firstWhere(
-        (element) => element.season.id == season.seasonNumber.toString(),
-        orElse: () => null);
+    var userSeason = _getUserSeason(season.seasonNumber);
     var eps = season.episodes
         .map((se) =>
             new Ep(id: se.episodeNumber.toString(), seen: DateTime.now()))
@@ -189,29 +178,22 @@ class EpisodesPageState extends State<EpisodesPage>
       userSeason.season.seen = DateTime.now();
       userSeason.episodes.addAll(eps);
     } else {
-      userSeasons.add(new FollowObj(
-          season:
-              new Ep(id: season.seasonNumber.toString(), seen: DateTime.now()),
-          episodes: eps));
+      userSeasons.add(_createSeason(season.seasonNumber, eps));
     }
   }
 
-  _unseeSeason(Season season) {
+  void _unseeSeason(Season season) {
     unseeSeason(widget.element.id, season);
-    var userSeason = userSeasons.firstWhere(
-        (element) => element.season.id == season.seasonNumber.toString(),
-        orElse: () => null);
+    var userSeason = _getUserSeason(season.seasonNumber);
 
     if (userSeason != null) {
       userSeason.episodes.clear();
     }
   }
 
-  _seeEpisode(Episode episode) {
+  void _seeEpisode(Episode episode) {
     seeEpisode(widget.element.id, episode);
-    var userSeason = userSeasons.firstWhere(
-        (element) => element.season.id == episode.seasonNumber.toString(),
-        orElse: () => null);
+    var userSeason = _getUserSeason(episode.seasonNumber);
     if (userSeason != null) {
       if (userSeason.episodes != null) {
         var userEpisode = userSeason.episodes.firstWhere(
@@ -225,32 +207,30 @@ class EpisodesPageState extends State<EpisodesPage>
         }
       }
     } else {
-      userSeasons.add(new FollowObj(
-          season:
-              new Ep(id: episode.seasonNumber.toString(), seen: DateTime.now()),
-          episodes: new List<Ep>.from([
+      userSeasons.add(_createSeason(
+          episode.seasonNumber,
+          new List<Ep>.from([
             new Ep(id: episode.episodeNumber.toString(), seen: DateTime.now())
           ])));
     }
   }
 
-  _unseeEpisode(Episode episode) {
+  void _unseeEpisode(Episode episode) {
     unseeEpisode(widget.element.id, episode);
-    var userSeason = userSeasons.firstWhere(
-        (element) => element.season.id == episode.seasonNumber.toString(),
-        orElse: () => null);
+    var userSeason = _getUserSeason(episode.seasonNumber);
     if (userSeason != null && userSeason != null) {
       userSeason.episodes.removeWhere(
           (element) => element.id == episode.episodeNumber.toString());
     }
   }
 
-  _hasSeenAllSeasonEpisodes(Season season) {
-    // TODO
-    for (var ep in season.episodes) {
-      if (!userSeasons.any((element) =>
-          element.season.id == ep.seasonNumber.toString() &&
-          element.episodes.any((e) => e.id == ep.episodeNumber.toString()))) {
+  bool _hasSeenAllSeasonEpisodes(Season season) {
+    var userSeason = _getUserSeason(season.seasonNumber);
+    if (userSeason == null) {
+      return false;
+    }
+    for (var episode in season.episodes) {
+      if (!_userSeasonHasEpisode(userSeason, episode.episodeNumber)) {
         return false;
       }
     }
@@ -258,17 +238,50 @@ class EpisodesPageState extends State<EpisodesPage>
     return true;
   }
 
-  _hasSeenEpisode(Episode episode) {
-    // TODO
-    var season = userSeasons.firstWhere(
-        (element) => element.season.id == episode.seasonNumber.toString(),
-        orElse: () => null);
-    if (season != null &&
-        season.episodes != null &&
-        season.episodes.any((e) => e.id == episode.episodeNumber.toString())) {
+  bool _hasSeenEpisode(Episode episode) {
+    var userSeason = _getUserSeason(episode.seasonNumber);
+    if (userSeason != null &&
+        userSeason.episodes != null &&
+        _userSeasonHasEpisode(userSeason, episode.episodeNumber)) {
       return true;
     }
     return false;
+  }
+
+  double _seasonProgress(Season season) {
+    var counter = 0;
+    var userSeason = _getUserSeason(season.seasonNumber);
+    if (userSeason == null) {
+      return 0;
+    }
+    for (var episode in season.episodes) {
+      if (_userSeasonHasEpisode(userSeason, episode.episodeNumber)) {
+        counter++;
+      }
+    }
+
+    return counter / season.episodes.length;
+  }
+
+  FollowObj _getUserSeason(int seasonNumber) {
+    return userSeasons.firstWhere(
+        (element) => element.season.id == seasonNumber.toString(),
+        orElse: () => null);
+  }
+
+  bool _userSeasonHasEpisode(FollowObj userSeason, int episodeNumber) {
+    return userSeason.episodes.any((e) => e.id == episodeNumber.toString());
+  }
+
+  FollowObj _createSeason(int seasonNumber, List<Ep> episodes) {
+    return new FollowObj(
+        season: new Ep(id: seasonNumber.toString(), seen: DateTime.now()),
+        episodes: episodes);
+  }
+
+  String _episodeTitle(Episode episode) {
+    return "S${episode.seasonNumber.toString().padLeft(2, '0')} " +
+        "E${episode.episodeNumber.toString().padLeft(2, '0')} ${episode.name}";
   }
 
   @override
