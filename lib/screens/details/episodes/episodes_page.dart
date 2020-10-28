@@ -133,7 +133,8 @@ class EpisodesPageState extends State<EpisodesPage>
 
   Widget _buildEpisodes(List<Episode> _episodes) {
     return Padding(
-        padding: EdgeInsets.all(ScreenUtil().setWidth(30)),
+        padding: EdgeInsets.only(
+            left: ScreenUtil().setWidth(30), right: ScreenUtil().setWidth(30)),
         child: Column(
           children: [
             for (var episode in _episodes)
